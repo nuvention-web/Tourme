@@ -1,95 +1,202 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Directions service</title>
+<head>
+  <title>Toureme Landing page</title>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+</head>
+
     <style>
-      html, body, #map-canvas {
-        height: 100%;
-        margin: 50px;
-        padding: 0px
-      }
-      #panel {
-        position: absolute;
-        top: 3px;
-        left: 30%;
-        margin-left: -80px;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-      }
+
+        p{
+          font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+          margin:0px;
+          clear: both;
+        }
+
+        #my_container {
+          background-size: 100% auto; /* width and height, can be %, px or whatever. */
+        }
+
+        body {
+          background-image: url("Chicago.jpg");
+          background-repeat: no-repeat;
+        }
+/*
+        #intro_page{
+          font-size:150px;
+          font-weight:bold;
+          position:relative;
+          color:white;
+          padding-left:200px;
+          padding-top:80px;
+        }
+*/
+
+
+        #logo_white{
+          position: absolute;
+          margin-left:40px ;
+          margin-top:20px;
+          z-index:1;
+        }
+
+        #intro_div{
+          position: absolute;
+          height:30%;
+          width:55%;
+          margin-top:15%;
+          margin-left:22%;
+          font-size:37px;
+          font-weight:bold;
+          color:white;
+        }
+
+        .floatleft{
+          float:left;
+        }
+
+        #emailinput{
+          border-width: medium;
+          float:left;
+          width: 60%;
+          height: 30px;
+          margin-top:20px;
+          font-size:20px;
+        }
+
+
+
+
+        #registerbutton{
+          float:right;
+          width: 200px;
+          height: 45px;
+          margin-top:20px;
+          margin-right:0;
+          border-radius:20px;
+          font-size:20px;
+          font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+          font-weight:bold;
+          color:white;
+          background-color: Transparent;
+        }
+
+
+
+
+        #buttonblock{
+          /*background-color:red;*/
+          position:absolute;
+          width:80%;
+          height:40%;
+          margin-top:70%;
+          margin-left:10%;
+
+        }
+
+        #title{
+          position:absolute;
+          margin-top:68%;
+          padding-left: 34%;
+          color:#0c5394;
+          font-size:30px;
+        }
+
+
+        .buttondiv{
+          /*background-color:yellow;*/
+          width:200px;
+          height:150px;
+          margin-top:45px;
+        }
+
+        #left{
+          float:left;
+          margin-left:8%;
+        }
+        #center{
+          position:absolute;
+          float:left;
+          margin-left:42%;
+        }
+        #right{
+          float:right;
+        }
+
+        #INC{
+          padding-left:42%;
+        }
+
+
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
+
+
     <script>
-var directionsDisplay;
-var directionsService = new google.maps.DirectionsService();
-var map;
-
-function initialize() {
-  directionsDisplay = new google.maps.DirectionsRenderer();
-  var chicago = new google.maps.LatLng(41.850033, -87.6500523);
-  var mapOptions = {
-    zoom:7,
-    center: chicago
-  };
-  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-  directionsDisplay.setMap(map);
-}
-
-function calcRoute() {
-  var start = document.getElementById('start').value;
-  var end = document.getElementById('end').value;
-  var request = {
-      origin:start,
-      destination:end,
-      travelMode: google.maps.TravelMode.DRIVING
-  };
-  directionsService.route(request, function(response, status) {
-    if (status == google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(response);
-    }
-  });
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
 
     </script>
-  </head>
-  <body>
-    <div id="panel">
-    <b>Start: </b>
-    <select id="start" onchange="calcRoute();">
-      <option value="chicago, il">Chicago</option>
-      <option value="st louis, mo">St Louis</option>
-      <option value="joplin, mo">Joplin, MO</option>
-      <option value="oklahoma city, ok">Oklahoma City</option>
-      <option value="amarillo, tx">Amarillo</option>
-      <option value="gallup, nm">Gallup, NM</option>
-      <option value="flagstaff, az">Flagstaff, AZ</option>
-      <option value="winona, az">Winona</option>
-      <option value="kingman, az">Kingman</option>
-      <option value="barstow, ca">Barstow</option>
-      <option value="san bernardino, ca">San Bernardino</option>
-      <option value="los angeles, ca">Los Angeles</option>
-    </select>
-    <b>End: </b>
-    <select id="end" onchange="calcRoute();">
-      <option value="chicago, il">Chicago</option>
-      <option value="st louis, mo">St Louis</option>
-      <option value="joplin, mo">Joplin, MO</option>
-      <option value="oklahoma city, ok">Oklahoma City</option>
-      <option value="amarillo, tx">Amarillo</option>
-      <option value="gallup, nm">Gallup, NM</option>
-      <option value="flagstaff, az">Flagstaff, AZ</option>
-      <option value="winona, az">Winona</option>
-      <option value="kingman, az">Kingman</option>
-      <option value="barstow, ca">Barstow</option>
-      <option value="san bernardino, ca">San Bernardino</option>
-      <option value="los angeles, ca">Los Angeles</option>
-    </select>
-    </div>
-    <div id="map-canvas"></div>
-  </body>
+
+
+
+    <body id="my_container" >
+
+        <a href="./introduction.html" target="blank">
+            <img id="logo_white" src="logo_white.png" height="27">
+        </a>
+
+
+        <div id="intro_div" >
+            <p class="floatleft">Plan your tour with us and get itinerary</p>
+            <p class="floatleft">that suits you best</p>
+            <p></p>
+            <input type="text" placeholder="@email.com" name="useremail" id="emailinput">
+            <button  id="registerbutton">Sign Up for Free</button>
+        </div>
+
+        <div id="buttomtext">
+
+        </div>
+
+        <div id="title">
+          <p>Planning is just that simple!</p>
+        </div>
+
+        <div id="buttonblock">
+
+            <div class="buttondiv" id="left">
+                <p>Let us know</p>
+                <p>Where you will</p>
+                <p>be and when</p>
+                <p>you will be there</p>
+            </div>
+
+            <div class="buttondiv" id="center">
+                <p>Choose among</p>
+                <p>those attractions</p>
+                <p>we show you</p>
+            </div>
+
+
+            <div class="buttondiv" id="right">
+                <p>get your itinerary</p>
+                <p>in your phone</p>
+                <p>Revisit it anytime</p>
+                <p>even offline!</p>
+            </div>
+
+            <div id="INC">
+                <p>© Tourme,Inc</p>
+            </div>
+
+        </div>
+
+
+
+    </body>
+
 </html>
