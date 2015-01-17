@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>Toureme Landing page</title>
+  <title>ToureMe Landing page</title>
 
   <meta charset="utf-8" />
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
@@ -69,9 +69,6 @@
           font-size:20px;
         }
 
-
-
-
         #registerbutton{
           float:right;
           width: 200px;
@@ -107,7 +104,6 @@
           font-size:30px;
         }
 
-
         .buttondiv{
           /*background-color:yellow;*/
           width:200px;
@@ -134,59 +130,55 @@
 
 
     </style>
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript">
 
 
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
 
 function onload(){
 
-    var querynear = ''
-
-    var queryloc = ''
+    var clientid = 'FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU'
+    var clientsecret = 'NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1'
+    var vdate = '20150116'
+    var querynear = 'New York'
+    var queryloc = 'lao'
 
     $(document).ready(function() {
 
-            var foursq = 'https://api.foursquare.com/v2/venues/search?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150116&near=chicago&query=lao';
+            var foursq = 'https://api.foursquare.com/v2/venues/search?client_id=' + clientid +'&client_secret='+clientsecret +'&v='+vdate+'&near='+ querynear +'&query=' + queryloc;
 
-            //alert(foursq);
                $.ajax({
                     type: 'GET',
                     url: foursq,
                     dataType: 'jsonp',
                     success: function(json) {
-                    console.log(json);
 
-                    //var resultid = json['venues'][0].id;
-                    var resultid = json['response']['venues'][1].id;
-                    var resultname = json['response']['venues'][1].name;
-                    var resultcontact = json['response']['venues'][1].phone;
-                    var resultlocation = json['response']['venues'][1].location;
-                    var resultlat = json['response']['venues'][1].lat;
-                    var resultlng = json['response']['venues'][1].lng;
-                    var resultpostalcode = json['response']['venues'][1].postalCode;
-                    var resultcity = json['response']['venues'][1].city;
-                    var resultstate = json['response']['venues'][1].state;
-                    var resultcountry = json['response']['venues'][1].country;
-                    var resulticon = json['response']['venues'][1].icon;
-                    var resultcategories = json['response']['venues'][1].categories;
-                    console.log(resultid);
-                    console.log(resultname);
-                    console.log(resultlocation.address,resultlocation.cc,resultlocation.city,resultlocation.state,resultlocation.country,resultlocation.postalCode);
-                    console.log(resultlocation.lat,resultlocation.lng);
+                    for (i = 0; i < 10; i++) {
 
-    
+                        var resultid = json['response']['venues'][i].id;
+                        var resultname = json['response']['venues'][i].name;
+                        var resultcontact = json['response']['venues'][i].phone;
+                        var resultlocation = json['response']['venues'][i].location;
+                        var resultlat = json['response']['venues'][i].lat;
+                        var resultlng = json['response']['venues'][i].lng;
+                        var resultpostalcode = json['response']['venues'][i].postalCode;
+                        var resultcity = json['response']['venues'][i].city;
+                        var resultstate = json['response']['venues'][i].state;
+                        var resultcountry = json['response']['venues'][i].country;
+                        var resulticon = json['response']['venues'][i].icon;
+                        var resultcategories = json['response']['venues'][i].categories;
+                        console.log(resultid, resultname,resultlocation.address,resultlocation.cc,resultlocation.city,resultlocation.state,resultlocation.country,resultlocation.postalCode);
+                        console.log(resultlocation.lat,resultlocation.lng);
                     }
-
-                });
+                }
+            });
       });
  }
  onload();
+
     </script>
-
-
 
     <body id="my_container" >
 
@@ -194,7 +186,9 @@ function onload(){
             <img id="logo_white" src="logo_white.png" height="27">
         </a>
        
-        <div class="row" id="badge"></div>
+        <div class="row" id="demo"></div>
+
+
         <div id="intro_div" >
             <p class="floatleft">Plan your tour with us and get itinerary</p>
             <p class="floatleft">that suits you best</p>
@@ -233,6 +227,32 @@ function onload(){
                 <p>Revisit it anytime</p>
                 <p>even offline!</p>
             </div>
+
+            <center>
+            <input type="text" placeholder="Search anything" name="searchinput" id="searchinput">
+            </center>
+
+            <button onclick="getLocation()">Try It</button>
+
+            <p id="demo"></p>
+
+            <script>
+            var x = document.getElementById("demo");
+
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.watchPosition(showPosition);
+                } else { 
+                    x.innerHTML = "Geolocation is not supported by this device.";}
+                }
+                
+            function showPosition(position) {
+                x.innerHTML="Latitude: " + position.coords.latitude + 
+                "<br>Longitude: " + position.coords.longitude;  
+            }
+
+            alert(x);
+            </script>
 
             <div id="INC">
                 <p>© Tourme,Inc</p>
