@@ -134,11 +134,56 @@
 
 
     </style>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript">
 
 
 
-    <script>
+function onload(){
 
+    var querynear = ''
+
+    var queryloc = ''
+
+    $(document).ready(function() {
+
+            var foursq = 'https://api.foursquare.com/v2/venues/search?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150116&near=chicago&query=lao';
+
+            //alert(foursq);
+               $.ajax({
+                    type: 'GET',
+                    url: foursq,
+                    dataType: 'jsonp',
+                    success: function(json) {
+                    console.log(json);
+
+                    //var resultid = json['venues'][0].id;
+                    var resultid = json['response']['venues'][1].id;
+                    var resultname = json['response']['venues'][1].name;
+                    var resultcontact = json['response']['venues'][1].phone;
+                    var resultlocation = json['response']['venues'][1].location;
+                    var resultlat = json['response']['venues'][1].lat;
+                    var resultlng = json['response']['venues'][1].lng;
+                    var resultpostalcode = json['response']['venues'][1].postalCode;
+                    var resultcity = json['response']['venues'][1].city;
+                    var resultstate = json['response']['venues'][1].state;
+                    var resultcountry = json['response']['venues'][1].country;
+                    var resulticon = json['response']['venues'][1].icon;
+                    var resultcategories = json['response']['venues'][1].categories;
+                    console.log(resultid);
+                    console.log(resultname);
+                    console.log(resultlocation.address,resultlocation.cc,resultlocation.city,resultlocation.state,resultlocation.country,resultlocation.postalCode);
+                    console.log(resultlocation.lat,resultlocation.lng);
+
+    
+                    }
+
+                });
+      });
+ }
+ onload();
     </script>
 
 
@@ -148,8 +193,8 @@
         <a href="./introduction.html" target="blank">
             <img id="logo_white" src="logo_white.png" height="27">
         </a>
-
-
+       
+        <div class="row" id="badge"></div>
         <div id="intro_div" >
             <p class="floatleft">Plan your tour with us and get itinerary</p>
             <p class="floatleft">that suits you best</p>
