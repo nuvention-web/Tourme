@@ -19,126 +19,115 @@
 
 </head>
 
-    <style>
-
-        p{
-          font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-          margin:0px;
-          clear: both;
-        }
-
-        #my_container {
-          background-size: 100% auto; /* width and height, can be %, px or whatever. */
-        }
-
-        body {
-          background-image: url("Chicago.jpg");
-          background-repeat: no-repeat;
-        }
-/*
-        #intro_page{
-          font-size:150px;
-          font-weight:bold;
-          position:relative;
-          color:white;
-          padding-left:200px;
-          padding-top:80px;
-        }
-*/
+<style>
 
 
-        #logo_white{
-          position: absolute;
-          margin-left:40px ;
-          margin-top:20px;
-          z-index:1;
-        }
+      body {
+        font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+        margin:0;
+      }
+      p{
+        margin:0;
+      }
 
-        #intro_div{
-          position: absolute;
-          height:30%;
-          width:55%;
-          margin-top:15%;
-          margin-left:22%;
-          font-size:37px;
-          font-weight:bold;
-          color:white;
-        }
+      #background{
 
-        .floatleft{
-          float:left;
-        }
+        height:840px;
+        background-image: url("./images/Chicago.jpg");
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+        margin:0;
+        padding:0;
+      }
 
-        #emailinput{
-          border-width: medium;
-          float:left;
-          width: 60%;
-          height: 30px;
-          margin-top:20px;
-          font-size:20px;
-        }
+      #whitelogo{
+        padding-left: 35px;
+        padding-top:35px;
 
-        #registerbutton{
-          float:right;
-          width: 200px;
-          height: 45px;
-          margin-top:20px;
-          margin-right:0;
-          border-radius:20px;
-          font-size:20px;
-          font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
-          font-weight:bold;
-          color:white;
-          background-color: Transparent;
-        }
+
+      }
+
+      #topdiv{
+        color:white;
+        /*background-color:rgba(255,0,0,0.5);*/
+
+        width:707px;
+        height:170px;
+        margin-top:15%;
+        margin-left:auto;
+        margin-right:auto;
+        font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size:38px;
+        font-weight:bold;
+      }
+
+      #topdiv input{
+        height:27px;
+        width:430px;
+        border-width: medium;
+        font-size:22px;
+        float:left;
+        margin-top:21px;
+      }
+
+      #topdiv button{
+        margin-top:21px;
+        float:right;
+        border-radius:20px;
+        font-size:23px;
+        font-weight:bold;
+        color:white;
+        background-color: Transparent;
+      }
 
 
 
+      #bottomdiv{
+        /*background-color:rgba(0,0,255,0.2);*/
+        width:850px;
+        height:250px;
+        padding:0;
+        margin-top:40px;
+        margin-left:auto;
+        margin-right:auto;
 
-        #buttonblock{
-          /*background-color:red;*/
-          position:absolute;
-          width:80%;
-          height:40%;
-          margin-top:70%;
-          margin-left:10%;
-
-        }
-
-        #title{
-          position:absolute;
-          margin-top:68%;
-          padding-left: 34%;
-          color:#0c5394;
-          font-size:30px;
-        }
-
-        .buttondiv{
-          /*background-color:yellow;*/
-          width:200px;
-          height:150px;
-          margin-top:45px;
-        }
-
-        #left{
-          float:left;
-          margin-left:8%;
-        }
-        #center{
-          position:absolute;
-          float:left;
-          margin-left:42%;
-        }
-        #right{
-          float:right;
-        }
-
-        #INC{
-          text-align:center;
-        }
+      }
+      #planning{
+        font-size:32px;
+        color:#0c5394;
+        /*background-color:rgba(255,255,255,0.5);*/
+        width:390px;
+        margin-left:auto;
+        margin-right:auto;
+      }
+      #left{
+        width:130px;
+        /*background-color:rgba(255,255,255,0.5);*/
+        float:left;
+        margin-top:40px;
+      }
+      #center{
+        width:130px;
+        /*background-color:rgba(255,255,255,0.5);*/
+        float:left;
+        margin-top:40px;
+        margin-left:26%;
+      }
+      #right{
+        width:130px;
+        /*background-color:rgba(255,255,255,0.5);*/
+        float:right;
+        margin-top:40px;
+      }
+      #INC{
+        width:130px;
+        /*background-color:rgba(255,255,255,0.5);*/
+        margin-top:190px;
+        margin-left:42%;
+      }
 
 
-    </style>
+</style>
 
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
@@ -187,88 +176,62 @@ function onload(){
  onload();
 </script>
 
-    <body id="my_container" >
+<body>
 
-        <a href="./introduction.html" target="blank">
-            <img id="logo_white" src="logo_white.png" height="27">
-        </a>
-       
-        <div class="row" id="demo"></div>
+      <div id="background">
 
-
-        <div id="intro_div" >
-            <p class="floatleft">Plan your tour with us and get itinerary</p>
-            <p class="floatleft">that suits you best</p>
-            <p></p>
-            <input type="text" placeholder="@email.com" name="useremail" id="emailinput">
-            <button  id="registerbutton">Sign Up for Free</button>
+        <div id="whitelogo">
+          <a href="./introduction.html" target="blank">
+            <img src="./images/whitelogo.png" height="27" width="100">
+          </a>
         </div>
 
-        <div id="buttomtext">
-
+        <div id="topdiv">
+          <p>Plan your tour with us and get itinerary</p>
+          <p>that suits you best</p>
+          <input placeholder="@email.com">
+          <button >Sign Up for Free</button>
         </div>
-
-        <div id="title">
-          <p>Planning is just that simple!</p>
-        </div>
-
-        <div id="buttonblock">
-
-            <div class="buttondiv" id="left">
-                <p>Let us know</p>
-                <p>Where you will</p>
-                <p>be and when</p>
-                <p>you will be there</p>
-            </div>
-
-            <div class="buttondiv" id="center">
-                <p>Choose among</p>
-                <p>those attractions</p>
-                <p>we show you</p>
-            </div>
+      </div>
 
 
-            <div class="buttondiv" id="right">
-                <p>get your itinerary</p>
-                <p>in your phone</p>
-                <p>Revisit it anytime</p>
-                <p>even offline!</p>
-            </div>
 
-            <center>
-            <input type="text" placeholder="Search anything" name="searchinput" id="searchinput">
-            </center>
-
-            <button onclick="getLocation()">Try It</button>
-
-            <p id="demo"></p>
-
-            <script>
-            var x = document.getElementById("demo");
-
-            function getLocation() {
-                if (navigator.geolocation) {
-                    navigator.geolocation.watchPosition(showPosition);
-                } else { 
-                    x.innerHTML = "Geolocation is not supported by this device.";}
-                }
-                
-            function showPosition(position) {
-                x.innerHTML="Latitude: " + position.coords.latitude + 
-                "<br>Longitude: " + position.coords.longitude;  
-            }
-
-            alert(x);
-            </script>
-
-            <div id="INC">
-                <p>© Tourme,Inc</p>
-            </div>
-
+      <div id="bottomdiv">
+        <div id="planning">
+          <p>Planning is just that simple</p>
         </div>
 
 
+        <div id="left">
+          <p>Let us know</p>
+          <p>Where you will</p>
+          <p>be and when</p>
+          <p>you will be there</p>
+        </div>
 
-    </body>
+
+        <div id="center">
+          <p>Choose among</p>
+          <p>those attractions</p>
+          <p>we show you</p>
+        </div>
+
+
+        <div id="right">
+          <p>get your itinerary</p>
+          <p>in your phone</p>
+          <p>Revisit it anytime</p>
+          <p>even offline!</p>
+        </div>
+
+        <div id="INC">
+          <p>© Tourme,Inc</p>
+        </div>
+
+      </div>
+
+
+
+</body>
 
 </html>
