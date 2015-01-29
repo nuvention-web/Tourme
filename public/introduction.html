@@ -1,0 +1,530 @@
+
+<!doctype html>
+<html>
+<head>
+  <title>Toureme Landing page</title>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script  type="text/javascript"  src="http://code.jquery.com/jquery-1.7.2.min.js" ></script>
+
+</head>
+
+<style>
+
+
+body {
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin:0;
+}
+
+p{
+  margin:0;
+}
+
+#background{
+
+  height:840px;
+  background-image: url("./images/Chicago.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  margin:0;
+  padding:0;
+}
+
+#toplogoregister{
+  padding-top:35px;
+}
+#whitelogo{
+  padding-left: 35px;
+  float:left;
+}
+
+
+#topdiv{
+  color:white;
+  /*background-color:rgba(255,0,0,0.5);*/
+
+  width:707px;
+  height:170px;
+  margin-top:15%;
+  margin-left:auto;
+  margin-right:auto;
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size:38px;
+  font-weight:bold;
+}
+
+#einput{
+  height:27px;
+  width:430px;
+  border-width: medium;
+  font-size:22px;
+  float:left;
+  margin-top:21px;
+}
+
+#ebutton{
+  margin-top:21px;
+  float:right;
+  border-radius:20px;
+  font-size:23px;
+  font-weight:bold;
+  color:white;
+  background-color: Transparent;
+}
+
+
+
+#bottomdiv{
+  /*background-color:rgba(0,0,255,0.2);*/
+  width:850px;
+  height:250px;
+  padding:0;
+  margin-top:40px;
+  margin-left:auto;
+  margin-right:auto;
+
+}
+#planning{
+  font-size:32px;
+  color:#0c5394;
+  /*background-color:rgba(255,255,255,0.5);*/
+  width:390px;
+  margin-left:auto;
+  margin-right:auto;
+}
+#left{
+  width:130px;
+  /*background-color:rgba(255,255,255,0.5);*/
+  float:left;
+  margin-top:40px;
+}
+#center{
+  width:130px;
+  /*background-color:rgba(255,255,255,0.5);*/
+  float:left;
+  margin-top:40px;
+  margin-left:26%;
+}
+#right{
+  width:130px;
+  /*background-color:rgba(255,255,255,0.5);*/
+  float:right;
+  margin-top:40px;
+}
+#INC{
+  width:130px;
+  /*background-color:rgba(255,255,255,0.5);*/
+  margin-top:190px;
+  margin-left:42%;
+}
+
+
+#SignIn{
+  float:right;
+  padding-right:30px;
+}
+#SignUp{
+  float:right;
+  padding-right:30px;
+}
+#toplogoregister a{
+  color:white;
+  text-decoration:none;
+}
+
+
+/*-------------------------------------------------------------------------------------*/
+
+
+.popup-box {
+  position: absolute;
+  border-radius: 5px;
+  background: #fff;
+  display: none;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+  font-family: Arial, sans-serif;
+  z-index: 9999999;
+  font-size: 14px;
+}
+
+.popup-box .close {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  color: #434343;
+  padding: 20px;
+  font-size: 20px;
+
+}
+
+.popup-box .close:hover {
+  color: #000;
+}
+
+.popup-box h2 {
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+}
+.popup-box .top {
+  padding: 20px;
+
+}
+
+.popup-box .bottom {
+  background: #eee;
+  border-top: 1px solid #e5e5e5;
+  padding: 20px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  height:330px;
+  width:260px;
+}
+
+.popup-box .bottom input{
+  margin-left: 100 px;
+  border-radius:10px;
+  font-size:20px;
+  font-weight:bold;
+
+
+}
+
+#blackout {
+  background: rgba(0,0,0,0.3);
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+  z-index: 999999;
+  left: 0;
+  display: none;
+}
+
+
+</style>
+
+
+
+<body>
+
+
+
+  <?php
+  if($_POST["email"]){
+    $useremail = $_POST["email"];
+
+
+    $link = mysqli_connect("localhost","cl54-allen0346","admin","cl54-allen0346");
+    if( mysqli_connect_error()){
+      die("Can't not connect to database");
+    }
+
+    $query = "INSERT INTO `users`(`email`) VALUES('$useremail')";
+
+    mysqli_query($link, $query);
+  }
+  ?>
+
+
+
+  <div id="background">
+
+    <div id="toplogoregister">
+      <div id="whitelogo">
+        <a href="./introduction.html" target="blank">
+          <img src="./images/whitelogo.png" height="27" width="100">
+        </a>
+      </div>
+
+      <!-- prompt page****************** ******** ******** ******** ******** ******** ******** ********  -->
+
+
+      <div id ="SignUp">
+        <a href="#nothing">Sign Up</a>
+      </div>
+
+      <div id ="SignIn">
+        <a href=""  class="popup-link-1">Sign In</a>
+
+        <div class="popup-box" id="popup-box-1">
+          <div class="close">X</div>
+
+          <div class="top">
+            <h2>Please Sign in.</h2>
+          </div>
+
+          <div class="bottom">
+            <input type="text" name="Username" placeholder="Username:">
+            <br>
+            <br>
+            <input type="text" name="Password" placeholder="Password:">
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+
+    <!-- facebook log in  -->
+
+    <div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+  </div>
+
+  <fb:login-button max_rows="1" size="large" show_faces="true" auto_logout_link="true"></fb:login-button>
+
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1530838587170307&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+<!-- ****************** ******** ******** ******** ******** ******** ******** ********  -->
+
+
+
+
+<div id="topdiv">
+  <p>Plan your tour with us and get itinerary</p>
+  <p>that suits you best</p>
+  <form method = "post">
+    <input id="einput" name="email" type="text" placeholder="@email.com"/>
+    <input id="ebutton" type="submit" name="submit" value="submit your name"/>
+  </form>
+</div>
+</div>
+
+
+
+<div id="bottomdiv">
+  <div id="planning">
+    <p>Planning is just that simple</p>
+  </div>
+
+
+  <div id="left">
+    <p>Let us know</p>
+    <p>Where you will</p>
+    <p>be and when</p>
+    <p>you will be there</p>
+  </div>
+
+
+  <div id="center">
+    <p>Choose among</p>
+    <p>those attractions</p>
+    <p>we show you</p>
+  </div>
+
+
+  <div id="right">
+    <p>get your itinerary</p>
+    <p>in your phone</p>
+    <p>Revisit it anytime</p>
+    <p>even offline!</p>
+  </div>
+
+  <div id="INC">
+    <p>&copy; Tourme,Inc</p>
+  </div>
+
+</div>
+
+
+</body>
+
+<script  type="text/javascript" >
+
+  $(document).ready(function() {
+
+
+    $('body').append('<div class="popup-box" id="popup-box-1"><div class="close">X</div><div class="top"><h2>Hi, it is demo window!</h2></div><div class="bottom">Sample content!</div></div>');
+    $('body').append('<div id="blackout"></div>');
+
+    var boxWidth = 300;
+
+    function centerBox() {
+
+      /* Preliminary information */
+      var winWidth = $(window).width();
+      var winHeight = $(document).height();
+      var scrollPos = $(window).scrollTop();
+      /* auto scroll bug */
+
+      /* Calculate positions */
+
+      var disWidth = (winWidth - boxWidth) / 2
+      var disHeight = scrollPos + 150;
+
+      /* Move stuff about */
+      $('.popup-box').css({'width' : boxWidth+'px', 'left' : disWidth+'px', 'top' : disHeight+'px'});
+      $('#blackout').css({'width' : winWidth+'px', 'height' : winHeight+'px'});
+
+      return false;
+    }
+
+
+    $(window).resize(centerBox);
+    $(window).scroll(centerBox);
+    centerBox();
+
+    $('[class*=popup-link]').click(function(e) {
+
+      /* Prevent default actions */
+      e.preventDefault();
+      e.stopPropagation();
+
+      /* Get the id (the number appended to the end of the classes) */
+      var name = $(this).attr('class');
+      var id = name[name.length - 1];
+      var scrollPos = $(window).scrollTop();
+
+      /* Show the correct popup box, show the blackout and disable scrolling */
+      $('#popup-box-'+id).show();
+      $('#blackout').show();
+      $('html,body').css('overflow', 'hidden');
+
+      /* Fixes a bug in Firefox */
+      $('html').scrollTop(scrollPos);
+    });
+    $('[class*=popup-box]').click(function(e) {
+      /* Stop the link working normally on click if it's linked to a popup */
+      e.stopPropagation();
+    });
+    $('html').click(function() {
+      var scrollPos = $(window).scrollTop();
+      /* Hide the popup and blackout when clicking outside the popup */
+      $('[id^=popup-box-]').hide();
+      $('#blackout').hide();
+      $("html,body").css("overflow","auto");
+      $('html').scrollTop(scrollPos);
+    });
+    $('.close').click(function() {
+      var scrollPos = $(window).scrollTop();
+      /* Similarly, hide the popup and blackout when the user clicks close */
+      $('[id^=popup-box-]').hide();
+      $('#blackout').hide();
+      $("html,body").css("overflow","auto");
+      $('html').scrollTop(scrollPos);
+    });
+  });
+
+
+
+  /*------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+  function onload(){
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1530838587170307',
+        xfbml      : true,
+        version    : 'v2.2'
+      });
+    };
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    FB.api(
+    "/me/picture",
+    {
+      "redirect": false,
+      "height": "200",
+      "type": "normal",
+      "width": "200"
+    },
+
+    function (response) {
+      if (response && !response.error) {
+      }
+    }
+    );
+    /* make the API call */
+    FB.api(
+    "/me",
+    function (response) {
+      if (response && !response.error) {
+        /* handle the result */
+      }
+    }
+    );
+
+
+
+
+
+    // This is FourSquare API
+    var clientid = 'FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU'
+    var clientsecret = 'NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1'
+    var vdate = '20150116'
+    var querynear = 'New York'
+    var queryloc = 'lao'
+
+    $(document).ready(function() {
+
+      var foursq = 'https://api.foursquare.com/v2/venues/search?client_id=' + clientid +'&client_secret='+clientsecret +'&v='+vdate+'&near='+ querynear +'&query=' + queryloc;
+
+      $.ajax({
+        type: 'GET',
+        url: foursq,
+        dataType: 'jsonp',
+        success: function(json) {
+
+          for (i = 0; i < 10; i++) {
+
+            var resultid = json['response']['venues'][i].id;
+            var resultname = json['response']['venues'][i].name;
+            var resultcontact = json['response']['venues'][i].phone;
+            var resultlocation = json['response']['venues'][i].location;
+            var resultlat = json['response']['venues'][i].lat;
+            var resultlng = json['response']['venues'][i].lng;
+            var resultpostalcode = json['response']['venues'][i].postalCode;
+            var resultcity = json['response']['venues'][i].city;
+            var resultstate = json['response']['venues'][i].state;
+            var resultcountry = json['response']['venues'][i].country;
+            var resulticon = json['response']['venues'][i].icon;
+            var resultcategories = json['response']['venues'][i].categories;
+            console.log(resultid, resultname,resultlocation.address,resultlocation.cc,resultlocation.city,resultlocation.state,resultlocation.country,resultlocation.postalCode);
+            console.log(resultlocation.lat,resultlocation.lng);
+          }
+        }
+      });
+    });
+  }
+  onload();
+
+  /*------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+
+  /*------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+</script>
+
+
+</html>

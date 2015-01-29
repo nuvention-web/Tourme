@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "Tripper": {
+            "applicationId": "ZkrXYLr4M8nUbGounX0QzhC2SunCPv7Pm2gIna2o", 
+            "masterKey": "79WLMjkT2fQpYB6QR34DBAnHAyYmVWSLT8IcsgQK"
+        }, 
+        "_default": {
+            "link": "Tripper"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.3.2"
+    }
+}
