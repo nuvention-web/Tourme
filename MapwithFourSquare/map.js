@@ -76,8 +76,14 @@
              dataType: 'jsonp',
              success: function(json) {
 
-              var resultphotoprefix = json['response']['photos'][0].['items'][0].prefix;
-              console.log(resultphotoprefix);
+              var resultphoto = json['response']['photos']['items'];
+              var photoprefix = resultphoto[0].prefix;
+              var photopresuffix = resultphoto[0].suffix;
+              var photourl = photoprefix+"100x100" + photopresuffix;
+
+              console.log(photoprefix);
+              console.log(photourl);
+              document.getElementById("myimage").src = photourl;
              }
              });
 
