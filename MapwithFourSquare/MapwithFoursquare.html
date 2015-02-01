@@ -8,6 +8,7 @@
   <script  type="text/javascript"  src="http://code.jquery.com/jquery-1.7.2.min.js" ></script>
   <script  type="text/javascript"  src="map.js" ></script>
 
+
 </head>
 
 <style>
@@ -18,6 +19,14 @@
   #map{
     float:right;
   }
+
+  #searchbutton{
+    position:absolute;
+    top:50px;
+    left:150px;
+  }
+
+
 </style>
 
 
@@ -32,10 +41,14 @@
     <label for="lookingfor">Looking For :</label>
     <input type="text" name="lookingfor" id="lookingfor" value=""/>
   </div>
-  <div id="item1">
+  <div id="item">
   </div>
+
   <img id="myimage" src="">
-    <button id="search button" onclick="button1()">Search</button>
+
+  
+
+  <button id="searchbutton" onclick="button1()">Search</button>
 
 
 

@@ -2,18 +2,29 @@
 
   function button1(){
 
+    // deletediv();
+    function deletediv(){
+    var div = document.getElementById("item");
+    while(div.firstChild){
+      div.removeChild(div.firstChild);}
+    }
+
+    // ------------------------------- --------------------------------------------------------------
     var clientid = 'FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU'
     var clientsecret = 'NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1'
     var vdate = '20150124'
-    // var querynear = document.getElementById("locationinput").value;
-    // var queryloc = document.getElementById("lookingfor").value;
-     var querynear = 'new york'
-     var queryloc = 'columbia university'
+    var querynear = document.getElementById("locationinput").value;
+    var queryloc = document.getElementById("lookingfor").value;
+    //  var querynear = 'new york'
+    //  var queryloc = 'columbia university'
 
     var allName = [];
     var allLat = [];
     var allLng = [];
     var allId = [];
+    var allFormattedPhone = [];
+
+
 
     $(document).ready(function() {
 
@@ -27,9 +38,12 @@
 
           for (i = 0; i < 27; i++) {
 
-             var resultid = json['response']['venues'][i].id;
-            var resultname = json['response']['venues'][i].name;
-            // var resultphone = json['response']['venues'][i]contact.phone;
+           var resultid = json['response']['venues'][i].id;
+           var resultname = json['response']['venues'][i].name;
+           var resultcontact = json['response']['venues'][i].contact;
+           var resultformattedphone = resultcontact.formattedPhone;
+
+
 
             // alert(resultid);
             // alert(resultname);
@@ -53,18 +67,19 @@
             // var localName = localStorage.getItem("resultname");
             // var localLat = localStorage.getItem("resultlat");
             // var localLng = localStorage.getItem("resultlng");
+
             allId.push(resultid);
             allName.push(resultname);
             allLat.push(resultlat);
             allLng.push(resultlng);
-
+            allFormattedPhone.push(resultformattedphone);
           }
 
           console.log(allName);
           console.log(allLat);
           console.log(allLng);
 
-           document.getElementById("item1").innerHTML = allName[0];
+          //document.getElementById("item1").innerHTML = allName[0];
 
            var resultphotolink = 'https://api.foursquare.com/v2/venues/'+ allId[0] +'/photos?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150113'
 
@@ -76,17 +91,22 @@
              dataType: 'jsonp',
              success: function(json) {
 
+              for(i=0; i< 20; i++){
+
               var resultphoto = json['response']['photos']['items'];
-              var photoprefix = resultphoto[0].prefix;
-              var photopresuffix = resultphoto[0].suffix;
+              var photoprefix = resultphoto[i].prefix;
+              var photopresuffix = resultphoto[i].suffix;
               var photourl = photoprefix+"100x100" + photopresuffix;
 
               console.log(photoprefix);
               console.log(photourl);
-              document.getElementById("myimage").src = photourl;
+              //document.getElementById("myimage").src = photourl;
+
+              var htmldiv = '<div>' + allName[i] + " " + allFormattedPhone[i]+'<br>' + '<img id="myimage" src="' + photourl +'"></div><br>';
+              $('#item').append(htmldiv);
+            }
              }
              });
-
 
 
 
@@ -119,6 +139,15 @@
               [allName[25],allLat[25],allLng[25], 4],
             ];
 
+
+            // var locations;
+            //
+            // for (i=1: i<20 ; i++) {
+            //   locations.push([allname[i],alllat[i],alllng[i],4]);
+            // }
+
+
+
             var map = new google.maps.Map(document.getElementById('map'), {
               zoom: 13,
               center: new google.maps.LatLng(allLat[0],allLng[0]),
@@ -141,9 +170,19 @@
                   infowindow.open(map, marker);
                 }
               })(marker, i));
+
             }
+
         }
 
+
       });
+
+
+      alert(allName.length);
+
     });
+
+    alert(allName.length);
+
 }
