@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBlU3aP3_tALovlxvjetUCran3lsGrVv4"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
+  </head>
+
+
+    <style type="text/css">
+        /*html, body, */
+        #map-canvas{
+          width:500px ;
+          height: 700px;
+          margin: 0;
+          padding: 0;
+          float:right;
+        }
+
+    </style>
+
+    <body>
+
+      <div id="map-canvas"></div>
+
+        </form>
+          <label>current location</label>
+          <br/>
+          latitude: <input id="currentlat">  longtitude: <input id="currentlon">
+          <br/>
+          <input type="checkbox" name="resturant" id="resturant"/> resturant
+          <br/>
+          <input type="checkbox" name="bar" id="bar"/> bar
+          <br/>
+          <input type="checkbox" name="outdoors" id="outdoors"/>outdoors
+        <form>
+          <button id="search" type="button" onclick="initialize()">Search</button>
+        <button id="refresh" type="button" onclick="initialize2()">Refresh</button>
+
+
+
+
+    </body>
+
+
+
+    <script type="text/javascript">
+        var a =[ ];
+        var b=[ ];
+        var c=[ ];
+        var usercollect=[ ];
+
+        function initialize() {
+          // clean usercollect
+            usercollect = [ ];
+
+           a[0] = new google.maps.LatLng(33.2667,108.9000);
+           a[1] = new google.maps.LatLng(32.2667,108.9000);
+           a[2] = new google.maps.LatLng(31.2667,108.9000);
+           a[3] = new google.maps.LatLng(30.2667,108.9000);
+           a[4] = new google.maps.LatLng(29.2667,108.9000);
+
+           b[0] = new google.maps.LatLng(34.2667,108.9000);
+           b[1] = new google.maps.LatLng(34.2667,107.9000);
+           b[2] = new google.maps.LatLng(34.2667,106.9000);
+           b[3] = new google.maps.LatLng(34.2667,105.9000);
+           b[4] = new google.maps.LatLng(34.2667,104.9000);
+
+           c[0] = new google.maps.LatLng(38.2667,107.9000);
+           c[1] = new google.maps.LatLng(37.2667,108.9000);
+           c[2] = new google.maps.LatLng(36.2667,109.9000);
+           c[3] = new google.maps.LatLng(35.2667,110.9000);
+           c[4] = new google.maps.LatLng(34.2667,111.9000);
+
+           var resturant = document.getElementById("resturant").checked;
+           var bar = document.getElementById("bar").checked;
+           var outdoors = document.getElementById("outdoors").checked;
+
+
+          var myLatlng = new google.maps.LatLng(32.2667,108.9000);
+          var mapOptions = {
+            zoom: 6,
+            center: myLatlng
+          }
+
+          var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+
+            // if(resturant){
+            //   var img = 'marker2.png';
+            //   printmarker(a,img);
+            // }
+            // //  printmarker(b);
+            // //  printmarker(c);
+            // // printmarker(null);
+
+
+            if(resturant & bar & outdoors){
+
+                printmarker(a);
+                printmarker(b);
+                printmarker(c);
+
+             }else if(resturant & bar){
+                 printmarker(a);
+                 printmarker(b);
+             }else if(outdoors & bar){
+                 printmarker(b);
+                 printmarker(c);
+             }else if(resturant & outdoors){
+                 printmarker(a);
+                 printmarker(c);
+             }else if(resturant){
+               printmarker(a);
+             }else if(outdoors){
+               printmarker(c);
+             }else if(bar){
+               printmarker(b);
+             }
+
+
+
+             function printmarker(ary){
+                   if(ary == a){
+
+                     var image = {
+                       url : 'marker/gray.png',
+                       size: new google.maps.Size(25, 40),
+
+                     };
+                   }
+                   if(ary == b){
+
+                     var image = {
+                       url : 'marker/green.png',
+                       size: new google.maps.Size(25, 40),
+
+                     };
+                   }
+                   if(ary == c){
+
+                     var image = {
+                       url : 'marker/blue.png',
+                       size: new google.maps.Size(25, 40),
+
+                     };
+                   }
+
+
+
+                   for(i=0 ; i<ary.length ; i++)   {
+                        var marker = new google.maps.Marker({
+                            position: ary[i],
+                            map: map,
+                            icon: image,
+                            title: 'Click to zoom'
+                        });
+
+                        var testcontent = 'www.motogp.com';
+
+                        var infowindow = new google.maps.InfoWindow({
+                          content: testcontent
+                        });
+
+                        google.maps.event.addListener(marker, 'mouseover', function() {
+                          infowindow.open(map, this);
+                        });
+
+                        google.maps.event.addListener(marker, 'mouseout', function() {
+                          infowindow.close();
+                        });
+
+
+                          google.maps.event.addListener(marker, 'click', function() {
+                            this.setIcon("marker/red.png");
+                            // alert(this.position);
+                            usercollect.push(this.position);
+                            // console.log(this);
+                          });
+
+
+                  }
+
+             }
+
+
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+      //---------------------------------------------------------------------------
+
+      function initialize2() {
+        // alert("test");
+        // alert(usercollect.length);
+
+          var myLatlng = new google.maps.LatLng(32.2667,108.9000);
+          var mapOptions = {
+            zoom: 6,
+            center: myLatlng
+          }
+
+          var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+          for(i=0 ; i<usercollect.length ; i++)   {
+               var marker = new google.maps.Marker({
+                   position: usercollect[i],
+                   map: map,
+               });
+          }
+      }
+
+
+
+
+      google.maps.event.addDomListener(window, 'load', initialize2);
+
+
+
+    </script>
+
+
+
+
+
+</html>
