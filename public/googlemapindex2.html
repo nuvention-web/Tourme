@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search Markers!!</title>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBlU3aP3_tALovlxvjetUCran3lsGrVv4"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
+
+
+
+  </head>
+
+
+    <style type="text/css">
+        /*html, body, */
+        #map-canvas{
+          width:500px ;
+          height: 700px;
+          margin: 0;
+          padding: 0;
+          float:right;
+        }
+
+        #.scrollFix {
+    line-height: 1.35;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+    </style>
+
+    <body>
+
+      <div id="map-canvas"></div>
+
+        </form>
+          <label>current location</label>
+          <br/>
+          locationinput: <input id="locationinput" value="">
+          <br/>
+          <input type="checkbox" name="Museum" id="Museum"/> Museum
+          <br/>
+          <!-- <input type="checkbox" name="bar" id="bar"/> bar
+          <br/>
+          <input type="checkbox" name="outdoors" id="outdoors"/>outdoors -->
+        <form>
+          <button id="search" type="button" onclick="initialize()">Search</button>
+          <button id="refresh" type="button" onclick="initialize2()">Refresh</button>
+
+
+
+
+    </body>
+
+
+
+    <script type="text/javascript">
+        var a =[ ];
+        var b=[ ];
+        var c=[ ];
+        var usercollect=[ ];
+
+        var clientid = 'FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU'
+        var clientsecret = 'NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1'
+        var vdate = '20150124'
+
+
+        var MuseumName = [];
+        // var MusLat = [];
+        // var MusLng = [];
+        var MusLoc =[];
+
+
+
+
+        function initialize() {
+          // clean usercollect
+          usercollect = [ ];
+
+          var querynear = document.getElementById("locationinput").value;
+
+          if(document.getElementById("Museum").checked){
+            var categories = '4bf58dd8d48988d181941735';
+          }
+
+
+          //------------Include Foursquare API----------------------------
+
+          var foursq = 'https://api.foursquare.com/v2/venues/search?client_id=' + clientid +'&client_secret='+clientsecret +'&v='+vdate+'&near='+ querynear +'&categoryId='+ categories;
+
+          // alert(foursq);
+
+          $.ajax({
+            type: 'GET',
+            url: foursq,
+            dataType: 'jsonp',
+            success: function(json) {
+                for (i = 0; i < 10; i++) {
+                  var resultname = json['response']['venues'][i].name;
+                  var resultlocation = json['response']['venues'][i].location;
+                  var resultlat = resultlocation.lat;
+                  var resultlng = resultlocation.lng;
+
+                  var tmp = new google.maps.LatLng(resultlat,resultlng)
+
+                  MuseumName.push(resultname);
+                  MusLoc.push(tmp);
+                  // MusLat.push(resultlat);
+                  // MusLng.push(resultlng);
+                }
+                console.log(MuseumName);
+                console.log(MusLoc);
+
+                var myLatlng = new google.maps.LatLng(41.8369,-87.6847);
+                var mapOptions = {
+                  zoom: 11,
+                  center: myLatlng
+                }
+
+                var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+                  printmarker(MusLoc);
+
+
+                  function printmarker(ary){
+
+
+
+                        for(i=0 ; i<ary.length ; i++)   {
+                             var marker = new google.maps.Marker({
+                                 position: ary[i],
+                                 map: map,
+                                 // icon: image,
+                                 title: 'Click to zoom',
+                                //  info: '<IMG BORDER="0" ALIGN="Left" SRC="marker/purple.png">',
+                                //  info: MuseumName[i]
+                                info : '<div class="scrollFix">'+ MuseumName[i] +'<IMG BORDER="0" ALIGN="Left" SRC="marker/purple.png">' + '</div>/n'
+                             });
+
+                              //  var testcontent = MuseumName[i] + '<IMG BORDER="0" ALIGN="Left" SRC="marker/purple.png">' ;
+                            //
+                             //
+                            //  var infowindow = new google.maps.InfoWindow({
+                            //    content: testcontent
+                            //
+                            var infowindow = new google.maps.InfoWindow({
+                                // content : testcontent
+                                content: '<div class="scrollFix">'+'</div>'
+                                // maxWidth: 200
+                            });
+
+                             google.maps.event.addListener(marker, 'mouseover', function() {
+                               infowindow.setContent(this.info);
+                               infowindow.open(map, this);
+                             });
+
+                            //  google.maps.event.addListener(marker, 'mouseout', function() {
+                            //    infowindow.close();
+                            //  });
+
+
+                               google.maps.event.addListener(marker, 'click', function() {
+                                 this.setIcon("marker/red.png");
+                                 // alert(this.position);
+                                 usercollect.push(this.position);
+                                 // console.log(this);
+                               });
+
+
+                       }
+
+                  }
+
+            }
+          });
+
+
+
+
+
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+      //---------------------------------------------------------------------------
+
+      // function initialize2() {
+      //   // alert("test");
+      //   // alert(usercollect.length);
+      //
+      //     var myLatlng = new google.maps.LatLng(32.2667,108.9000);
+      //     var mapOptions = {
+      //       zoom: 6,
+      //       center: myLatlng
+      //     }
+      //
+      //     var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+      //
+      //     for(i=0 ; i<usercollect.length ; i++)   {
+      //          var marker = new google.maps.Marker({
+      //              position: usercollect[i],
+      //              map: map,
+      //          });
+      //     }
+      // }
+      //
+      //
+      //
+      //
+      // google.maps.event.addDomListener(window, 'load', initialize2);
+
+
+
+    </script>
+
+
+
+
+
+</html>
