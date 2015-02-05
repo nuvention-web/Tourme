@@ -22,7 +22,7 @@
 
       <div id="map-canvas"></div>
 
-        </form>
+        <form>
           <label>current location</label>
           <br/>
           latitude: <input id="currentlat">  longtitude: <input id="currentlon">
@@ -32,26 +32,164 @@
           <input type="checkbox" name="bar" id="bar"/> bar
           <br/>
           <input type="checkbox" name="outdoors" id="outdoors"/>outdoors
-        <form>
-          <button id="search" type="button" onclick="initialize()">Search</button>
-        <button id="refresh" type="button" onclick="initialize2()">Refresh</button>
+        </form>
 
+        <button id="search" type="button" onclick="initialize()">Search</button>
+        <button id="refresh" type="button" onclick="initialize2()">Refresh</button>
+        <br><br>
+        <div id="location">
+              <label for="locationinput">Location :</label>
+              <input type="text" name="locationinput" id="locationinput" value=""/>
+            </div>
+            <div id="searchwhat">
+              <label for="lookingfor">Looking For :</label>
+              <input type="text" name="lookingfor" id="lookingfor" value=""/>
+            </div><br><br>
+            <div id="item">
+            </div>
+
+            <img id="myimage" src="">
 
 
 
     </body>
 
-
-
     <script type="text/javascript">
+
+foursquarecall();
+    function foursquarecall(){
+          //FourSquare API Query
+        var clientid = 'FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU'
+        var clientsecret = 'NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1'
+        var vdate = '20150203'
+        //var querynear = document.getElementById("locationinput").value;
+        //var queryloc = document.getElementById("lookingfor").value;
+          var querynear = 'new york'
+          var queryloc = 'columbia university'
+
+        var allName = [];
+        var allLat = [];
+        var allLng = [];
+        var allId = [];
+        var allFormattedPhone = [];
+
+  
+    $(document).ready(function() {
+
+      var foursq = 'https://api.foursquare.com/v2/venues/search?client_id=' + clientid +'&client_secret='+clientsecret +'&v='+vdate+'&near='+ querynear +'&query=' + queryloc;
+
+      //var foursq = 'https://api.foursquare.com/v2/venues/search?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150113&near=evanston&query=lao';
+
+      $.ajax({
+        type: 'GET',
+        url: foursq,
+        dataType: 'jsonp',
+        success: function(json) {
+
+          for (i = 0; i < 27; i++) {
+
+           var resultid = json['response']['venues'][i].id;
+           var resultname = json['response']['venues'][i].name;
+           var resultcontact = json['response']['venues'][i].contact;
+           var resultformattedphone = resultcontact.formattedPhone;
+
+            // alert(resultid);
+            // alert(resultname);
+            // alert(resultphone);
+
+            var resultlocation = json['response']['venues'][i].location;
+            var resultaddress = resultlocation.address;
+            var resultlat = resultlocation.lat;
+            var resultlng = resultlocation.lng;
+            var resultpostcode = resultlocation.postalCode;
+            var resultcountry = resultlocation.cc;
+            var resultcity = resultlocation.city;
+            var resultstate = resultlocation.state;
+            var resultformattedaddress = resultlocation.formattedAddress;
+
+            allId.push(resultid);
+            allName.push(resultname);
+            allLat.push(resultlat);
+            allLng.push(resultlng);
+            allFormattedPhone.push(resultformattedphone);
+
+          }
+
+          // console.log(allName);
+          // console.log(allLat);
+          // console.log(allLng);
+          //console.log(resultid);
+
+          initialize(allId,allName,allLat,allLng,allFormattedPhone);
+          initialize2(allId,allName,allLat,allLng,allFormattedPhone);
+
+          //document.getElementById("item1").innerHTML = allName[0];
+
+           var resultphotolink = 'https://api.foursquare.com/v2/venues/'+ allId[0] +'/photos?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150113'
+
+           //var resultphotolink = 'https://api.foursquare.com/v2/venues/5313beed498e8f75ea40558e/photos?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150113'
+
+           //console.log(resultphotolink);
+
+           $.ajax({
+             type: 'GET',
+             url: resultphotolink,
+             dataType: 'jsonp',
+             success: function(json) {
+
+              for(i=0; i< 20; i++){
+
+              var resultphoto = json['response']['photos']['items'];
+              //var photoprefix = resultphoto[0].prefix;
+              var photoprefix = resultphoto[i].prefix;
+              //var photopresuffix = resultphoto[0].suffix;
+              var photopresuffix = resultphoto[i].suffix;
+              var photourl = photoprefix+"100x100" + photopresuffix;
+
+              // console.log(photoprefix);
+              // console.log(photourl);
+              //document.getElementById("myimage").src = photourl;
+
+              var htmldiv = '<div>' + allName[i] + " " + allFormattedPhone[i]+'<br>' + '<img id="myimage" src="' + photourl +'"></div><br>';
+              $('#item').append(htmldiv);
+            }
+             }
+             });
+        }
+        
+      });
+
+
+      //alert(allName.length);
+
+    });
+
+    //alert(allName.length);
+
+}
+
+////////////////FourSquare API End //////////////////////
+
         var a =[ ];
         var b=[ ];
         var c=[ ];
         var usercollect=[ ];
 
-        function initialize() {
+        function initialize(allId,allName,allLat,allLng,allFormattedPhone) {
           // clean usercollect
             usercollect = [ ];
+
+
+            //console.log(allId);
+            // console.log(allName[0]);
+            // console.log(allLat[0]);
+            // console.log(allLng[0]);
+
+           // a[0] = new google.maps.LatLng(allLat[0],allLng[0]);
+           // a[1] = new google.maps.LatLng(allLat[1],allLng[1]);
+           // a[2] = new google.maps.LatLng(allLat[2],allLng[2]);
+           // a[3] = new google.maps.LatLng(allLat[3],allLng[3]);
+           // a[4] = new google.maps.LatLng(allLat[4],allLng[4]);
 
            a[0] = new google.maps.LatLng(33.2667,108.9000);
            a[1] = new google.maps.LatLng(32.2667,108.9000);
@@ -76,7 +214,7 @@
            var outdoors = document.getElementById("outdoors").checked;
 
 
-          var myLatlng = new google.maps.LatLng(32.2667,108.9000);
+          var myLatlng = new google.maps.LatLng(34.2667,108.9000);
           var mapOptions = {
             zoom: 6,
             center: myLatlng
@@ -190,11 +328,11 @@
 
       //---------------------------------------------------------------------------
 
-      function initialize2() {
+      function initialize2(allId,allName,allLat,allLng,allFormattedPhone) {
         // alert("test");
         // alert(usercollect.length);
 
-          var myLatlng = new google.maps.LatLng(32.2667,108.9000);
+          var myLatlng = new google.maps.LatLng(34.2667,108.9000);
           var mapOptions = {
             zoom: 6,
             center: myLatlng

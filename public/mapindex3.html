@@ -30,7 +30,7 @@
           /*float:right;*/
           width: 600px;
           height: 400px;
-          background-color: rgba(0, 0, 0, 0.6);
+          background-color: rgba(200, 54, 54, 0.5);
           border: 1px solid ;
           display:none;
           margin:0;
@@ -51,6 +51,8 @@
 
       <div id="mypanel" >
         <button id="closepanel" type="button" align="right" style="vertical-align: top;" >></button>
+
+        <p>hello!!!<p>
       </div>
 
       <div id="functionarea">
@@ -71,11 +73,6 @@
 
        <div id="map-canvas"></div>
 
-
-
-
-
-
     </body>
 
 
@@ -93,19 +90,28 @@
         var usercollect=[ ];
         var collectname=[ ];
 
+        var allName = [];
+        var allLat = [];
+        var allLng = [];
+        var allId = [];
+        var allFormattedPhone = [];
+
         var clientid = 'FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU'
         var clientsecret = 'NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1'
-        var vdate = '20150124'
+        var vdate = '20150205'
 
 
         var tmpName=[];
         var tmpLoc=[];
+        var MuseumId = [];
         var MuseumName = [];
         var MusLoc =[];
         var foodName = [];
         var foodLoc =[];
         var AEName = [];
         var AELoc =[];
+
+        var resultphotoarray = [];
 
 
         //-----------button search---------------//
@@ -122,6 +128,8 @@
               AEName = [];
               AELoc =[];
 
+              tmpId =[];
+
             // ---------------------------------------------------------------------//
 
               var querynear = document.getElementById("locationinput").value;
@@ -132,12 +140,14 @@
               }
 
               if(document.getElementById("Food").checked){
+                resultphotoarray = [];
                 categories = '4d4b7105d754a06374d81259';
                 foursquare(querynear,categories,foodName,foodLoc);
 
               }
 
               if(document.getElementById("ArtsEntertainment").checked){
+                resultphotoarray = [];
                 categories = '4d4b7104d754a06370d81259';
                 foursquare(querynear,categories,AEName,AELoc);
               }
@@ -158,17 +168,65 @@
                 dataType: 'jsonp',
                 success: function(json) {
                     for (i = 0; i < 10; i++) {
-                      var resultname = json['response']['venues'][i].name;
-                      var resultlocation = json['response']['venues'][i].location;
-                      var resultlat = resultlocation.lat;
-                      var resultlng = resultlocation.lng;
-                      var tmpmarker = new google.maps.LatLng(resultlat,resultlng)
+                  var resultid = json['response']['venues'][i].id;
+                  var resultname = json['response']['venues'][i].name;
+                  var resultcontact = json['response']['venues'][i].contact;
+                  var resultformattedphone = resultcontact.formattedPhone;
+                  var resultlocation = json['response']['venues'][i].location;
+                  var resultaddress = resultlocation.address;
+                  var resultlat = resultlocation.lat;
+                  var resultlng = resultlocation.lng;
+                  var resultpostcode = resultlocation.postalCode;
+                  var resultcountry = resultlocation.cc;
+                  var resultcity = resultlocation.city;
+                  var resultstate = resultlocation.state;
+                  var resultformattedaddress = resultlocation.formattedAddress;
 
+                  var tmpmarker = new google.maps.LatLng(resultlat,resultlng);
+
+                      tmpId.push(resultid);
                       tmpName.push(resultname);
                       tmpLoc.push(tmpmarker);
 
+                      allLat.push(resultlat);
+                      allLng.push(resultlng);
+                      allFormattedPhone.push(resultformattedphone);
+
+
+                      var resultphotolink = 'https://api.foursquare.com/v2/venues/'+ tmpId[i] +'/photos?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150113'
+
+                      resultphotoarray.push(resultphotolink);
                     }
-                    printmarker(tmpName,tmpLoc);
+
+                    //console.log(resultphotoarray);
+
+                    var photolinks = [];
+
+                      for(i=0;i<10;i++){
+
+                       $.ajax({
+                         type: 'GET',
+                         url: resultphotoarray[i],
+                         dataType: 'jsonp',
+                         success: function(json) {
+
+                          var resultphoto = json['response']['photos']['items'];
+                          var photoprefix = resultphoto[i].prefix;
+                          var photopresuffix = resultphoto[i].suffix;
+                          var photourl = photoprefix+"150x150" + photopresuffix;
+
+                        photolinks.push(photourl);
+                        //console.log(photolinks);
+
+                        printmarker(tmpName,tmpLoc,photolinks);
+
+                        // var htmldiv = '<div><h1>' + allName[i] + "</h1> " + allFormattedPhone[i]+'<br>' + '<img id="myimage" src="' + photourl +'"></div><br>';
+                         
+                        //   $('#item').append(htmldiv);
+                         }  
+                         });
+                       }
+        
                 }
 
               });
@@ -190,7 +248,7 @@
 
         //  printmarker(printLoc);
 
-        function printmarker(printName,printLoc){
+        function printmarker(printName,printLoc,printphoto){
               var image =null;
                 // console.log(printName);
                 // console.log(printLoc);
@@ -229,7 +287,7 @@
               });
 
 
-              for(i=0 ; i<printLoc.length ; i++)   {
+              for(i=0 ; i<10 ; i++)   {
                    var marker = new google.maps.Marker({
                        position: printLoc[i],
                        map: map,
@@ -237,7 +295,7 @@
                        title: 'Click to zoom',
                       //  info: '<IMG BORDER="0" ALIGN="Left" SRC="marker/purple.png">',
                       //  info: MuseumName[i]
-                      info :'<div class = "MarkerPopUp" style="width: 300px;">'+'<IMG BORDER="0" ALIGN="Left" SRC="marker/purple.png">' +'<br><br><br>'+  printName[i] +'<br><br>'+ '<button id="addbutton" type="button">Add</button>'+'<button id="infobutton" type="button">Info</button>'+'</div>'
+                      info :'<div class = "MarkerPopUp" style="width: 300px;">'+'<IMG BORDER="0" ALIGN="Left" SRC="'+ printphoto[i] +'">' +'<br><br><br>'+  printName[i] +'<br><br>'+ '<button id="addbutton" type="button">Add</button>'+'<button id="infobutton" type="button">Info</button>'+'</div>'
                    });
 
 

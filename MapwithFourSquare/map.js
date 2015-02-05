@@ -3,26 +3,26 @@
   function button1(){
 
     // deletediv();
-    function deletediv(){
-    var div = document.getElementById("item");
-    while(div.firstChild){
-      div.removeChild(div.firstChild);}
-    }
+    // function deletediv(){
+    // var div = document.getElementById("item");
+    // while(div.firstChild){
+    //   div.removeChild(div.firstChild);}
+    // }
 
     // ------------------------------- --------------------------------------------------------------
-    var clientid = 'FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU'
-    var clientsecret = 'NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1'
-    var vdate = '20150124'
-    var querynear = document.getElementById("locationinput").value;
-    var queryloc = document.getElementById("lookingfor").value;
-    //  var querynear = 'new york'
-    //  var queryloc = 'columbia university'
+    // var clientid = 'FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU'
+    // var clientsecret = 'NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1'
+    // var vdate = '20150124'
+    // var querynear = document.getElementById("locationinput").value;
+    // var queryloc = document.getElementById("lookingfor").value;
+    // //  var querynear = 'new york'
+    // //  var queryloc = 'columbia university'
 
-    var allName = [];
-    var allLat = [];
-    var allLng = [];
-    var allId = [];
-    var allFormattedPhone = [];
+    // var allName = [];
+    // var allLat = [];
+    // var allLng = [];
+    // var allId = [];
+    // var allFormattedPhone = [];
 
 
 
@@ -139,43 +139,8 @@
               [allName[25],allLat[25],allLng[25], 4],
             ];
 
-
-            // var locations;
-            //
-            // for (i=1: i<20 ; i++) {
-            //   locations.push([allname[i],alllat[i],alllng[i],4]);
-            // }
-
-
-
-            var map = new google.maps.Map(document.getElementById('map'), {
-              zoom: 13,
-              center: new google.maps.LatLng(allLat[0],allLng[0]),
-              mapTypeId: google.maps.MapTypeId.ROADMAP
-            });
-
-            var infowindow = new google.maps.InfoWindow();
-
-            var marker, i;
-
-            for (i = 0; i < locations.length; i++) {
-              marker = new google.maps.Marker({
-                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                map: map
-              });
-
-              google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                return function() {
-                  infowindow.setContent(locations[i][0]);
-                  infowindow.open(map, marker);
-                }
-              })(marker, i));
-
-            }
-
         }
-
-
+        
       });
 
 

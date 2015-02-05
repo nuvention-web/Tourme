@@ -31,7 +31,7 @@
 
 
 <body>
-  <div id="map" style="width: 600px; height: 600px"></div>
+<!--   <div id="map" style="width: 600px; height: 600px"></div>
 
   <div id="location">
     <label for="locationinput">Location :</label>
@@ -49,6 +49,28 @@
   
 
   <button id="searchbutton" onclick="button1()">Search</button>
+ -->
+
+  <br><br>
+
+  <div id="map-canvas"></div>
+
+        </form>
+          <label>current location</label>
+          <br/>
+          latitude: <input id="currentlat">  longtitude: <input id="currentlon">
+          <br/>
+          <input type="checkbox" name="resturant" id="resturant"/> resturant
+          <br/>
+          <input type="checkbox" name="bar" id="bar"/> bar
+          <br/>
+          <input type="checkbox" name="outdoors" id="outdoors"/>outdoors
+        <form>
+          <button id="search" type="button" onclick="button1()">Search</button>
+        <button id="refresh" type="button" onclick="initialize2()">Refresh</button>
+
+
+
 
 
 
