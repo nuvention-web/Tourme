@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBlU3aP3_tALovlxvjetUCran3lsGrVv4"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
+  </head>
+
+
+    <style type="text/css">
+        /*html, body, */
+        #map-canvas{
+          width:500px ;
+          height: 700px;
+          margin: 0;
+          padding: 0;
+          float:right;
+        }
+
+    </style>
+
+    <body>
+
+      <div id="map-canvas"></div>
+
+        <form>
+          <label>current location</label>
+          <br/>
+          latitude: <input id="currentlat">  longtitude: <input id="currentlon">
+          <br/>
+          <input type="checkbox" name="resturant" id="resturant"/> resturant
+          <br/>
+          <input type="checkbox" name="bar" id="bar"/> bar
+          <br/>
+          <input type="checkbox" name="outdoors" id="outdoors"/>outdoors
+        </form>
+
+        <button id="search" type="button" onclick="initialize()">Search</button>
+        <button id="refresh" type="button" onclick="initialize2()">Refresh</button>
+        <br><br>
+        <div id="location">
+              <label for="locationinput">Location :</label>
+              <input type="text" name="locationinput" id="locationinput" value=""/>
+            </div>
+            <div id="searchwhat">
+              <label for="lookingfor">Looking For :</label>
+              <input type="text" name="lookingfor" id="lookingfor" value=""/>
+            </div><br><br>
+            <div id="item">
+            </div>
+
+            <img id="myimage" src="">
+
+
+
+    </body>
+
+    <script type="text/javascript">
+
+foursquarecall();
+    function foursquarecall(){
+          //FourSquare API Query
+        var clientid = 'FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU'
+        var clientsecret = 'NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1'
+        var vdate = '20150203'
+        //var querynear = document.getElementById("locationinput").value;
+        //var queryloc = document.getElementById("lookingfor").value;
+          var querynear = 'chicago'
+          var queryloc = 'lao'
+
+        var allName = [];
+        var allLat = [];
+        var allLng = [];
+        var allId = [];
+        var allFormattedPhone = [];
+
+  
+    $(document).ready(function() {
+
+      var foursq = 'https://api.foursquare.com/v2/venues/search?client_id=' + clientid +'&client_secret='+clientsecret +'&v='+vdate+'&near='+ querynear +'&query=' + queryloc;
+
+      //var foursq = 'https://api.foursquare.com/v2/venues/search?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150113&near=evanston&query=lao';
+
+      $.ajax({
+        type: 'GET',
+        url: foursq,
+        dataType: 'jsonp',
+        success: function(json) {
+
+          for (i = 0; i < 27; i++) {
+
+           var resultid = json['response']['venues'][i].id;
+           var resultname = json['response']['venues'][i].name;
+           var resultcontact = json['response']['venues'][i].contact;
+           var resultformattedphone = resultcontact.formattedPhone;
+
+            // alert(resultid);
+            // alert(resultname);
+            // alert(resultphone);
+
+            var resultlocation = json['response']['venues'][i].location;
+            var resultaddress = resultlocation.address;
+            var resultlat = resultlocation.lat;
+            var resultlng = resultlocation.lng;
+            var resultpostcode = resultlocation.postalCode;
+            var resultcountry = resultlocation.cc;
+            var resultcity = resultlocation.city;
+            var resultstate = resultlocation.state;
+            var resultformattedaddress = resultlocation.formattedAddress;
+
+            allId.push(resultid);
+            allName.push(resultname);
+            allLat.push(resultlat);
+            allLng.push(resultlng);
+            allFormattedPhone.push(resultformattedphone);
+
+          }
+
+          // console.log(allName);
+          // console.log(allLat);
+          // console.log(allLng);
+          //console.log(resultid);
+
+          initialize(allId,allName,allLat,allLng,allFormattedPhone);
+          initialize2(allId,allName,allLat,allLng,allFormattedPhone);
+
+          //document.getElementById("item1").innerHTML = allName[0];
+              for (i = 0; i < 27; i++) {
+           var resultphotolink = 'https://api.foursquare.com/v2/venues/'+ allId[i] +'/photos?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150113'
+
+           //var resultphotolink = 'https://api.foursquare.com/v2/venues/5313beed498e8f75ea40558e/photos?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150113'
+           console.log(allId);
+           console.log(resultphotolink);
+         }
+
+           $.ajax({
+             type: 'GET',
+             url: resultphotolink,
+             dataType: 'jsonp',
+             success: function(json) {
+
+              for(i=0; i< 20; i++){
+
+              var resultphoto = json['response']['photos']['items'];
+              //var photoprefix = resultphoto[0].prefix;
+              var photoprefix = resultphoto[i].prefix;
+              //var photopresuffix = resultphoto[0].suffix;
+              var photopresuffix = resultphoto[i].suffix;
+              var photourl = photoprefix+"100x100" + photopresuffix;
+
+              // console.log(photoprefix);
+              // console.log(photourl);
+              //document.getElementById("myimage").src = photourl;
+
+              var htmldiv = '<div>' + allName[i] + " " + allFormattedPhone[i]+'<br>' + '<img id="myimage" src="' + photourl +'"></div><br>';
+              $('#item').append(htmldiv);
+            }
+             }
+             });
+        }
+        
+      });
+
+
+      //alert(allName.length);
+
+    });
+
+    //alert(allName.length);
+
+}
+
+////////////////FourSquare API End //////////////////////
+
+        var a =[ ];
+        var b=[ ];
+        var c=[ ];
+        var usercollect=[ ];
+
+        function initialize(allId,allName,allLat,allLng,allFormattedPhone) {
+          // clean usercollect
+            usercollect = [ ];
+
+
+            //console.log(allId);
+            // console.log(allName[0]);
+            // console.log(allLat[0]);
+            // console.log(allLng[0]);
+
+           // a[0] = new google.maps.LatLng(allLat[0],allLng[0]);
+           // a[1] = new google.maps.LatLng(allLat[1],allLng[1]);
+           // a[2] = new google.maps.LatLng(allLat[2],allLng[2]);
+           // a[3] = new google.maps.LatLng(allLat[3],allLng[3]);
+           // a[4] = new google.maps.LatLng(allLat[4],allLng[4]);
+
+           a[0] = new google.maps.LatLng(33.2667,108.9000);
+           a[1] = new google.maps.LatLng(32.2667,108.9000);
+           a[2] = new google.maps.LatLng(31.2667,108.9000);
+           a[3] = new google.maps.LatLng(30.2667,108.9000);
+           a[4] = new google.maps.LatLng(29.2667,108.9000);
+
+           b[0] = new google.maps.LatLng(34.2667,108.9000);
+           b[1] = new google.maps.LatLng(34.2667,107.9000);
+           b[2] = new google.maps.LatLng(34.2667,106.9000);
+           b[3] = new google.maps.LatLng(34.2667,105.9000);
+           b[4] = new google.maps.LatLng(34.2667,104.9000);
+
+           c[0] = new google.maps.LatLng(38.2667,107.9000);
+           c[1] = new google.maps.LatLng(37.2667,108.9000);
+           c[2] = new google.maps.LatLng(36.2667,109.9000);
+           c[3] = new google.maps.LatLng(35.2667,110.9000);
+           c[4] = new google.maps.LatLng(34.2667,111.9000);
+
+           var resturant = document.getElementById("resturant").checked;
+           var bar = document.getElementById("bar").checked;
+           var outdoors = document.getElementById("outdoors").checked;
+
+
+          var myLatlng = new google.maps.LatLng(34.2667,108.9000);
+          var mapOptions = {
+            zoom: 6,
+            center: myLatlng
+          }
+
+          var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+
+            // if(resturant){
+            //   var img = 'marker2.png';
+            //   printmarker(a,img);
+            // }
+            // //  printmarker(b);
+            // //  printmarker(c);
+            // // printmarker(null);
+
+
+            if(resturant & bar & outdoors){
+
+                printmarker(a);
+                printmarker(b);
+                printmarker(c);
+
+             }else if(resturant & bar){
+                 printmarker(a);
+                 printmarker(b);
+             }else if(outdoors & bar){
+                 printmarker(b);
+                 printmarker(c);
+             }else if(resturant & outdoors){
+                 printmarker(a);
+                 printmarker(c);
+             }else if(resturant){
+               printmarker(a);
+             }else if(outdoors){
+               printmarker(c);
+             }else if(bar){
+               printmarker(b);
+             }
+
+
+
+             function printmarker(ary){
+                   if(ary == a){
+
+                     var image = {
+                       url : 'marker/gray.png',
+                       size: new google.maps.Size(25, 40),
+
+                     };
+                   }
+                   if(ary == b){
+
+                     var image = {
+                       url : 'marker/green.png',
+                       size: new google.maps.Size(25, 40),
+
+                     };
+                   }
+                   if(ary == c){
+
+                     var image = {
+                       url : 'marker/blue.png',
+                       size: new google.maps.Size(25, 40),
+
+                     };
+                   }
+
+
+
+                   for(i=0 ; i<ary.length ; i++)   {
+                        var marker = new google.maps.Marker({
+                            position: ary[i],
+                            map: map,
+                            icon: image,
+                            title: 'Click to zoom'
+                        });
+
+                        var testcontent = 'www.motogp.com';
+
+                        var infowindow = new google.maps.InfoWindow({
+                          content: testcontent
+                        });
+
+                        google.maps.event.addListener(marker, 'mouseover', function() {
+                          infowindow.open(map, this);
+                        });
+
+                        google.maps.event.addListener(marker, 'mouseout', function() {
+                          infowindow.close();
+                        });
+
+
+                          google.maps.event.addListener(marker, 'click', function() {
+                            this.setIcon("marker/red.png");
+                            // alert(this.position);
+                            usercollect.push(this.position);
+                            console.log(this);
+                            console.log(usercollect);
+                          });
+
+
+                  }
+
+             }
+
+
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+      //---------------------------------------------------------------------------
+
+      function initialize2(allId,allName,allLat,allLng,allFormattedPhone) {
+        // alert("test");
+        // alert(usercollect.length);
+
+          var myLatlng = new google.maps.LatLng(34.2667,108.9000);
+          var mapOptions = {
+            zoom: 6,
+            center: myLatlng
+          }
+
+          var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+          for(i=0 ; i<usercollect.length ; i++)   {
+               var marker = new google.maps.Marker({
+                   position: usercollect[i],
+                   map: map,
+               });
+          }
+      }
+
+
+
+
+      google.maps.event.addDomListener(window, 'load', initialize2);
+
+
+
+    </script>
+
+
+
+
+
+</html>
