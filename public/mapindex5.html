@@ -262,8 +262,6 @@
               }
 
               if(document.getElementById("ArtsEntertainment").checked){
-                photojson= [ ];
-                photolinks=[ ] ;
                 categories = '4d4b7104d754a06370d81259';
                 foursquare(querynear,categories,AEName,AELoc,AEjson,AElinks);
               }
@@ -287,7 +285,7 @@
 
                   success: function(json) {
 
-                      for (i = 0; i < 10; i++) {
+                      for (i = 0; i < 6; i++) {
                         var resultname = json['response']['venues'][i].name;
                         var resultlocation = json['response']['venues'][i].location;
                         var resultlat = resultlocation.lat;
@@ -305,7 +303,7 @@
                       }
 
 
-                           for (i = 0; i < 10; i++) {
+                           for (i = 0; i < 6; i++) {
 
                                 $.ajax({
 
@@ -316,14 +314,15 @@
 
                                     resultphoto = json['response']['photos']['items'];
                                     photoprefix = resultphoto[i].prefix;
+                                    console.log(photoprefix);
                                     photopresuffix = resultphoto[i].suffix;
                                     photourl = photoprefix+"150x150" + photopresuffix;
                                     PhotoURL.push(photourl);
                                     counter = counter +1;
-                                    if(counter == 3){
-                                        console.log(tmpName);
-                                        console.log(tmpLoc);
-                                        console.log(PhotoURL);
+                                    if(counter ==6){
+                                        // console.log(tmpName);
+                                        // console.log(tmpLoc);
+                                        // console.log(PhotoURL);
 
                                         printmarker(tmpName,tmpLoc,PhotoURL);
 
