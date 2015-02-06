@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search Markers!!</title>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBlU3aP3_tALovlxvjetUCran3lsGrVv4"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+
+
+  </head>
+
+
+    <style type="text/css">
+        /*html, body, */
+        #map-canvas{
+          width:700px ;
+          height: 700px;
+          margin: 0;
+          padding: 0;
+          /*float:left;*/
+          z-index: 1;
+        }
+
+
+
+        #mypanel {
+          right:0;
+          position:fixed;
+          /*float:right;*/
+          width: 600px;
+          height: 400px;
+          background-color: rgba(0, 0, 0, 0.6);
+          border: 1px solid ;
+          display:none;
+          margin:0;
+          padding:0;
+          z-index: 2;
+      }
+
+      #functionarea{
+        /*float:left;*/
+      }
+
+
+
+    </style>
+
+    <body>
+
+
+      <div id="mypanel" >
+        <button id="closepanel" type="button" align="right" style="vertical-align: top;" >></button>
+      </div>
+
+      <div id="functionarea">
+        </form>
+          <label>current location</label>
+          <br/>
+          locationinput: <input id="locationinput" value="">
+          <br/>
+          <input type="checkbox" name="Museum" id="Museum"/> Museum
+          <br/>
+          <input type="checkbox" name="Food" id="Food"/> Food
+          <br/>
+          <input type="checkbox" name="ArtsEntertainment" id="ArtsEntertainment"/>ArtsEntertainment
+        <form>
+          <button id="search" type="button" onclick="initialize()">Search</button>
+          <button id="refresh" type="button" onclick="initialize2()">Refresh</button>
+       </div>
+
+       <div id="map-canvas"></div>
+
+
+
+
+
+
+    </body>
+
+
+
+    <script type="text/javascript">
+
+    var resultphoto ;
+    var photoprefix ;
+    var photopresuffix ;
+    var photourl;
+
+    $("#closepanel").click(function() {
+      // alert("teset!");
+      $("#mypanel").toggle( "slide",{direction:'right'}, 1000 );
+    });
+
+
+
+
+ //  function firstjson(tmpName,tmpLoc,PhotoJson,PhotoURL,foursq){
+ //    return $.ajax({
+ //      type: 'GET',
+ //      url: foursq,
+ //      dataType: 'jsonp',
+ //
+ //      success: function(json) {
+ //
+ //          for (i = 0; i < 3; i++) {
+ //            var resultname = json['response']['venues'][i].name;
+ //            var resultlocation = json['response']['venues'][i].location;
+ //            var resultlat = resultlocation.lat;
+ //            var resultlng = resultlocation.lng;
+ //            var tmpmarker = new google.maps.LatLng(resultlat,resultlng)
+ //
+ //            var counter = 0;
+ //
+ //            tmpName.push(resultname);
+ //            tmpLoc.push(tmpmarker);
+ //            var resultid = json['response']['venues'][i].id;
+ //            var tmpPhotoJason = 'https://api.foursquare.com/v2/venues/'+ resultid +'/photos?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150113';
+ //            PhotoJson.push(tmpPhotoJason);
+ //
+ //          }
+ //
+ //
+ //               for (i = 0; i < 3; i++) {
+ //
+ //                    $.ajax({
+ //
+ //                    type: 'GET',
+ //                    url: PhotoJson[i],
+ //                    dataType: 'jsonp',
+ //                    success: function(json) {
+ //
+ //                        resultphoto = json['response']['photos']['items'];
+ //                        photoprefix = resultphoto[i].prefix;
+ //                        photopresuffix = resultphoto[i].suffix;
+ //                        photourl = photoprefix+"150x150" + photopresuffix;
+ //                        PhotoURL.push(photourl);
+ //                        counter = counter +1;
+ //                        if(counter == 3){
+ //                            console.log(tmpName);
+ //                            console.log(tmpLoc);
+ //                            console.log(PhotoURL);
+ //                            printtest();
+ //                            printmarker(tmpName,tmpLoc,PhotoURL);
+ //
+ //                        }
+ //                        // callback(PhotoURL);
+ //
+ //                        // printmarker(tmpName,tmpLoc,photourl);
+ //                      }
+ //
+ //                });
+ //              }
+ //
+ //
+ //    }
+ //
+ //
+ //   });
+ // }
+
+    //
+    // function transfer(PhotoJson){
+    //
+    //    for (i = 0; i < 3; i++) {
+    //      $.ajax({
+    //
+    //         type: 'GET',
+    //         url: PhotoJson[i],
+    //         dataType: 'jsonp',
+    //         success: function(json) {
+    //
+    //             resultphoto = json['response']['photos']['items'];
+    //             photoprefix = resultphoto[i].prefix;
+    //             photopresuffix = resultphoto[i].suffix;
+    //             photourl = photoprefix+"150x150" + photopresuffix;
+    //             PhotoURL.push(photourl);
+    //             console.log(PhotoURL);
+    //           }
+    //
+    //     });
+    //
+    //   }
+    //
+    // }
+
+
+
+
+
+
+
+
+
+        var a =[ ];
+        var b=[ ];
+        var c=[ ];
+        var usercollect=[ ];
+        var collectname=[ ];
+
+        var clientid = 'FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU'
+        var clientsecret = 'NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1'
+        var vdate = '20150124'
+
+
+        // var tmpName=[];
+        // var tmpLoc=[];
+
+        var MuseumName = [];
+        var MusLoc =[];
+        var Musjson = [];
+        var Musphlinks =[];
+
+
+        var foodName = [];
+        var foodLoc =[];
+        var foodjson = [];
+        var foodphlinks =[];
+
+
+
+        var AEName = [];
+        var AELoc =[];
+        var AEjson = [];
+        var AElinks =[];
+
+
+        var PhotoJson=[];
+        var PhotoURL=[];
+
+        //-----------button search---------------//
+        function initialize() {
+              // ---------clean all content in array-------------------//
+              usercollect = [ ];
+              collectname = [ ];
+
+              // tmpName = [ ];
+              // tmpLoc = [ ];
+              PhotoJson= [ ];
+              PhotoURL=[ ];
+
+              MuseumName = [];
+              MusLoc =[];
+              foodName = [];
+              foodLoc =[];
+              AEName = [];
+              AELoc =[];
+
+            // ---------------------------------------------------------------------//
+
+              var querynear = document.getElementById("locationinput").value;
+              var categories ;
+              if(document.getElementById("Museum").checked){
+                categories = '4bf58dd8d48988d181941735';
+                foursquare(querynear,categories,MuseumName,MusLoc,Musjson,Musphlinks);
+              }
+
+              if(document.getElementById("Food").checked){
+                categories = '4d4b7105d754a06374d81259';
+                foursquare(querynear,categories,foodName,foodLoc,foodjson,foodphlinks);
+
+              }
+
+              if(document.getElementById("ArtsEntertainment").checked){
+                photojson= [ ];
+                photolinks=[ ] ;
+                categories = '4d4b7104d754a06370d81259';
+                foursquare(querynear,categories,AEName,AELoc,AEjson,AElinks);
+              }
+
+
+
+
+
+
+      //------------Include Foursquare API----------------------------//
+        function foursquare(querynear,categories,tmpName,tmpLoc,PhotoJson,PhotoURL){
+              var foursq = 'https://api.foursquare.com/v2/venues/search?client_id=' + clientid +'&client_secret='+clientsecret +'&v='+vdate+'&near='+ querynear +'&categoryId='+ categories;
+
+              // firstjson(tmpName,tmpLoc,PhotoJson,PhotoURL,foursq);
+
+
+               $.ajax({
+                  type: 'GET',
+                  url: foursq,
+                  dataType: 'jsonp',
+
+                  success: function(json) {
+
+                      for (i = 0; i < 10; i++) {
+                        var resultname = json['response']['venues'][i].name;
+                        var resultlocation = json['response']['venues'][i].location;
+                        var resultlat = resultlocation.lat;
+                        var resultlng = resultlocation.lng;
+                        var tmpmarker = new google.maps.LatLng(resultlat,resultlng)
+
+                        var counter = 0;
+
+                        tmpName.push(resultname);
+                        tmpLoc.push(tmpmarker);
+                        var resultid = json['response']['venues'][i].id;
+                        var tmpPhotoJason = 'https://api.foursquare.com/v2/venues/'+ resultid +'/photos?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150113';
+                        PhotoJson.push(tmpPhotoJason);
+
+                      }
+
+
+                           for (i = 0; i < 10; i++) {
+
+                                $.ajax({
+
+                                type: 'GET',
+                                url: PhotoJson[i],
+                                dataType: 'jsonp',
+                                success: function(json) {
+
+                                    resultphoto = json['response']['photos']['items'];
+                                    photoprefix = resultphoto[i].prefix;
+                                    photopresuffix = resultphoto[i].suffix;
+                                    photourl = photoprefix+"150x150" + photopresuffix;
+                                    PhotoURL.push(photourl);
+                                    counter = counter +1;
+                                    if(counter == 3){
+                                        console.log(tmpName);
+                                        console.log(tmpLoc);
+                                        console.log(PhotoURL);
+
+                                        printmarker(tmpName,tmpLoc,PhotoURL);
+
+                                    }
+                                    // callback(PhotoURL);
+
+                                    // printmarker(tmpName,tmpLoc,photourl);
+                                  }
+
+                            });
+                          }
+
+
+                }
+
+
+               });
+
+
+              // $.when(firstjson(tmpName,tmpLoc,PhotoJson,PhotoURL,foursq)).done(function(){
+              //     console.log(tmpName);
+              //     console.log(PhotoJson);
+              //     // alert("test1");
+              //       $.when(transfer(PhotoJson)).done(function(){
+              //         console.log(PhotoURL);
+              //       });
+              //     //   transfer(PhotoJson,function(PhotoURL){
+              //     //        console.log(PhotoURL);
+              //     // });
+              // });
+
+
+              // $.when(firstjson(tmpName,tmpLoc,PhotoJson,PhotoURL,foursq)).then(function (){transfer(PhotoJson,PhotoURL)}).then(function (){alert("test3")});
+
+        }
+
+
+        // ----------------------------------------------------------------------//
+
+        var myLatlng = new google.maps.LatLng(41.8369,-87.6847);
+        var mapOptions = {
+          zoom: 12,
+          center: myLatlng
+        }
+
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+
+    // function printmap(printName,printLoc){
+
+        //  printmarker(printLoc);
+
+
+
+        function printmarker(printName,printLoc,printphoto){
+
+              var image =null;
+                // console.log(printName);
+                // console.log(printLoc);
+              //  console.log(foodName);
+              //  alert(printLoc.length);
+              //  alert(printName.length);
+              //
+              if(printName == MuseumName){
+                 image = {
+                  url : 'marker/gray.png',
+                  size: new google.maps.Size(25, 40),
+
+                };
+              }
+              if(printName == foodName){
+                 image = {
+                  url : 'marker/green.png',
+                  size: new google.maps.Size(25, 40),
+
+                };
+              }
+              if(printName == AEName){
+                  image = {
+                  url : 'marker/blue.png',
+                  size: new google.maps.Size(25, 40),
+                };
+              }
+
+
+
+
+              var infowindow = new google.maps.InfoWindow({
+                  // content : testcontent
+                  // content: '<div class="scrollFix">'+'</div>'
+                  // Width: 300
+              });
+
+
+              for(i=0 ; i<printLoc.length ; i++)   {
+                // alert(printName[i]);
+                // alert(printphotolinks[i]);
+
+                   var marker = new google.maps.Marker({
+                       position: printLoc[i],
+                       map: map,
+                       icon: image,
+                       title: 'Click to zoom',
+                      //  info: '<IMG BORDER="0" ALIGN="Left" SRC="marker/purple.png">',
+                      //  info: MuseumName[i]
+                      info :'<div class = "MarkerPopUp" style="width: 300px;">'+'<IMG BORDER="0" ALIGN="Left" SRC="'+ printphoto[i] +'">' +'<br><br><br>'+  printName[i] +'<br><br>'+ '<button id="addbutton" type="button">Add</button>'+'<button id="infobutton" type="button">Info</button>'+'</div>'
+                      // info :'<div class = "MarkerPopUp" style="width: 300px;">'+'<IMG BORDER="0" ALIGN="Left" SRC="marker/purple.png">' +'<br><br><br>'+  printName[i] +'<br><br>'+ '<button id="addbutton" type="button">Add</button>'+'<button id="infobutton" type="button">Info</button>'+'</div>'
+                   });
+
+
+
+
+                  //  google.maps.event.addListener(marker, 'mouseover', function() {
+                   //
+                  //  });
+
+                  //  google.maps.event.addListener(marker, 'mouseout', function() {
+                  //    infowindow.close();
+                  //  });
+                  // onclick="addtolist()"
+
+                     google.maps.event.addListener(marker, 'click', function() {
+                       //this.setIcon("marker/red.png");
+                       infowindow.setContent(this.info);
+                       infowindow.open(map, this);
+                        var themarker = this;
+                        // var tmpObjectPosition = this.position;
+                        // param1: tmpObjectPosition,
+                       $("#addbutton").click({ param1: themarker}, function(){
+                           themarker.setIcon("marker/red.png");
+                           usercollect.push(themarker.position);
+                           collectname.push(themarker.info);
+                           infowindow.close();
+                          // alert(themarker.info);
+                        });
+
+                        $("#infobutton").click(function() {
+                          // alert("teset!");
+                          $("#mypanel").toggle( "slide",{direction:'right'}, 1000 );
+                        });
+
+                     });
+
+
+             }
+
+        }
+
+      // }
+
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+    }
+
+
+    //-----------------------------------refresh button --------------------------//
+
+    function initialize2() {
+      // alert("test");
+      //  alert(usercollect.length);
+
+        var myLatlng = new google.maps.LatLng(41.8369,-87.6847);
+        var mapOptions = {
+          zoom:12,
+          center: myLatlng
+        }
+        var infowindow = new google.maps.InfoWindow();
+
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+        for(i=0 ; i<usercollect.length ; i++)   {
+             var marker = new google.maps.Marker({
+                 position: usercollect[i],
+                 map: map,
+                 info: collectname[i],
+             });
+
+            google.maps.event.addListener(marker, 'mouseover', function() {
+              infowindow.setContent(this.info);
+              infowindow.open(map, this);
+            });
+
+            google.maps.event.addListener(marker, 'mouseout', function() {
+                infowindow.close();
+            });
+
+
+       }
+      google.maps.event.addDomListener(window, 'load', initialize2);
+    }
+
+
+    </script>
+
+
+
+
+
+</html>
