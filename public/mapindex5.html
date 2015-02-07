@@ -251,7 +251,8 @@
               var querynear = document.getElementById("locationinput").value;
               var categories ;
               if(document.getElementById("Museum").checked){
-                categories = '4bf58dd8d48988d181941735';
+                categories = '4d4b7105d754a06377d81259';
+
                 foursquare(querynear,categories,MuseumName,MusLoc,Musjson,Musphlinks);
               }
 
@@ -262,10 +263,9 @@
               }
 
               if(document.getElementById("ArtsEntertainment").checked){
-                categories = '4d4b7104d754a06370d81259';
+                categories = '4bf58dd8d48988d181941735';
                 foursquare(querynear,categories,AEName,AELoc,AEjson,AElinks);
               }
-
 
 
 
@@ -285,7 +285,7 @@
 
                   success: function(json) {
 
-                      for (i = 0; i < 6; i++) {
+                      for (i = 0; i < 10; i++) {
                         var resultname = json['response']['venues'][i].name;
                         var resultlocation = json['response']['venues'][i].location;
                         var resultlat = resultlocation.lat;
@@ -303,7 +303,7 @@
                       }
 
 
-                           for (i = 0; i < 6; i++) {
+                           for (i = 0; i < 10; i++) {
 
                                 $.ajax({
 
@@ -314,17 +314,25 @@
 
                                     resultphoto = json['response']['photos']['items'];
                                     photoprefix = resultphoto[i].prefix;
-                                    console.log(photoprefix);
+                                    // if(photoprefix){
+                                    //   alert("test");
+                                    // }
+                                    // alert(photoprefix);
+
                                     photopresuffix = resultphoto[i].suffix;
                                     photourl = photoprefix+"150x150" + photopresuffix;
                                     PhotoURL.push(photourl);
+
                                     counter = counter +1;
-                                    if(counter ==6){
+                                    if(counter ==10){
                                         // console.log(tmpName);
                                         // console.log(tmpLoc);
                                         // console.log(PhotoURL);
-
+                                        console.log(MuseumName);
+                                        console.log(foodName);
+                                        console.log(AEName);
                                         printmarker(tmpName,tmpLoc,PhotoURL);
+
 
                                     }
                                     // callback(PhotoURL);
@@ -334,6 +342,7 @@
 
                             });
                           }
+
 
 
                 }
@@ -472,6 +481,7 @@
         }
 
       // }
+
 
 
       google.maps.event.addDomListener(window, 'load', initialize);
