@@ -36,10 +36,15 @@
           margin:0;
           padding:0;
           z-index: 2;
+          font-size: 3em;
       }
 
       #functionarea{
         /*float:left;*/
+      }
+
+      #infofont{
+        font-size: 10px;
       }
 
 
@@ -50,7 +55,9 @@
 
 
       <div id="mypanel" >
-        <button id="closepanel" type="button" align="right" style="vertical-align: top;" >></button>
+        <button id="closepanel" type="button" align="right" style="vertical-align: top;" ></button>
+        <p id = "panelinfo" > </p>
+
       </div>
 
       <div id="functionarea">
@@ -90,106 +97,8 @@
     $("#closepanel").click(function() {
       // alert("teset!");
       $("#mypanel").toggle( "slide",{direction:'right'}, 1000 );
+      $("#panelinfo").html(" ");
     });
-
-
-
-
- //  function firstjson(tmpName,tmpLoc,PhotoJson,PhotoURL,foursq){
- //    return $.ajax({
- //      type: 'GET',
- //      url: foursq,
- //      dataType: 'jsonp',
- //
- //      success: function(json) {
- //
- //          for (i = 0; i < 3; i++) {
- //            var resultname = json['response']['venues'][i].name;
- //            var resultlocation = json['response']['venues'][i].location;
- //            var resultlat = resultlocation.lat;
- //            var resultlng = resultlocation.lng;
- //            var tmpmarker = new google.maps.LatLng(resultlat,resultlng)
- //
- //            var counter = 0;
- //
- //            tmpName.push(resultname);
- //            tmpLoc.push(tmpmarker);
- //            var resultid = json['response']['venues'][i].id;
- //            var tmpPhotoJason = 'https://api.foursquare.com/v2/venues/'+ resultid +'/photos?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150113';
- //            PhotoJson.push(tmpPhotoJason);
- //
- //          }
- //
- //
- //               for (i = 0; i < 3; i++) {
- //
- //                    $.ajax({
- //
- //                    type: 'GET',
- //                    url: PhotoJson[i],
- //                    dataType: 'jsonp',
- //                    success: function(json) {
- //
- //                        resultphoto = json['response']['photos']['items'];
- //                        photoprefix = resultphoto[i].prefix;
- //                        photopresuffix = resultphoto[i].suffix;
- //                        photourl = photoprefix+"150x150" + photopresuffix;
- //                        PhotoURL.push(photourl);
- //                        counter = counter +1;
- //                        if(counter == 3){
- //                            console.log(tmpName);
- //                            console.log(tmpLoc);
- //                            console.log(PhotoURL);
- //                            printtest();
- //                            printmarker(tmpName,tmpLoc,PhotoURL);
- //
- //                        }
- //                        // callback(PhotoURL);
- //
- //                        // printmarker(tmpName,tmpLoc,photourl);
- //                      }
- //
- //                });
- //              }
- //
- //
- //    }
- //
- //
- //   });
- // }
-
-    //
-    // function transfer(PhotoJson){
-    //
-    //    for (i = 0; i < 3; i++) {
-    //      $.ajax({
-    //
-    //         type: 'GET',
-    //         url: PhotoJson[i],
-    //         dataType: 'jsonp',
-    //         success: function(json) {
-    //
-    //             resultphoto = json['response']['photos']['items'];
-    //             photoprefix = resultphoto[i].prefix;
-    //             photopresuffix = resultphoto[i].suffix;
-    //             photourl = photoprefix+"150x150" + photopresuffix;
-    //             PhotoURL.push(photourl);
-    //             console.log(PhotoURL);
-    //           }
-    //
-    //     });
-    //
-    //   }
-    //
-    // }
-
-
-
-
-
-
-
 
 
         var a =[ ];
@@ -210,12 +119,16 @@
         var MusLoc =[];
         var Musjson = [];
         var Musphlinks =[];
+        var Musphone = [];
+        var Musaddress = [];
 
 
         var foodName = [];
         var foodLoc =[];
         var foodjson = [];
         var foodphlinks =[];
+        var foodphone = [];
+        var foodaddress = [];
 
 
 
@@ -223,11 +136,15 @@
         var AELoc =[];
         var AEjson = [];
         var AElinks =[];
+        var AEphone = [];
+        var AEaddress = [];
 
 
         var PhotoJson=[];
         var PhotoURL=[];
 
+        var tmpfPhone = [];
+        var tmpfaddress = [];
         //-----------button search---------------//
         function initialize() {
               // ---------clean all content in array-------------------//
@@ -238,33 +155,51 @@
               // tmpLoc = [ ];
               PhotoJson= [ ];
               PhotoURL=[ ];
+              tmpfPhone = [ ];
+              tmpfaddress = [ ];
+              MuseumName = [ ];
+              MusLoc =[ ];
+              Musphone = [ ];
+              Musaddress = [];
 
-              MuseumName = [];
-              MusLoc =[];
-              foodName = [];
-              foodLoc =[];
+              foodName = [ ];
+              foodLoc =[ ];
+              foodphone = [ ];
+              foodaddress = [ ];
+
               AEName = [];
               AELoc =[];
+              AEphone = [ ];
+              AEaddress = [ ];
 
             // ---------------------------------------------------------------------//
 
               var querynear = document.getElementById("locationinput").value;
+              
               var categories ;
-              if(document.getElementById("Museum").checked){
-                categories = '4d4b7105d754a06377d81259';
 
-                foursquare(querynear,categories,MuseumName,MusLoc,Musjson,Musphlinks);
+              if(document.getElementById("Museum").checked){
+                categories = '4bf58dd8d48988d181941735';
+                tmpfPhone = [];
+                tmpfaddress = [ ];
+
+                foursquare(querynear,categories,MuseumName,MusLoc,Musjson,Musphlinks,Musphone,Musaddress);
               }
 
               if(document.getElementById("Food").checked){
+                tmpfPhone = [];
+                tmpfaddress = [ ];
                 categories = '4d4b7105d754a06374d81259';
-                foursquare(querynear,categories,foodName,foodLoc,foodjson,foodphlinks);
+                foursquare(querynear,categories,foodName,foodLoc,foodjson,foodphlinks,foodphone,foodaddress);
 
               }
 
               if(document.getElementById("ArtsEntertainment").checked){
-                categories = '4bf58dd8d48988d181941735';
-                foursquare(querynear,categories,AEName,AELoc,AEjson,AElinks);
+                tmpfPhone = [];
+                tmpfaddress = [ ];
+                categories = '4bf58dd8d48988d1e5931735';
+
+                foursquare(querynear,categories,AEName,AELoc,AEjson,AElinks,AEphone,AEaddress);
               }
 
 
@@ -272,11 +207,12 @@
 
 
       //------------Include Foursquare API----------------------------//
-        function foursquare(querynear,categories,tmpName,tmpLoc,PhotoJson,PhotoURL){
+        function foursquare(querynear,categories,tmpName,tmpLoc,PhotoJson,PhotoURL,tmpfPhone,tmpfaddress){
               var foursq = 'https://api.foursquare.com/v2/venues/search?client_id=' + clientid +'&client_secret='+clientsecret +'&v='+vdate+'&near='+ querynear +'&categoryId='+ categories;
 
               // firstjson(tmpName,tmpLoc,PhotoJson,PhotoURL,foursq);
-
+                tmpfPhone = [];
+                tmpfaddress = [ ];
 
                $.ajax({
                   type: 'GET',
@@ -285,62 +221,85 @@
 
                   success: function(json) {
 
+                    var counter = 0;
+
                       for (i = 0; i < 10; i++) {
                         var resultname = json['response']['venues'][i].name;
                         var resultlocation = json['response']['venues'][i].location;
                         var resultlat = resultlocation.lat;
                         var resultlng = resultlocation.lng;
-                        var tmpmarker = new google.maps.LatLng(resultlat,resultlng)
+                        var resultformattedaddress = resultlocation.formattedAddress;
 
-                        var counter = 0;
+                        var resultcontact = json['response']['venues'][i].contact;
+                        var resultformattedphone = resultcontact.formattedPhone;
+
+                        var tmpmarker = new google.maps.LatLng(resultlat,resultlng)
 
                         tmpName.push(resultname);
                         tmpLoc.push(tmpmarker);
+                        tmpfPhone.push(resultformattedphone);
+                        tmpfaddress.push(resultformattedaddress);
+                        // console.log(resultformattedaddress);
+
                         var resultid = json['response']['venues'][i].id;
                         var tmpPhotoJason = 'https://api.foursquare.com/v2/venues/'+ resultid +'/photos?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150113';
                         PhotoJson.push(tmpPhotoJason);
+                        //console.log(PhotoJson);
 
                       }
+                      // console.log(tmpfaddress);
 
 
-                           for (i = 0; i < 10; i++) {
+                      var photoprefixarry =[];
 
-                                $.ajax({
+                      for (i = 0; i < 10; i++) {
+                        //debugger;
 
-                                type: 'GET',
-                                url: PhotoJson[i],
-                                dataType: 'jsonp',
-                                success: function(json) {
+                        $.ajax({
 
-                                    resultphoto = json['response']['photos']['items'];
-                                    photoprefix = resultphoto[i].prefix;
-                                    // if(photoprefix){
-                                    //   alert("test");
-                                    // }
-                                    // alert(photoprefix);
+                        type: 'GET',
+                        url: PhotoJson[i],
+                        dataType: 'jsonp',
+                        success: function(json) {
 
-                                    photopresuffix = resultphoto[i].suffix;
-                                    photourl = photoprefix+"150x150" + photopresuffix;
-                                    PhotoURL.push(photourl);
+                            resultphoto = json['response']['photos']['items'];
+                            photoprefix = resultphoto[i].prefix;
 
-                                    counter = counter +1;
-                                    if(counter ==10){
-                                        // console.log(tmpName);
-                                        // console.log(tmpLoc);
-                                        // console.log(PhotoURL);
-                                        console.log(MuseumName);
-                                        console.log(foodName);
-                                        console.log(AEName);
-                                        printmarker(tmpName,tmpLoc,PhotoURL);
+                             photoprefixarry.push(photoprefix);
+                             //console.log(photoprefixarry);
+
+                            // if(photoprefix){
+                            //   alert("test");
+                            // }
+                            // alert(photoprefix);
+
+                            photopresuffix = resultphoto[i].suffix;
+                            photourl = photoprefix+"150x150" + photopresuffix;
+                            PhotoURL.push(photourl);
+                            // console.log(PhotoURL.length);
+
+                            counter = counter +1;
+                            if(counter ==10){
+                                
+                                // console.log(tmpLoc);
+                                // console.log(PhotoURL);
+                                // console.log(MuseumName);
+                                // console.log(foodName);
+                                // console.log(AEName);
+                                // console.log(tmpName);
+                                // console.log(tmpfPhone);
+                                // console.log(tmpfaddress);
+                                printmarker(tmpName,tmpLoc,PhotoURL,tmpfPhone,tmpfaddress);
 
 
-                                    }
-                                    // callback(PhotoURL);
 
-                                    // printmarker(tmpName,tmpLoc,photourl);
-                                  }
+                            }
+                            // callback(PhotoURL);
 
-                            });
+                            // printmarker(tmpName,tmpLoc,photourl);
+                          }
+
+                    });
                           }
 
 
@@ -386,7 +345,7 @@
 
 
 
-        function printmarker(printName,printLoc,printphoto){
+        function printmarker(printName,printLoc,printphoto,printfphone,printfaddress){
 
               var image =null;
                 // console.log(printName);
@@ -422,7 +381,7 @@
               var infowindow = new google.maps.InfoWindow({
                   // content : testcontent
                   // content: '<div class="scrollFix">'+'</div>'
-                  // Width: 300
+                  maxWidth: 300
               });
 
 
@@ -437,8 +396,8 @@
                        title: 'Click to zoom',
                       //  info: '<IMG BORDER="0" ALIGN="Left" SRC="marker/purple.png">',
                       //  info: MuseumName[i]
-                      info :'<div class = "MarkerPopUp" style="width: 300px;">'+'<IMG BORDER="0" ALIGN="Left" SRC="'+ printphoto[i] +'">' +'<br><br><br>'+  printName[i] +'<br><br>'+ '<button id="addbutton" type="button">Add</button>'+'<button id="infobutton" type="button">Info</button>'+'</div>'
-                      // info :'<div class = "MarkerPopUp" style="width: 300px;">'+'<IMG BORDER="0" ALIGN="Left" SRC="marker/purple.png">' +'<br><br><br>'+  printName[i] +'<br><br>'+ '<button id="addbutton" type="button">Add</button>'+'<button id="infobutton" type="button">Info</button>'+'</div>'
+                      info :'<div class = "MarkerPopUp" style="width: 300px; ">'+'<IMG BORDER="0" ALIGN="Left" SRC="'+ printphoto[i] +'">' +'<br>'+  printName[i] +'<br><br>'+ printfphone[i]  +'<br><br>'+ printfaddress[i] +'<br><br>'+'<button id="addbutton" type="button">Add</button>'+'<button id="infobutton" type="button">Info</button>'+'</div>'+'<br>'
+       
                    });
 
 
@@ -458,6 +417,7 @@
                        infowindow.setContent(this.info);
                        infowindow.open(map, this);
                         var themarker = this;
+                        //alert('test1');
                         // var tmpObjectPosition = this.position;
                         // param1: tmpObjectPosition,
                        $("#addbutton").click({ param1: themarker}, function(){
@@ -465,11 +425,16 @@
                            usercollect.push(themarker.position);
                            collectname.push(themarker.info);
                            infowindow.close();
+                           console.log(collectname);
+
                           // alert(themarker.info);
                         });
 
-                        $("#infobutton").click(function() {
-                          // alert("teset!");
+                        $("#infobutton").click({ param1: themarker}, function() {
+                            
+                           $("#panelinfo").html(" ");
+                           $("#panelinfo").html(themarker.info);
+
                           $("#mypanel").toggle( "slide",{direction:'right'}, 1000 );
                         });
 
