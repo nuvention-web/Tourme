@@ -14,11 +14,11 @@
     <style type="text/css">
         /*html, body, */
         #map-canvas{
-          width:700px ;
+          width:500px ;
           height: 700px;
           margin: 0;
           padding: 0;
-          /*float:left;*/
+          float:left;
           z-index: 1;
         }
 
@@ -76,13 +76,71 @@
           <button id="refresh" type="button" onclick="initialize2()">Refresh</button>
        </div>
 
-       <div id="map-canvas"></div>
+        <div id="map-canvas" ></div>
+
+       <br><br>
+
+       
+
+       <div id="control_panel" style="float:right;width:30%;text-align:left;padding-top:20px">
+    <div style="margin:20px;border-width:px;">
+
+    <center><b>Travel Mode:</b>
+    <select id="mode" style="width:100%" onchange="calcRoute();">
+      <option value="DRIVING">Driving</option>
+      <option value="WALKING">Walking</option>
+      <option value="BICYCLING">Bicycling</option>
+      <option value="TRANSIT">Transit</option>
+    </select>
 
 
-
-
-
-
+    <b>Start:</b>
+    <select id="start">
+      <option value="Northwestern Law School">Northwestern Law School</option>
+            <option value="Navy Pier, IL">Navy Pier</option>
+      <option value="Chicago, IL">Chicago, IL</option>
+      <option value="Northwestern University">Northwestern</option>
+      <option value="1019 Dempster Street, Evanston, IL 60201">Dempster</option>
+        <option value="University of Chicago, Chicago, IL">U of Chicago</option>
+      <option value="University of Illinois at Chicago">UIC</option>
+      <option value="Depaul University, IL">Depaul</option>
+      
+    </select>
+    <br>
+    <b>Waypoints:</b> <br>
+    <select multiple id="waypoints">
+      <option value="Northwestern Law School">Northwestern Law School</option>
+            <option value="Navy Pier, IL">Navy Pier</option>
+      <option value="Chicago, IL">Chicago, IL</option>
+      <option value="Northwestern University">Northwestern</option>
+      <option value="Oak Lawn, IL">Oak Lawn, IL</option>
+      <option value="University of Chicago, Chicago, IL">U of Chicago</option>
+      <option value="1019 Dempster Street, Evanston, IL 60201">Dempster</option>
+      <option value="University of Illinois at Chicago">UIC</option>
+      <option value="Depaul University, IL">Depaul</option>
+      
+    </select>
+    <br>
+    <b>End:</b>
+    <select id="end">
+      <option value="1019 Dempster Street, Evanston, IL 60201">Dempster</option>
+      <option value="Chicago, IL">Chicago, IL</option>
+      <option value="Northwestern Law School">Northwestern Law School</option>
+            <option value="Navy Pier, IL">Navy Pier</option>
+      <option value="Chicago, IL">Chicago, IL</option>
+      <option value="Northwestern University">Northwestern</option>
+      <option value="Oak Lawn, IL">Oak Lawn, IL</option>
+      <option value="University of Chicago, Chicago, IL">U of Chicago</option>
+      <option value="University of Illinois at Chicago">UIC</option>
+      <option value="Depaul University, IL">Depaul</option>
+      
+    </select>
+    <br><br>
+      <input type="submit" onclick="calcRoute();">
+    </div>
+    <div id="wishlist" ></div>
+    <div id="directions"></div>
+    </div>
     </body>
 
 
@@ -129,7 +187,6 @@
         var foodphlinks =[];
         var foodphone = [];
         var foodaddress = [];
-
 
 
         var AEName = [];
@@ -201,9 +258,6 @@
 
                 foursquare(querynear,categories,AEName,AELoc,AEjson,AElinks,AEphone,AEaddress);
               }
-
-
-
 
 
       //------------Include Foursquare API----------------------------//
@@ -426,6 +480,27 @@
                            collectname.push(themarker.info);
                            infowindow.close();
                            console.log(collectname);
+
+                           $(document).ready(function() {
+                                   var countary = 0 
+                                   var mywishlist = collectname;
+                                   var vPool="";
+                                      jQuery.each(mywishlist, function(i, val) {
+                                        var n = collectname[i].length;
+                                        //alert(n);
+
+                                        var res = val.substr(0, n-114);
+                                        vPool += "<br><br>"+res + "<br><br>";
+                                        console.log(res);
+                                      });
+                                  
+                                     //We add vPool HTML content to #myDIV
+                                     $('#wishlist').html(vPool);
+                                     
+                              });
+
+
+
 
                           // alert(themarker.info);
                         });

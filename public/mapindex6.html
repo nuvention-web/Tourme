@@ -17,9 +17,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="multiselect/assets/prettify.js"></script>
-    <script type="text/javascript" src="multiselect/src/jquery.multiselect.js"></script>
-
-
+    // <!-- <script type="text/javascript" src="multiselect/src/jquery.multiselect.js"></script> -->
 
   </head>
 
@@ -31,18 +29,25 @@
 
         }
 
+          #control_panel{
+          margin: 0;
+          padding: 0;
+          float:left;
+          z-index: 1;
+        }
+
         #map-canvas{
-          width:620px ;
+          width:720px ;
           height: 700px;
           margin: 0;
           padding: 0;
-          /*float:left;*/
+          float:left;
           z-index: 1;
         }
         #mypanel {
           right:0;
           position:fixed;
-          /*float:right;*/
+          float:left;
           width: 600px;
           height: 400px;
           background-color: rgba(0, 0, 0, 0.6);
@@ -118,19 +123,13 @@
         width:250px;
       }
 
-
-
-
-
     </style>
 
     <body>
 
 <div id="container">
-
-
-      <div id="mypanel" >
-        <button id="closepanel" type="button" align="right" style="vertical-align: top;" ></button>
+      <div id="mypanel" align="left" >
+        <button id="closepanel" type="button" align="left" style="vertical-align: top;" ></button>
         <p id = "panelinfo" > </p>
       </div>
 
@@ -171,14 +170,81 @@
               <button id="refresh" type="button" onclick="initialize2()">Refresh</button>
 
        </div>
+       <br><br>
 
 
 
-       <div id="map-canvas"></div>
+<div id="map-canvas"></div>
+
+
+<div id="control_panel" style="float:right;width:30%;text-align:left;padding-top:20px">
+    <div style="margin:20px;border-width:px;">
+
+     <p id="demo"></p>
+
+    <center><b>Travel Mode:</b>
+    <select id="mode" onchange="calcRoute();">
+
+      <option value="DRIVING">Driving</option>
+      <option value="WALKING">Walking</option>
+      <option value="BICYCLING">Bicycling</option>
+      <option value="TRANSIT">Transit</option>
+    </select>
+     <br>
+
+
+    <b>Start:</b>
+    <select id="startwithme">
+
+   <option value="Northwestern Law School">Northwestern Law School</option>
+            <option value="Navy Pier, IL">Navy Pier</option>
+      <option value="Chicago, IL">Chicago, IL</option>
+      <option value="Northwestern University">Northwestern</option>
+      <option value="1019 Dempster Street, Evanston, IL 60201">Dempster</option>
+        <option value="University of Chicago, Chicago, IL">U of Chicago</option>
+      <option value="University of Illinois at Chicago">UIC</option>
+      <option value="Depaul University, IL">Depaul</option>
+
+    </select>
+    <br>
+    <b>Waypoints:</b> <br>
+    <select multiple id="waypoints">
+
+   <option value="Northwestern Law School">Northwestern Law School</option>
+            <option value="Navy Pier, IL">Navy Pier</option>
+      <option value="Chicago, IL">Chicago, IL</option>
+      <option value="Northwestern University">Northwestern</option>
+      <option value="1019 Dempster Street, Evanston, IL 60201">Dempster</option>
+        <option value="University of Chicago, Chicago, IL">U of Chicago</option>
+      <option value="University of Illinois at Chicago">UIC</option>
+      <option value="Depaul University, IL">Depaul</option>
+
+
+    </select>
+    <br>
+    <b>End:</b>
+    <select id="endtour">
+
+
+   <option value="Northwestern Law School">Northwestern Law School</option>
+            <option value="Navy Pier, IL">Navy Pier</option>
+      <option value="Chicago, IL">Chicago, IL</option>
+      <option value="Northwestern University">Northwestern</option>
+      <option value="1019 Dempster Street, Evanston, IL 60201">Dempster</option>
+        <option value="University of Chicago, Chicago, IL">U of Chicago</option>
+      <option value="University of Illinois at Chicago">UIC</option>
+      <option value="Depaul University, IL">Depaul</option>
+
+    </select>
+    <br><br>
+      <input type="submit" onclick="calcRoute();">
+    </div><br><br>
+    <h1><center><b>My Itinerary:</h1></center>
+    <div id="wishlist" ><center>You don't have anything on your list.</center></b></div><br>
+    <div id="directions">Directions</div>
+    </div>
+       
 </div>
-
-
-
 
 
 
@@ -199,7 +265,7 @@
     var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     // multi select
     $(function(){
-      $("select").multiselect();
+      // $("select").multiselect();
     });
 
     var resultphoto ;
@@ -262,6 +328,14 @@
         var tmpfPhone = [];
         var tmpfaddress = [];
         //-----------button search---------------//
+
+        var directionsDisplay;
+        var directionsService = new google.maps.DirectionsService();
+        var map;
+
+
+        var OptionsArray = [];
+
         function initialize() {
               // ---------clean all content in array-------------------//
               usercollect = [ ];
@@ -293,10 +367,6 @@
 
 
             // -------------------------------near return latitude longtitude--------------------------------------//
-
-
-
-
 
             // ---------------------------------------------------------------------//
 
@@ -339,7 +409,8 @@
               // firstjson(tmpName,tmpLoc,PhotoJson,PhotoURL,foursq);
                 tmpfPhone = [];
                 tmpfaddress = [ ];
-
+                WishListAddress = [];
+                WishListName = [];
                 var getplaceName = document.getElementById('Near').value;
 
 
@@ -391,13 +462,13 @@
 
                         var resultid = json['response']['groups'][0]['items'][i]['venue'].id;
                         var tmpPhotoJason = 'https://api.foursquare.com/v2/venues/'+ resultid +'/photos?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150113';
-                        alert(tmpPhotoJason);
+                        //alert(tmpPhotoJason);
                         PhotoJson.push(tmpPhotoJason);
                         //console.log(PhotoJson);
 
                       }
-                      console.log(tmpName);
-                      console.log(tmpLoc);
+                      // console.log(tmpName);
+                      // console.log(tmpLoc);
 
                       var photoprefixarry =[];
 
@@ -430,10 +501,7 @@
                             counter = counter +1;
                             if(counter ==10){
 
-
                                 printmarker(tmpName,tmpLoc,PhotoURL,tmpfPhone,tmpfaddress);
-
-
 
                             }
                             // callback(PhotoURL);
@@ -443,8 +511,6 @@
 
                     });
                           }
-
-
 
                 }
 
@@ -474,9 +540,9 @@
 
         // ----------------------------------------------------------------------//
 
-        var myLatlng = new google.maps.LatLng(41.8369,-87.6847);
+        var myLatlng = new google.maps.LatLng(41.8794,-87.6239);
         var mapOptions = {
-          zoom: 12,
+          zoom: 14,
           center: myLatlng
         }
 
@@ -486,7 +552,6 @@
     // function printmap(printName,printLoc){
 
         //  printmarker(printLoc);
-
 
 
         function printmarker(printName,printLoc,printphoto,printfphone,printfaddress){
@@ -514,9 +579,6 @@
                 };
               }
 
-
-
-
               var infowindow = new google.maps.InfoWindow({
                   // content : testcontent
                   // content: '<div class="scrollFix">'+'</div>'
@@ -535,21 +597,9 @@
                        title: 'Click to zoom',
                       //  info: '<IMG BORDER="0" ALIGN="Left" SRC="marker/purple.png">',
                       //  info: MuseumName[i]
-                      info :'<div class = "MarkerPopUp" style="width: 300px; ">'+'<IMG BORDER="0" ALIGN="Left" SRC="'+ printphoto[i] +'">' +'<br>'+  printName[i] +'<br><br>'+ printfphone[i]  +'<br><br>'+ printfaddress[i] +'<br><br>'+'<button id="addbutton" type="button">Add</button>'+'<button id="infobutton" type="button">Info</button>'+'</div>'+'<br>'
+                      info :'<div class = "MarkerPopUp" style="width: 300px; ">'+'<IMG BORDER="0" ALIGN="Left" SRC="'+ printphoto[i] +'">' +'<br><div class = "getPrintName">'+  printName[i] +'</div><p></p><br>'+ printfphone[i]  +'<br><br><div class = "getprintfaddress">'+ printfaddress[i] +'</div><br><br>'+'<button id="addbutton" type="button">Add</button>'+'<button id="infobutton" type="button">Info</button>'+'</div>'+'<br>'
 
                    });
-
-
-
-
-                  //  google.maps.event.addListener(marker, 'mouseover', function() {
-                   //
-                  //  });
-
-                  //  google.maps.event.addListener(marker, 'mouseout', function() {
-                  //    infowindow.close();
-                  //  });
-                  // onclick="addtolist()"
 
                      google.maps.event.addListener(marker, 'click', function() {
                        //this.setIcon("marker/red.png");
@@ -559,15 +609,111 @@
                         //alert('test1');
                         // var tmpObjectPosition = this.position;
                         // param1: tmpObjectPosition,
-                       $("#addbutton").click({ param1: themarker}, function(){
+                        $("#addbutton").click({ param1: themarker}, function(){
                            themarker.setIcon("marker/red.png");
                            usercollect.push(themarker.position);
                            collectname.push(themarker.info);
                            infowindow.close();
+                           //console.log(collectname);
+
+                           $(document).ready(function() {
+                                   var countary = 0 
+                                   var mywishlist = collectname;
+                                   var vPool="";
+                                      jQuery.each(mywishlist, function(i, val) {
+                                        var n = collectname[i].length;
+                                        //alert(n);
+
+                                        var res = val.substr(0, n-114);
+                                        vPool += "<center><br><br><br>"+ res + "<br><br><br></center>";
+
+                                         //console.log(res);
+
+                                       //console.log(val);
+                                      
+                                      //////////Trim the string to exact address////////
+                                        var getaddressindex1 = val.indexOf("getprintfaddress");
+                                        var getaddressindex2 = getaddressindex1+18;
+                                        var printfaddress_result = val.substr(getaddressindex2, n);
+                                        var finaladdresslength = printfaddress_result.length;
+                                        var finalfaddress = printfaddress_result.substr(0,finaladdresslength-124);// 124 characters from address to add Info button div
+        
+
+                                        WishListAddress.push(finalfaddress);
+                                 
+
+                                       ///////// Trim the string to exact Name//////////////
+                                        var getNameindextail =  val.indexOf("</div><p></p><br>");
+                                        var getNameindexhead1 = val.indexOf("getPrintName");
+                                        var getNameindexhead2 = getNameindexhead1+14;
+                                  
+                                        var printname_result = val.substr(getNameindexhead2,getNameindextail-getNameindexhead2);
+
+                                        WishListName.push(printname_result);
+
+                                        //////////////Start of Filtering duplicated array///////
+
+                                                  var unique = function(origArr) {
+                                                        var newArr = [],
+                                                            origLen = origArr.length,
+                                                            found, x, y;
+
+                                                        for (x = 0; x < origLen; x++) {
+                                                            found = undefined;
+                                                            for (y = 0; y < newArr.length; y++) {
+                                                                if (origArr[x] === newArr[y]) {
+                                                                    found = true;
+                                                                    break;
+                                                                }
+                                                            }
+                                                            if (!found) {
+                                                                newArr.push(origArr[x]);
+                                                            }
+                                                        }
+                                                        return newArr;
+                                                    }
+
+    
+                                            var UniqueWishListName = unique(WishListName);
+                                            var UniqueWishListAddress = unique(WishListAddress);
+
+                                            // console.log(UniqueWishListName);
+                                            // console.log(UniqueWishListAddress);
+                                  
+                                        ///////////////End of Filtering duplicated array///////
+                                          var countme = 0;
+                                          var option = '';
+                                          for (i=0;i<UniqueWishListName.length;i++){
+                                             option += '<option value="'+ UniqueWishListAddress[UniqueWishListName.length-1] + '">' + UniqueWishListName[UniqueWishListName.length-1] + '</option>';
+                                             console.log(UniqueWishListName.length);
+
+                                          }
+                                          countme++
+                                          console.log(countme);
+                     
+                                          OptionsArray.push(option);
+                                          console.log(i);
+                                          var uniqueOptionArray = unique(OptionsArray);
+                                          console.log(uniqueOptionArray);
+
+                                          $('#startwithme').append(uniqueOptionArray);
+                                          $('#waypoints').append(uniqueOptionArray);
+                                          $('#endtour').append(uniqueOptionArray);
+                                        
+                                      
+                                      });
+                                  
+                                     //We add vPool HTML content to #myDIV
+                                     $('#wishlist').html(vPool);
+
+                                
+                                     
+                              });
 
 
                           // alert(themarker.info);
                         });
+
 
                         $("#infobutton").click({ param1: themarker}, function() {
 
@@ -578,36 +724,33 @@
                         });
 
                      });
-
-
              }
-
         }
-
       // }
-
-
-
       google.maps.event.addDomListener(window, 'load', initialize);
 
     }
 
-
     //-----------------------------------refresh button --------------------------//
+
 
     function initialize2() {
       // alert("test");
       //  alert(usercollect.length);
 
-        var myLatlng = new google.maps.LatLng(41.8369,-87.6847);
-        var mapOptions = {
-          zoom:12,
+      directionsDisplay = new google.maps.DirectionsRenderer();
+      var myLatlng = new google.maps.LatLng(41.8794,-87.6239);
+      var mapOptions = {
+          zoom:13,
           center: myLatlng
         }
+
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        directionsDisplay.setMap(map);
+
+  
         var infowindow = new google.maps.InfoWindow();
-
-        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
+ 
         for(i=0 ; i<usercollect.length ; i++)   {
              var marker = new google.maps.Marker({
                  position: usercollect[i],
@@ -623,14 +766,58 @@
             google.maps.event.addListener(marker, 'mouseout', function() {
                 infowindow.close();
             });
-
-
        }
-      google.maps.event.addDomListener(window, 'load', initialize2);
+  
     }
 
+    /////////////Google Map Calculating////////
 
-    </script>
+      function calcRoute() {
+        var start = document.getElementById('start').value;
+        var end = document.getElementById('end').value;
+
+        var waypts = [];
+        var checkboxArray = document.getElementById('waypoints');
+        for (var i = 0; i < checkboxArray.length; i++) {
+          if (checkboxArray.options[i].selected == true) {
+            waypts.push({
+                location:checkboxArray[i].value,
+                stopover:true});
+          }
+        }
+
+        var selectedMode = document.getElementById('mode').value;
+        var request = {
+            origin: start,
+            destination: end,
+            waypoints: waypts,
+            optimizeWaypoints: false,
+            travelMode: google.maps.TravelMode[selectedMode]
+        };
+
+        directionsService.route(request, function(response, status) {
+          if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+            
+            var route = response.routes[0];
+
+
+
+            directionsDisplay.setPanel(document.getElementById("directions"));
+
+             directionsService.route(request, function(response, status) {
+              if (status == google.maps.DirectionsStatus.OK) {
+                  directionsDisplay.setDirections(response);
+              }
+          });
+          }
+        });
+
+        initialize2();
+      }
+google.maps.event.addDomListener(window, 'load', initialize2);
+
+</script>
 
 
 

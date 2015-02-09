@@ -17,7 +17,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="multiselect/assets/prettify.js"></script>
-    // <!-- <script type="text/javascript" src="multiselect/src/jquery.multiselect.js"></script> -->
+    <!-- <script type="text/javascript" src="multiselect/src/jquery.multiselect.js"></script> -->
 
   </head>
 
@@ -167,7 +167,7 @@
               </div>
 
               <button id="search" type="button" onclick="initialize()">Search</button>
-              <button id="refresh" type="button" onclick="initialize2()">Refresh</button>
+              <button id="refresh" type="button" onclick="calcRoute()">Get directions!</button>
 
        </div>
        <br><br>
@@ -237,11 +237,11 @@
       
     </select>
     <br><br>
-      <input type="submit" onclick="calcRoute();">
+      <!-- <input type="submit" onclick="calcRoute();"> -->
     </div><br><br>
     <h1><center><b>My Itinerary:</h1></center>
     <div id="wishlist" ><center>You don't have anything on your list.</center></b></div><br>
-    <div id="directions">Directions</div>
+    <div id="directions"></div>
     </div>
        
 </div>
@@ -699,14 +699,14 @@
                                           var option = '';
                                           for (i=0;i<UniqueWishListName.length;i++){
                                              option += '<option value="'+ UniqueWishListAddress[UniqueWishListName.length-1] + '">' + UniqueWishListName[UniqueWishListName.length-1] + '</option>';
-                                             console.log(UniqueWishListName.length);
+                                             // console.log(UniqueWishListName.length);
 
                                           }
                                           countme++
-                                          console.log(countme);
+                                          // console.log(countme);
                      
                                           OptionsArray.push(option);
-                                          console.log(i);
+                                          // console.log(i);
                                           var uniqueOptionArray = unique(OptionsArray);
                                           console.log(uniqueOptionArray);
 
