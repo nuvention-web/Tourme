@@ -147,9 +147,26 @@
         <p id = "panelinfo" > </p>
       </div>
 
-      <div id = "logo_blue">
+      <div 
+      id = "logo_blue"
+      class="fb-like"
+      data-share="true"
+      data-width="250"
+      data-show-faces="true"
+      >
         <img src="./images/bluelogo.png" height="27">
+        <br><br>
+        <fb:login-button max_rows="1" size="small" show_faces="true" auto_logout_link="true"></fb:login-button>
+        <br><br>
+        <div id="fb-root"></div>
       </div>
+
+      <!-- facebook log in  -->
+
+
+
+
+      <!-- facebook log in  -->
 
       <div id="topbar">
 
@@ -257,6 +274,7 @@
      -->
      <br><br>
     <h1><center><b>My Itinerary:</h1></center>
+
     <center><div id="wishlist" class="mousescroll">You don't have anything on your list.</b></div></center><br>
     <div id="directions"></div>
 </div>
@@ -937,12 +955,74 @@ function onload(){
 var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
 
+
+
   // alert(alertlat);
   // alert(alertlng);
 }
 
+function fbonload()
+{
+// Facebook Login function //
 
+
+(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1530838587170307&version=v2.0";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1530838587170307',
+        xfbml      : true,
+        version    : 'v2.2'
+      });
+
+    };
+
+        FB.api(
+    "/me/picture",
+    {
+      "redirect": false,
+      "height": "100",
+      "type": "normal",
+      "width": "100"
+    },
+
+
+    function (response) {
+      if (response && !response.error) {
+      }
+    }
+    );
+    /* make the API call */
+    FB.api(
+    "/me",
+    function (response) {
+      if (response && !response.error) {
+        /* handle the result */
+      }
+    }
+    );
+// FB login Function//
+
+}
+fbonload()
+
+(function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
 </script>
+
+
 
 
 
