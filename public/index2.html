@@ -12,12 +12,13 @@
 
     <link rel="stylesheet" type="text/css" href="multiselect/jquery.multiselect.css" />
     <link rel="stylesheet" type="text/css" href="multiselect/assets/style.css" />
+    <link rel="stylesheet" type="text/css" href="multiselect/assets/scrollbar.js" />
     <link rel="stylesheet" type="text/css" href="multiselect/assets/prettify.css" />
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="multiselect/assets/prettify.js"></script>
-    <!-- <script type="text/javascript" src="multiselect/src/jquery.multiselect.js"></script> -->
+    <script type="text/javascript" src="multiselect/src/jquery.multiselect.js"></script>rr
 
   </head>
 
@@ -44,6 +45,19 @@
           float:left;
           z-index: 1;
         }
+
+        div#wishlist {
+              width: 450px;
+              height: 650px;
+
+          }
+          div.mousescroll {
+              overflow: hidden;
+          }
+          div.mousescroll:hover {
+              overflow-y: scroll;
+          }
+
         #mypanel {
           right:0;
           position:fixed;
@@ -167,7 +181,7 @@
               </div>
 
               <button id="search" type="button" onclick="initialize()">Search</button>
-              <button id="refresh" type="button" onclick="calcRoute()">Get directions!</button>
+              <button id="refresh" type="button" onclick="initialize2()">Get directions!</button>
 
        </div>
        <br><br>
@@ -242,16 +256,11 @@
      -->
      <br><br>
     <h1><center><b>My Itinerary:</h1></center>
-    <div id="wishlist" ><center>You don't have anything on your list.</center></b></div><br>
+    <center><div id="wishlist" class="mousescroll">You don't have anything on your list.</b></div></center><br>
     <div id="directions"></div>
-   
-       
 </div>
 
-
-
     </body>
-
 
 
     <script type="text/javascript">
@@ -267,7 +276,7 @@
     var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     // multi select
     $(function(){
-      // $("select").multiselect();
+       $("select").multiselect();
     });
 
     var resultphoto ;
