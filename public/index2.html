@@ -9,19 +9,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&key=AIzaSyDBlU3aP3_tALovlxvjetUCran3lsGrVv4"></script>
 
-
     <link rel="stylesheet" type="text/css" href="multiselect/jquery.multiselect.css" />
     <link rel="stylesheet" type="text/css" href="multiselect/assets/style.css" />
     <link rel="stylesheet" type="text/css" href="multiselect/assets/scrollbar.js" />
     <link rel="stylesheet" type="text/css" href="multiselect/assets/prettify.css" />
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
+
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="multiselect/assets/prettify.js"></script>
-    <script type="text/javascript" src="multiselect/src/jquery.multiselect.js"></script>rr
+    <script type="text/javascript" src="multiselect/src/jquery.multiselect.js"></script>
 
   </head>
-
 
     <style type="text/css">
         /*html, body, */
@@ -61,8 +60,8 @@
         #mypanel {
           right:0;
           position:fixed;
-          float:left;
-          width: 600px;
+          float:center;
+          width: 400px;
           height: 400px;
           background-color: rgba(0, 0, 0, 0.6);
           border: 1px solid ;
@@ -70,7 +69,8 @@
           margin:0;
           padding:0;
           z-index: 2;
-          font-size: 3em;
+          font-size: 1.5em;
+          color:white;
       }
 
 
@@ -182,6 +182,7 @@
 
               <button id="search" type="button" onclick="initialize()">Search</button>
               <button id="refresh" type="button" onclick="initialize2()">Get directions!</button>
+              <button id="clear" type="button" onclick="clearlocalstorage()">Clear your Itineary</button>
 
        </div>
        <br><br>
@@ -265,6 +266,7 @@
 
     <script type="text/javascript">
 
+    document.getElementById("wishlist").innerHTML = localStorage.getItem("vPoolLocalStorage")
     var autocomplete = new google.maps.places.Autocomplete(Near);
 
     var myLatlng = new google.maps.LatLng(41.8369,-87.6847);
@@ -348,6 +350,8 @@
 
         function initialize() {
               // ---------clean all content in array-------------------//
+             localStorage.removeItem("Getlat");
+             localStorage.removeItem("Getlng");
               usercollect = [ ];
               collectname = [ ];
 
@@ -441,6 +445,8 @@
 
                     //  alert(foursq);
 
+                    localStorage.setItem("Getlat", lat);
+                    localStorage.setItem("Getlng", lng);
 
                $.ajax({
                   type: 'GET',
@@ -458,9 +464,13 @@
                         var resultlng = resultlocation.lng;
                         var resultformattedaddress = resultlocation.formattedAddress;
 
+
                         var resultcontact = json['response']['groups'][0]['items'][i]['venue'].contact;
                         var resultformattedphone = resultcontact.formattedPhone;
-
+                        // var resultstats = json['response']['groups'][0]['items'][i]['stats'];
+                        // var resultcheckincount = resultstats.checkinsCount; 
+                        // console.log(resultstats);
+                        // console.log(resultcheckincount);
                         var tmpmarker = new google.maps.LatLng(resultlat,resultlng)
 
                         tmpName.push(resultname);
@@ -549,10 +559,12 @@
 
 
         // ----------------------------------------------------------------------//
+        var passlat = localStorage.getItem("Getlat");
+        var passlng = localStorage.getItem("Getlng");
 
-        var myLatlng = new google.maps.LatLng(41.8794,-87.6239);
+        var myLatlng = new google.maps.LatLng(passlat,passlng);
         var mapOptions = {
-          zoom: 14,
+          zoom: 12,
           center: myLatlng
         }
 
@@ -652,6 +664,8 @@
                                         var res = val.substr(0, n-114);
                                         vPool += "<center><br><br><br>"+res + "<br><br><br></center>";
 
+
+
                                          //console.log(res);
 
                                        //console.log(val);
@@ -678,25 +692,25 @@
 
                                         //////////////Start of Filtering duplicated array///////
 
-                                                  var unique = function(origArr) {
-                                                        var newArr = [],
-                                                            origLen = origArr.length,
-                                                            found, x, y;
+                                          var unique = function(origArr) {
+                                                var newArr = [],
+                                                    origLen = origArr.length,
+                                                    found, x, y;
 
-                                                        for (x = 0; x < origLen; x++) {
-                                                            found = undefined;
-                                                            for (y = 0; y < newArr.length; y++) {
-                                                                if (origArr[x] === newArr[y]) {
-                                                                    found = true;
-                                                                    break;
-                                                                }
-                                                            }
-                                                            if (!found) {
-                                                                newArr.push(origArr[x]);
-                                                            }
+                                                for (x = 0; x < origLen; x++) {
+                                                    found = undefined;
+                                                    for (y = 0; y < newArr.length; y++) {
+                                                        if (origArr[x] === newArr[y]) {
+                                                            found = true;
+                                                            break;
                                                         }
-                                                        return newArr;
                                                     }
+                                                    if (!found) {
+                                                        newArr.push(origArr[x]);
+                                                    }
+                                                }
+                                                return newArr;
+                                            }
 
     
                                             var UniqueWishListName = unique(WishListName);
@@ -719,7 +733,7 @@
                                           OptionsArray.push(option);
                                           // console.log(i);
                                           var uniqueOptionArray = unique(OptionsArray);
-                                          console.log(uniqueOptionArray);
+                                          // console.log(uniqueOptionArray);
 
                                           $('#start').append(uniqueOptionArray);
                                           $('#waypoints').append(uniqueOptionArray);
@@ -730,10 +744,10 @@
                                   
                                      //We add vPool HTML content to #myDIV
                                      $('#wishlist').html(vPool);
+                                     localStorage.setItem("vPoolLocalStorage", vPool);
 
                                      
                               });
-
 
                           // alert(themarker.info);
                         });
@@ -742,7 +756,32 @@
                         $("#infobutton").click({ param1: themarker}, function() {
 
                            $("#panelinfo").html(" ");
-                           $("#panelinfo").html(themarker.info);
+                           var info = themarker.info;
+                           
+                           var markerinfo = (themarker.info).length;
+                           // alert(markerinfo);
+
+                            var res = info.substring(0,markerinfo-114);
+
+                            var surl = "http://tourme.parseapp.com/index2.html";
+
+                            var MyPanelresult = '<a href="http://www.facebook.com/sharer.php?u='
+                                    +surl+
+                                    //This is for sharing
+                                    '"><img src="http://www.simplesharebuttons.com/images/somacro/facebook.png" width="60px" alt="Facebook" /></a><a href="https://plus.google.com/share?url='
+                                    +surl+
+                                    '" target="_blank"><img width="60px" src="http://www.simplesharebuttons.com/images/somacro/google.png" alt="Google" /></a><a href="http://www.linkedin.com/shareArticle?mini=true&url='
+                                    +surl+
+                                    '"><img width="60px"src="http://www.simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" /></a><a href="http://reddit.com/submit?url='
+                                    +surl+
+                                    '"><img width="60px"src="http://www.simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit" /></a><a href="http://twitter.com/share?url='
+                                    +surl+
+                                    '"><img width="60px"src="http://www.simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" /></a><br><br>' + res
+
+                           $("#panelinfo").html(MyPanelresult);
+
+                           // console.log(res);
+
 
                           $("#mypanel").toggle( "slide",{direction:'right'}, 1000 );
                         });
@@ -790,55 +829,61 @@
                 infowindow.close();
             });
        }
-  
+    google.maps.event.addDomListener(window, 'load', initialize2);
     }
 
-      function calcRoute() {
 
-        document.getElementById('directions').innerHTML = "";
-        var start = document.getElementById('start').value;
-        var end = document.getElementById('end').value;
+      // function calcRoute() {
 
-        var waypts = [];
-        var checkboxArray = document.getElementById('waypoints');
-        for (var i = 0; i < checkboxArray.length; i++) {
-          if (checkboxArray.options[i].selected == true) {
-            waypts.push({
-                location:checkboxArray[i].value,
-                stopover:true});
-          }
-        }
+      //   document.getElementById('directions').innerHTML = "";
+      //   var start = document.getElementById('start').value;
+      //   var end = document.getElementById('end').value;
 
-        var selectedMode = document.getElementById('mode').value;
-        var request = {
-            origin: start,
-            destination: end,
-            waypoints: waypts,
-            optimizeWaypoints: false,
-            travelMode: google.maps.TravelMode[selectedMode]
-        };
+      //   var waypts = [];
+      //   var checkboxArray = document.getElementById('waypoints');
+      //   for (var i = 0; i < checkboxArray.length; i++) {
+      //     if (checkboxArray.options[i].selected == true) {
+      //       waypts.push({
+      //           location:checkboxArray[i].value,
+      //           stopover:true});
+      //     }
+      //   }
 
-        directionsService.route(request, function(response, status) {
-          if (status == google.maps.DirectionsStatus.OK) {
-            directionsDisplay.setDirections(response);
+      //   var selectedMode = document.getElementById('mode').value;
+      //   var request = {
+      //       origin: start,
+      //       destination: end,
+      //       waypoints: waypts,
+      //       optimizeWaypoints: false,
+      //       travelMode: google.maps.TravelMode[selectedMode]
+      //   };
+
+      //   directionsService.route(request, function(response, status) {
+      //     if (status == google.maps.DirectionsStatus.OK) {
+      //       directionsDisplay.setDirections(response);
             
-            var route = response.routes[0];
+      //       var route = response.routes[0];
 
+      //       directionsDisplay.setPanel(document.getElementById("directions"));
 
+      //        directionsService.route(request, function(response, status) {
+      //         if (status == google.maps.DirectionsStatus.OK) {
+      //             directionsDisplay.setDirections(response);
+      //         }
+      //     });
+      //     }
+      //   });
 
-            directionsDisplay.setPanel(document.getElementById("directions"));
+      //   initialize2();
+      // }
+// google.maps.event.addDomListener(window, 'load', initialize2);
 
-             directionsService.route(request, function(response, status) {
-              if (status == google.maps.DirectionsStatus.OK) {
-                  directionsDisplay.setDirections(response);
-              }
-          });
-          }
-        });
+function clearlocalstorage(){
+localStorage.removeItem("vPoolLocalStorage");
+document.getElementById('wishlist').innerHTML = "You don't have anything on your list.";
 
-        initialize2();
-      }
-google.maps.event.addDomListener(window, 'load', initialize2);
+}
+
 
 </script>
 
