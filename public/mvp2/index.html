@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TourMee</title>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&key=AIzaSyDBlU3aP3_tALovlxvjetUCran3lsGrVv4"></script>
+
+    <link rel="stylesheet" type="text/css" href="multiselect/jquery.multiselect.css" />
+    <link rel="stylesheet" type="text/css" href="multiselect/assets/style.css" />
+    <link rel="stylesheet" type="text/css" href="multiselect/assets/scrollbar.js" />
+    <link rel="stylesheet" type="text/css" href="multiselect/assets/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="multiselect/assets/prettify.js"></script>
+    <script type="text/javascript" src="multiselect/src/jquery.multiselect.js"></script>
+
+  </head>
+
+    <style type="text/css">
+        /*html, body, */
+        body{
+        margin:0;
+        padding:0;
+        }
+
+          #control_panel{
+          margin: 0;
+          padding: 0;
+          float:left;
+          z-index: 1;
+        }
+
+        #map-canvas{
+          width:720px ;
+          height: 600px;
+          margin: 0;
+          padding: 0;
+          float:left;
+          z-index: 1;
+        }
+
+        div#wishlist {
+            margin: 0;
+            padding: 0;
+              width: 450px;
+              height: 650px;
+
+          }
+          div.mousescroll {
+              overflow: hidden;
+          }
+          div.mousescroll:hover {
+              overflow-y: scroll;
+          }
+
+        #mypanel {
+          right:0;
+          position:fixed;
+          float:center;
+          width: 400px;
+          height: 400px;
+          background-color: rgba(0, 0, 0, 0.6);
+          border: 1px solid ;
+          display:none;
+          margin:0;
+          padding:0;
+          z-index: 2;
+          font-size: 1.5em;
+          color:white;
+
+      }
+
+
+      #logo_blue{
+        position:relative;
+        width:110px;
+        height:25px;
+        margin-left:30px ;
+        /*margin-top:20px;*/
+        padding-top:20px;
+        margin-bottom:10px;
+        /*background-color:rgba(0,255,0,0.5);*/
+      }
+
+
+      #container{
+        background-color: rgba(100,100,0,0.1);
+        height:900px;
+        width:1250px;
+        margin:0;
+        margin-left:auto;
+        margin-right:auto;
+
+      }
+
+
+      #topbar{
+        margin-top:10px;
+        width:100%;
+        background-color: rgba(0,0,0,0.3);
+        float:left;
+        height:70px;
+        padding:0;
+      }
+
+      #topbar div{
+        height:15px;
+        padding-left:15px;
+        margin:0;
+        float:left;
+      }
+
+      #topbar input{
+        border-radius:5px;
+        height:15px;
+        /*padding-left:15px;*/
+        margin:0;
+      }
+
+
+      #topbar p{
+        margin-top:13px;
+        margin-bottom:0px;
+      }
+
+      #search{
+        margin-top:27px;
+        margin-left:15px;
+      }
+
+      #refresh{
+        margin-top:27px;
+        margin-left:8px;
+      }
+
+      #Near{
+        width:250px;
+      }
+
+      .fb-like{
+
+        margin:0;
+        padding:0;
+        position: absolute;
+   left: 82%;
+   top: 0px;
+   z-index: 2;
+      }
+
+    </style>
+
+    <body>
+
+<div id="container">
+      <div id="mypanel" align="left" >
+        <button id="closepanel" type="button" align="left" style="vertical-align: top;" ></button>
+        <p id = "panelinfo" > </p>
+      </div>
+
+      <div id = "logo_blue">
+        <img src="./images/bluelogo.png" height="27">
+      </div>
+
+      <!-- facebook log in  -->
+    <div  class="fb-like"
+      data-share="true"
+      data-width="250"
+      data-show-faces="true">
+
+      <fb:login-button max_rows="1" size="small" show_faces="true" auto_logout_link="true"></fb:login-button>
+      <div id="fb-root"></div>
+    </div>
+
+
+
+      <!-- facebook log in  -->
+
+      <div id="topbar">
+
+              <div id="NearDiv">
+                <p>Near</p>
+                <input id="Near" value=""></input>
+              </div>
+              <!-- <img src="marker/gray.png" style="width:20px;height:20px"> -->
+              <!-- <img src="marker/gray.png" style="width:20px;height:20px"> -->
+              <div>
+                <p>Find</p>
+                <select title="Basic example" multiple="multiple" name="example-basic" size="5">
+                    <option id="option1">Museum   </option>
+                    <option id="option2">Food</option>
+                    <option id="option3">Music Venue</option>
+                    <option id="option4">Shopping</option>
+                    <option id="option5">Architecture</option>
+                </select>
+              </div>
+
+              <div>
+                <p>Near from</p>
+                <input id="Leave" value=""></input>
+              </div>
+
+              <div>
+                <p>End to</p>
+                <input id="End" value=""></input>
+              </div>
+
+              <button id="search" type="button" onclick="initialize3()">Search</button>
+              <button id="refresh" type="button" onclick="initialize2()">Get directions!</button>
+              <button id="clear" type="button" onclick="clearlocalstorage()">Clear your Itineary</button>
+
+       </div>
+       <br><br>
+
+
+
+<div id="map-canvas"></div>
+
+
+<div id="control_panel" style="float:left;width:40%;text-align:left;padding-top:10px">
+<!--     <div style="margin:20px;border-width:px;">
+
+    <center><b>Travel Mode:</b>
+    <select id="mode" onchange="calcRoute();">
+
+      <option value="DRIVING">Driving</option>
+      <option value="WALKING">Walking</option>
+      <option value="BICYCLING">Bicycling</option>
+      <option value="TRANSIT">Transit</option>
+    </select>
+     <br> -->
+
+
+<!--     <b>Start:</b>
+    <select id="start"> -->
+   <!--    <option value="Northwestern Law School">Northwestern Law School</option>
+            <option value="Navy Pier, IL">Navy Pier</option>
+      <option value="Chicago, IL">Chicago, IL</option>
+      <option value="The Gage">The Gage</option>
+      <option value="Cafecito">Cafecito</option>
+        <option value="University of Chicago, Chicago, IL">U of Chicago</option>
+      <option value="University of Illinois at Chicago">UIC</option>
+      <option value="Depaul University, IL">Depaul</option> -->
+
+<!--     </select>
+    <br>
+    <b>Waypoints:</b> <br>
+    <select multiple id="waypoints"> -->
+      <!-- <option value="Northwestern Law School">Northwestern Law School</option>
+            <option value="Navy Pier, IL">Navy Pier</option>
+      <option value="Chicago, IL">Chicago, IL</option>
+      <option value="The Gage">The Gage</option>
+      <option value="Cafecito">Cafecito</option>
+      <option value="Northwestern University">Northwestern</option>
+      <option value="Oak Lawn, IL">Oak Lawn, IL</option>
+      <option value="University of Chicago, Chicago, IL">U of Chicago</option>
+      <option value="1019 Dempster Street, Evanston, IL 60201">Dempster</option>
+      <option value="University of Illinois at Chicago">UIC</option>
+      <option value="Depaul University, IL">Depaul</option> -->
+
+<!--     </select>
+    <br>
+    <b>End:</b>
+    <select id="end"> -->
+      <!-- <option value="1019 Dempster Street, Evanston, IL 60201">Dempster</option>
+      <option value="Chicago, IL">Chicago, IL</option>
+      <option value="The Gage">The Gage</option>
+      <option value="Cafecito">Cafecito</option>
+      <option value="Northwestern Law School">Northwestern Law School</option>
+            <option value="Navy Pier, IL">Navy Pier</option>
+      <option value="Chicago, IL">Chicago, IL</option>
+      <option value="Northwestern University">Northwestern</option>
+      <option value="Oak Lawn, IL">Oak Lawn, IL</option>
+      <option value="University of Chicago, Chicago, IL">U of Chicago</option>
+      <option value="University of Illinois at Chicago">UIC</option>
+      <option value="Depaul University, IL">Depaul</option> -->
+<!--
+    </select> -->
+    <br><br>
+      <!-- <input type="submit" onclick="calcRoute();"> -->
+    <!-- </div>
+     -->
+     <br><br>
+    <h1><center><b>My Itinerary:</h1></center>
+
+    <center><div id="wishlist" class="mousescroll">You don't have anything on your list.</b></div></center><br>
+    <div id="directions"></div>
+</div>
+</div>
+    </body>
+
+
+    <script type="text/javascript">
+
+
+    // clearlatlnglocal();
+    onload();
+
+    document.getElementById("wishlist").innerHTML = localStorage.getItem("vPoolLocalStorage")
+
+    var autocomplete = new google.maps.places.Autocomplete(Near);
+
+
+
+    // multi select
+    $(function(){
+       $("select").multiselect();
+    });
+
+    var resultphoto ;
+    var photoprefix ;
+    var photopresuffix ;
+    var photourl;
+
+    // info panel
+
+    $("#closepanel").click(function() {
+      // alert("teset!");
+      $("#mypanel").toggle( "slide",{direction:'right'}, 1000 );
+      $("#panelinfo").html(" ");
+    });
+
+        var a =[ ];
+        var b=[ ];
+        var c=[ ];
+        var usercollect=[ ];
+        var collectname=[ ];
+
+        var clientid = 'FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU'
+        var clientsecret = 'NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1'
+        var vdate = '20150124'
+
+
+        // var tmpName=[];
+        // var tmpLoc=[];
+
+        var MuseumName = [];
+        var MusLoc =[];
+        var Musjson = [];
+        var Musphlinks =[];
+        var Musphone = [];
+        var Musaddress = [];
+
+
+        var foodName = [];
+        var foodLoc =[];
+        var foodjson = [];
+        var foodphlinks =[];
+        var foodphone = [];
+        var foodaddress = [];
+
+
+
+        var AEName = [];
+        var AELoc =[];
+        var AEjson = [];
+        var AElinks =[];
+        var AEphone = [];
+        var AEaddress = [];
+
+
+        var PhotoJson=[];
+        var PhotoURL=[];
+
+        var tmpfPhone = [];
+        var tmpfaddress = [];
+
+        var OptionsArray = [];
+        //-----------button search---------------//
+
+        var directionsDisplay;
+        var directionsService = new google.maps.DirectionsService();
+        var map;
+
+        function initialize() {
+              // ---------clean all content in array-------------------//
+
+
+
+              usercollect = [ ];
+              collectname = [ ];
+
+              // tmpName = [ ];
+              // tmpLoc = [ ];
+              PhotoJson= [ ];
+              PhotoURL=[ ];
+              tmpfPhone = [ ];
+              tmpfaddress = [ ];
+
+              MuseumName = [ ];
+              MusLoc =[ ];
+              Musphone = [ ];
+              Musaddress = [];
+              Musjson = [ ];
+              Musphlinks = [ ];
+
+              foodName = [ ];
+              foodLoc =[ ];
+              foodphone = [ ];
+              foodaddress = [ ];
+              foodjson = [ ];
+              foodphlinks = [ ];
+
+              AEName = [];
+              AELoc =[];
+              AEphone = [ ];
+              AEaddress = [ ];
+              AEjson = [ ];
+              AElinks = [ ];
+
+            // ---------------------------------------------------------------------//
+
+
+
+            // -------------------------------near return latitude longtitude--------------------------------------//
+
+            // ---------------------------------------------------------------------//
+
+              var querynear = document.getElementById("Near").value;
+
+              var categories ;
+
+              if(document.getElementById("option1").selected){
+                categories = '4bf58dd8d48988d181941735';
+                tmpfPhone = [];
+                tmpfaddress = [ ];
+
+                foursquare(querynear,categories,MuseumName,MusLoc,Musjson,Musphlinks,Musphone,Musaddress);
+              }
+
+              if(document.getElementById("option2").selected){
+                tmpfPhone = [];
+                tmpfaddress = [ ];
+                categories = '4d4b7105d754a06374d81259';
+                foursquare(querynear,categories,foodName,foodLoc,foodjson,foodphlinks,foodphone,foodaddress);
+
+              }
+
+              if(document.getElementById("option3").selected){
+                tmpfPhone = [];
+                tmpfaddress = [ ];
+                categories = '4bf58dd8d48988d1e5931735';
+
+                foursquare(querynear,categories,AEName,AELoc,AEjson,AElinks,AEphone,AEaddress);
+              }
+
+
+
+
+
+      //------------Include Foursquare API----------------------------//
+        function foursquare(querynear,categories,tmpName,tmpLoc,PhotoJson,PhotoURL,tmpfPhone,tmpfaddress){
+              //  var foursq = 'https://api.foursquare.com/v2/venues/search?client_id=' + clientid +'&client_secret='+clientsecret +'&v='+vdate+'&near='+ querynear +'&categoryId='+ categories;
+
+              // firstjson(tmpName,tmpLoc,PhotoJson,PhotoURL,foursq);
+                tmpfPhone = [];
+                tmpfaddress = [ ];
+                WishListAddress = [];
+                WishListName = [];
+                var getplaceName = document.getElementById('Near').value;
+
+
+                    $.ajax({
+                        type:"GET",
+                        url: "https://maps.googleapis.com/maps/api/geocode/xml?address="+ getplaceName+"&key=AIzaSyDBlU3aP3_tALovlxvjetUCran3lsGrVv4",
+                        dataType:"xml",
+                        success: ProcessXml
+                    });
+
+
+                    function ProcessXml(xml){
+
+                    var lat = $(xml).find("geometry").find("location").find("lat").text();
+                    var lng = $(xml).find("geometry").find("location").find("lng").text();
+
+                    var foursq ='https://api.foursquare.com/v2/venues/explore?ll='+ lat+','+lng +' &client_id='+clientid+'&client_secret='+clientsecret +' &v='+vdate+'&categoryId='+categories;
+
+                    //  alert(foursq);
+
+                    localStorage.setItem("Getlat", lat);
+                    localStorage.setItem("Getlng", lng);
+
+               $.ajax({
+                  type: 'GET',
+                  url: foursq,
+                  dataType: 'jsonp',
+
+                  success: function(json) {
+
+                    var counter = 0;
+
+                      for (i = 0; i < 10; i++) {
+                        var resultname = json['response']['groups'][0]['items'][i]['venue'].name;
+                        var resultlocation = json['response']['groups'][0]['items'][i]['venue'].location;
+                        var resultlat = resultlocation.lat;
+                        var resultlng = resultlocation.lng;
+                        var resultformattedaddress = resultlocation.formattedAddress;
+
+
+                        var resultcontact = json['response']['groups'][0]['items'][i]['venue'].contact;
+                        var resultformattedphone = resultcontact.formattedPhone;
+                        // var resultstats = json['response']['groups'][0]['items'][i]['stats'];
+                        // var resultcheckincount = resultstats.checkinsCount;
+                        // console.log(resultstats);
+                        // console.log(resultcheckincount);
+                        var tmpmarker = new google.maps.LatLng(resultlat,resultlng)
+
+                        tmpName.push(resultname);
+                        tmpLoc.push(tmpmarker);
+                        tmpfPhone.push(resultformattedphone);
+                        tmpfaddress.push(resultformattedaddress);
+
+                        // console.log(resultformattedaddress);
+
+                        var resultid = json['response']['groups'][0]['items'][i]['venue'].id;
+                        var tmpPhotoJason = 'https://api.foursquare.com/v2/venues/'+ resultid +'/photos?client_id=FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU&client_secret=NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1&v=20150113';
+                        //alert(tmpPhotoJason);
+                        PhotoJson.push(tmpPhotoJason);
+                        //console.log(PhotoJson);
+
+                      }
+                      // console.log(tmpName);
+                      // console.log(tmpLoc);
+
+                      var photoprefixarry =[];
+
+                      for (i = 0; i < 10; i++) {
+                        //debugger;
+
+                        $.ajax({
+
+                        type: 'GET',
+                        url: PhotoJson[i],
+                        dataType: 'jsonp',
+                        success: function(json) {
+
+                            resultphoto = json['response']['photos']['items'][0];
+                            photoprefix = resultphoto.prefix;
+
+                             photoprefixarry.push(photoprefix);
+                             //console.log(photoprefixarry);
+
+                            // if(photoprefix){
+                            //   alert("test");
+                            // }
+                            // alert(photoprefix);
+
+                            photopresuffix = resultphoto.suffix;
+                            photourl = photoprefix+"150x150" + photopresuffix;
+                            PhotoURL.push(photourl);
+                            // console.log(PhotoURL.length);
+
+                            counter = counter +1;
+                            if(counter ==10){
+
+                                printmarker(tmpName,tmpLoc,PhotoURL,tmpfPhone,tmpfaddress);
+
+                            }
+                            // callback(PhotoURL);
+
+                            // printmarker(tmpName,tmpLoc,photourl);
+                          }
+
+                    });
+                          }
+
+                }
+
+
+               });
+
+             }
+
+
+              // $.when(firstjson(tmpName,tmpLoc,PhotoJson,PhotoURL,foursq)).done(function(){
+              //     console.log(tmpName);
+              //     console.log(PhotoJson);
+              //     // alert("test1");
+              //       $.when(transfer(PhotoJson)).done(function(){
+              //         console.log(PhotoURL);
+              //       });
+              //     //   transfer(PhotoJson,function(PhotoURL){
+              //     //        console.log(PhotoURL);
+              //     // });
+              // });
+
+
+              // $.when(firstjson(tmpName,tmpLoc,PhotoJson,PhotoURL,foursq)).then(function (){transfer(PhotoJson,PhotoURL)}).then(function (){alert("test3")});
+
+        }
+
+
+        // ----------------------------------------------------------------------//
+        var passlat = localStorage.getItem("Getlat");
+        var passlng = localStorage.getItem("Getlng");
+
+       var myLatlng = new google.maps.LatLng(passlat,passlng);
+        var mapOptions = {
+          zoom: 13,
+          center: myLatlng
+        }
+
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+
+    // function printmap(printName,printLoc){
+
+        //  printmarker(printLoc);
+
+
+
+        function printmarker(printName,printLoc,printphoto,printfphone,printfaddress){
+
+              var image =null;
+
+              if(printName == MuseumName){
+                 image = {
+                  url : 'marker/yellow.png',
+                  size: new google.maps.Size(25, 40),
+
+                };
+              }
+              if(printName == foodName){
+                 image = {
+                  url : 'marker/green.png',
+                  size: new google.maps.Size(25, 40),
+
+                };
+              }
+              if(printName == AEName){
+                  image = {
+                  url : 'marker/blue.png',
+                  size: new google.maps.Size(25, 40),
+                };
+              }
+
+              var infowindow = new google.maps.InfoWindow({
+                  // content : testcontent
+                  // content: '<div class="scrollFix">'+'</div>'
+                  maxWidth: 300
+              });
+
+
+              for(i=0 ; i<printLoc.length ; i++)   {
+                // alert(printName[i]);
+                // alert(printphotolinks[i]);
+
+                   var marker = new google.maps.Marker({
+                       position: printLoc[i],
+                       map: map,
+                       icon: image,
+                       title: 'Click to zoom',
+                      //  info: '<IMG BORDER="0" ALIGN="Left" SRC="marker/purple.png">',
+                      //  info: MuseumName[i]
+                      info :'<div class = "MarkerPopUp" style="width: 300px; ">'+'<IMG BORDER="0" ALIGN="Left" SRC="'+ printphoto[i] +'">' +'<br><div class = "getPrintName">'+  printName[i] +'</div><p></p><br>'+ printfphone[i]  +'<br><br><div class = "getprintfaddress">'+ printfaddress[i] +'</div><br><br>'+'<button id="addbutton" type="button">Add</button>'+'<button id="infobutton" type="button">Info</button>'+'</div>'+'<br>'
+
+                   });
+
+                  //  google.maps.event.addListener(marker, 'mouseover', function() {
+                   //
+                  //  });
+
+                  //  google.maps.event.addListener(marker, 'mouseout', function() {
+                  //    infowindow.close();
+                  //  });
+                  // onclick="addtolist()"
+
+
+
+                     google.maps.event.addListener(marker, 'click', function() {
+                       //this.setIcon("marker/red.png");
+                       infowindow.setContent(this.info);
+                       infowindow.open(map, this);
+                        var themarker = this;
+                        //alert('test1');
+                        // var tmpObjectPosition = this.position;
+                        // param1: tmpObjectPosition,
+                        $("#addbutton").click({ param1: themarker}, function(){
+                           themarker.setIcon("marker/red.png");
+                           usercollect.push(themarker.position);
+                           collectname.push(themarker.info);
+                           infowindow.close();
+                           //console.log(collectname);
+
+                           $(document).ready(function() {
+                                   var countary = 0
+                                   var mywishlist = collectname;
+                                   var vPool="";
+                                      jQuery.each(mywishlist, function(i, val) {
+                                        var n = collectname[i].length;
+                                        //alert(n);
+
+                                        var res = val.substr(0, n-114);
+                                        vPool += "<center><br><br><br>"+res + "<br><br><br></center>";
+
+
+
+                                         //console.log(res);
+
+                                       //console.log(val);
+
+                                       //////////Trim the string to exact address////////
+                                        var getaddressindex1 = val.indexOf("getprintfaddress");
+                                        var getaddressindex2 = getaddressindex1+18;
+                                        var printfaddress_result = val.substr(getaddressindex2, n);
+                                        var finaladdresslength = printfaddress_result.length;
+                                        var finalfaddress = printfaddress_result.substr(0,finaladdresslength-124);// 124 characters from address to add Info button div
+
+
+                                        WishListAddress.push(finalfaddress);
+
+
+                                       ///////// Trim the string to exact Name//////////////
+                                        var getNameindextail =  val.indexOf("</div><p></p><br>");
+                                        var getNameindexhead1 = val.indexOf("getPrintName");
+                                        var getNameindexhead2 = getNameindexhead1+14;
+
+                                        var printname_result = val.substr(getNameindexhead2,getNameindextail-getNameindexhead2);
+
+                                        WishListName.push(printname_result);
+
+                                        //////////////Start of Filtering duplicated array///////
+
+                                          var unique = function(origArr) {
+                                                var newArr = [],
+                                                    origLen = origArr.length,
+                                                    found, x, y;
+
+                                                for (x = 0; x < origLen; x++) {
+                                                    found = undefined;
+                                                    for (y = 0; y < newArr.length; y++) {
+                                                        if (origArr[x] === newArr[y]) {
+                                                            found = true;
+                                                            break;
+                                                        }
+                                                    }
+                                                    if (!found) {
+                                                        newArr.push(origArr[x]);
+                                                    }
+                                                }
+                                                return newArr;
+                                            }
+
+
+                                            var UniqueWishListName = unique(WishListName);
+                                            var UniqueWishListAddress = unique(WishListAddress);
+
+                                            // console.log(UniqueWishListName);
+                                            // console.log(UniqueWishListAddress);
+
+                                        ///////////////End of Filtering duplicated array///////
+                                          var countme = 0;
+                                          var option = '';
+                                          for (i=0;i<UniqueWishListName.length;i++){
+                                             option += '<option value="'+ UniqueWishListAddress[UniqueWishListName.length-1] + '">' + UniqueWishListName[UniqueWishListName.length-1] + '</option>';
+                                             // console.log(UniqueWishListName.length);
+
+                                          }
+                                          countme++
+                                          // console.log(countme);
+
+                                          OptionsArray.push(option);
+                                          // console.log(i);
+                                          var uniqueOptionArray = unique(OptionsArray);
+                                          // console.log(uniqueOptionArray);
+
+                                          $('#start').append(uniqueOptionArray);
+                                          $('#waypoints').append(uniqueOptionArray);
+                                          $('#end').append(uniqueOptionArray);
+
+
+                                      });
+
+                                     //We add vPool HTML content to #myDIV
+                                     $('#wishlist').html(vPool);
+                                     localStorage.setItem("vPoolLocalStorage", vPool);
+
+
+                              });
+
+                          // alert(themarker.info);
+                        });
+
+
+                        $("#infobutton").click({ param1: themarker}, function() {
+
+                           $("#panelinfo").html(" ");
+                           var info = themarker.info;
+
+                           var markerinfo = (themarker.info).length;
+                           // alert(markerinfo);
+
+                            var res = info.substring(0,markerinfo-114);
+
+                            var surl = "http://tourme.parseapp.com/index2.html";
+
+                            var MyPanelresult = '<a href="http://www.facebook.com/sharer.php?u='
+                                    +surl+
+                                    //This is for sharing
+                                    '"><img src="http://www.simplesharebuttons.com/images/somacro/facebook.png" width="60px" alt="Facebook" /></a><a href="https://plus.google.com/share?url='
+                                    +surl+
+                                    '" target="_blank"><img width="60px" src="http://www.simplesharebuttons.com/images/somacro/google.png" alt="Google" /></a><a href="http://www.linkedin.com/shareArticle?mini=true&url='
+                                    +surl+
+                                    '"><img width="60px"src="http://www.simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" /></a><a href="http://reddit.com/submit?url='
+                                    +surl+
+                                    '"><img width="60px"src="http://www.simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit" /></a><a href="http://twitter.com/share?url='
+                                    +surl+
+                                    '"><img width="60px"src="http://www.simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" /></a><br><br>' + res
+
+                           $("#panelinfo").html(MyPanelresult);
+
+                           // console.log(res);
+
+
+                          $("#mypanel").toggle( "slide",{direction:'right'}, 1000 );
+                        });
+
+                     });
+             }
+        }
+      // }
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+    }
+
+    //-----------------------------------refresh button --------------------------//
+
+    function initialize2() {
+      // alert("test");
+      //  alert(usercollect.length);
+      var passlat = localStorage.getItem("Getlat");
+      var passlng = localStorage.getItem("Getlng");
+      directionsDisplay = new google.maps.DirectionsRenderer();
+      var myLatlng = new google.maps.LatLng(passlat,passlng);
+      var mapOptions = {
+          zoom:13,
+          center: myLatlng
+        }
+
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        directionsDisplay.setMap(map);
+
+
+        var infowindow = new google.maps.InfoWindow();
+
+        for(i=0 ; i<usercollect.length ; i++)   {
+             var marker = new google.maps.Marker({
+                 position: usercollect[i],
+                 map: map,
+                 info: collectname[i],
+             });
+
+            google.maps.event.addListener(marker, 'mouseover', function() {
+              infowindow.setContent(this.info);
+              infowindow.open(map, this);
+            });
+
+            google.maps.event.addListener(marker, 'mouseout', function() {
+                infowindow.close();
+            });
+       }
+    // google.maps.event.addDomListener(window, 'load', initialize2);
+
+    }
+
+
+      // function calcRoute() {
+
+      //   document.getElementById('directions').innerHTML = "";
+      //   var start = document.getElementById('start').value;
+      //   var end = document.getElementById('end').value;
+
+      //   var waypts = [];
+      //   var checkboxArray = document.getElementById('waypoints');
+      //   for (var i = 0; i < checkboxArray.length; i++) {
+      //     if (checkboxArray.options[i].selected == true) {
+      //       waypts.push({
+      //           location:checkboxArray[i].value,
+      //           stopover:true});
+      //     }
+      //   }
+
+      //   var selectedMode = document.getElementById('mode').value;
+      //   var request = {
+      //       origin: start,
+      //       destination: end,
+      //       waypoints: waypts,
+      //       optimizeWaypoints: false,
+      //       travelMode: google.maps.TravelMode[selectedMode]
+      //   };
+
+      //   directionsService.route(request, function(response, status) {
+      //     if (status == google.maps.DirectionsStatus.OK) {
+      //       directionsDisplay.setDirections(response);
+
+      //       var route = response.routes[0];
+
+      //       directionsDisplay.setPanel(document.getElementById("directions"));
+
+      //        directionsService.route(request, function(response, status) {
+      //         if (status == google.maps.DirectionsStatus.OK) {
+      //             directionsDisplay.setDirections(response);
+      //         }
+      //     });
+      //     }
+      //   });
+
+      //   initialize2();
+      // }
+// google.maps.event.addDomListener(window, 'load', initialize2);
+
+function clearlocalstorage(){
+localStorage.removeItem("vPoolLocalStorage");
+document.getElementById('wishlist').innerHTML = "You don't have anything on your list.";
+
+}
+
+// function clearlatlnglocal(){
+// localStorage.removeItem("Getlng");
+// localStorage.removeItem("Getlat");
+
+// }
+
+ function initialize3() {
+
+  var getplaceName = document.getElementById('Near').value;
+
+  // alert(getplaceName);
+    $.ajax({
+        type:"GET",
+        url: "https://maps.googleapis.com/maps/api/geocode/xml?address="+ getplaceName +"&key=AIzaSyDBlU3aP3_tALovlxvjetUCran3lsGrVv4",
+        dataType:"xml",
+        success: ProcessXml
+    });
+
+    function ProcessXml(xml){
+
+
+    var lat = $(xml).find("geometry").find("location").find("lat").text();
+    var lng = $(xml).find("geometry").find("location").find("lng").text();
+    // alert(lat);
+    // alert(lng);
+
+    localStorage.setItem("Getlat", lat);
+    localStorage.setItem("Getlng", lng);
+    initialize();
+      }
+
+    //  initialize();
+ }
+
+function onload(){
+
+  var alertlat = "37.7749295";
+  var alertlng = "-122.4194155";
+
+  var myLatlng = new google.maps.LatLng(alertlat,alertlng);
+    var mapOptions = {
+      zoom: 13,
+      center: myLatlng
+    }
+
+var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+
+
+
+  // alert(alertlat);
+  // alert(alertlng);
+}
+
+function fbonload()
+{
+// Facebook Login function //
+
+
+(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1530838587170307&version=v2.0";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1530838587170307',
+        xfbml      : true,
+        version    : 'v2.2'
+      });
+
+    };
+
+        FB.api(
+    "/me/picture",
+    {
+      "redirect": false,
+      "height": "100",
+      "type": "normal",
+      "width": "100"
+    },
+
+
+    function (response) {
+      if (response && !response.error) {
+      }
+    }
+    );
+    /* make the API call */
+    FB.api(
+    "/me",
+    function (response) {
+      if (response && !response.error) {
+        /* handle the result */
+      }
+    }
+    );
+// FB login Function//
+
+}
+fbonload()
+
+(function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+</html>

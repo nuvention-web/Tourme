@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TourMee</title>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&key=AIzaSyDBlU3aP3_tALovlxvjetUCran3lsGrVv4"></script>
+
+    <link rel="stylesheet" type="text/css" href="multiselect/jquery.multiselect.css" />
+    <link rel="stylesheet" type="text/css" href="multiselect/assets/style.css" />
+    <link rel="stylesheet" type="text/css" href="multiselect/assets/scrollbar.js" />
+    <link rel="stylesheet" type="text/css" href="multiselect/assets/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="multiselect/assets/prettify.js"></script>
+    <script type="text/javascript" src="multiselect/src/jquery.multiselect.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style/stylesheet.css"/>
+    <script  type="text/javascript" src="jsfile/InMultiselect.js"></script>
+    <script  type="text/javascript" src="jsfile/windowsonload.js"></script>
+    <script  type="text/javascript" src="jsfile/infopanel.js"></script>
+    <script  type="text/javascript" src="jsfile/initialize.js"></script>
+    <!-- dropdown -->
+    <link type="text/css" rel="stylesheet" href="dropdown/jquery.dropdown.css" />
+    <script type="text/javascript" src="dropdown/jquery.dropdown.js"></script>
+
+  </head>
+
+
+  <body>
+
+  <div id="container">
+    <div id="mypanel" align="left" >
+      <button id="closepanel" type="button" align="left" style="vertical-align: top;" ></button>
+      <p id = "panelinfo" > </p>
+    </div>
+
+    <div id = "logo_blue">
+      <img src="./images/bluelogo.png" height="27">
+    </div>
+
+    <div id="topbar">
+
+            <div id="NearDiv">
+              <p>Near</p>
+              <input id="Near" value=""></input>
+            </div>
+
+            <div>
+              <p>Find</p>
+              <select id="selectfunction" title="Basic example" multiple="multiple" name="example-basic" size="5" >
+                  <option id="option1" value = "Museum" >Museum</option>
+                  <option id="option2" value= "Food" >Food</option>
+                  <option id="option3" value="MusicVenue">Music Venue</option>
+                  <option id="option4">Shopping</option>
+                  <option id="option5">Architecture</option>
+              </select>
+            </div>
+
+            <div>
+              <p>Near from</p>
+              <input id="Leave" value=""></input>
+            </div>
+
+            <div>
+              <p>End to</p>
+              <input id="End" value=""></input>
+            </div>
+
+            <button id="search" type="button" onclick="initialize()">Search</button>
+            <button id="refresh" type="button" onclick="initialize3()">Get directions!</button>
+            <button id="clear" type="button" onclick="clearlocalstorage()">Clear your Itineary</button>
+
+     </div>
+
+     <div id="map-canvas"></div>
+
+
+
+     <div id ="places">
+
+          <div id="dropdown-1" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "m0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "m1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "m2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "m3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "m4"></div>
+                 </label></li>
+             </ul>
+          </div>
+          <button id="MuseumButton" href="#" data-dropdown="#dropdown-1">Museum</button>
+          <button id="FoodButton" href="#" data-dropdown="#dropdown-1">Food</button>
+          <button id="MusicButton" href="#" data-dropdown="#dropdown-1">Music Venue</button>
+    </div>
+
+     <div id="control_panel" style="float:left;width:40%;text-align:left;padding-top:10px">
+
+    <!-- <div id="callback">  </div> -->
+
+ </body>
+
+ <script>
+     var resultphoto ;
+     var photoprefix ;
+     var photopresuffix ;
+     var photourl;
+
+
+
+     var usercollect=[ ];
+     var collectname=[ ];
+
+     var clientid = 'FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU'
+     var clientsecret = 'NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1'
+     var vdate = '20150124'
+
+
+     // var tmpName=[];
+     // var tmpLoc=[];
+
+     var MuseumName = [];
+     var MusLoc =[];
+     var Musjson = [];
+     var Musphlinks =[];
+     var Musphone = [];
+     var Musaddress = [];
+     var Musmarker = [ ];
+
+
+     var foodName = [];
+     var foodLoc =[];
+     var foodjson = [];
+     var foodphlinks =[];
+     var foodphone = [];
+     var foodaddress = [];
+
+
+
+     var AEName = [];
+     var AELoc =[];
+     var AEjson = [];
+     var AElinks =[];
+     var AEphone = [];
+     var AEaddress = [];
+
+
+     var PhotoJson=[];
+     var PhotoURL=[];
+
+     var tmpfPhone = [];
+     var tmpfaddress = [];
+
+     var OptionsArray = [];
+
+     var map;
+
+
+    //  ----------------------Get input lat lng------------------------------------------------
+
+
+    var $callback = $("#callback");
+
+$("select").multiselect({
+   click: function(event, ui){
+      // $callback.text(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
+      alert("test");
+   }
+});
+
+    // $(".selectfunction").val("Museum").change(function(){
+    //
+    //   alert("mus");
+    // });
+    //
+    // $(".selectfunction").val("Food").change(function(){
+    //
+    //   alert("food");
+    // });
+
+
+    // $('.selectfunction').change(function() {
+    //     if($(this).val() == "Museum"){
+    //           $("#MuseumButton").show();
+    //     }
+    //     if($(this).val() == "Food"){
+    //             alert("food");
+    //           $("#FoodButton").show();
+    //     }
+    //     if($(this).val() == "MusicVenue"){
+    //           $("#MusicButton").show();
+    //     }
+    //
+    //
+    //
+    //
+    //
+    //    if($(this).val() == null){
+    //       alert("test");
+    //       if(document.getElementById("option1").selected ==false){
+    //         $("#MuseumButton").hide();
+    //       }
+    //       if(document.getElementById("option2").selected ==false){
+    //         $("#FoodButton").hide();
+    //       }
+    //       if(document.getElementById("option2").selected ==false){
+    //         $("#MusicButton").hide();
+    //       }
+    //    }
+    //
+    //
+    // });
+
+    // if($(this).val() == "Food"){
+    //   if( $("#FoodButton").css("display") == "none" ){
+    //     $("#FoodButton").show();
+    //   }else{
+    //     $("#FoodButton").hide();
+    //   }
+    // }
+    //
+    // if($(this).val() == "MusicVenue"){
+    //   if( $("#MusicButton").css("display") == "none" ){
+    //     $("#MusicButton").show();
+    //   }else{
+    //     $("#MusicButton").hide();
+    //   }
+    // }
+    // onchange="optionCheck()"
+
+  // function optionCheck(){
+  //   // alert($("#MuseumButton").css("display"));
+  //
+  //   // alert($(this).val()) ;
+  //   if( $("#MuseumButton").css("display") == "none" ){
+  //     $("#MuseumButton").show();
+  //   }else{
+  //     $("#MuseumButton").hide();
+  //   }
+
+
+    // if( $("#FoodButton").css("display") == "none" ){
+    //   $("#FoodButton").show();
+    // }else{
+    //   $("#FoodButton").hide();
+    // }
+    //
+    // if( $("#MusicButton").css("display") == "none" ){
+    //   $("#MusicButton").show();
+    // }else{
+    //   $("#MusicButton").hide();
+    // }
+  // }
+
+
+
+    //  $('.selectfunction').change(function(){
+    //    if($(this).val()== "Museum"){
+    //      $("#FoodButton").show();
+    //       }else{
+    //         $("#FoodButton").hide();
+    //       }
+    //   }
+
+      //  if($(this).val()== "Food"){
+      //    $("#FoodButton").show();
+      //  }else{
+      //    $("#FoodButton").hide();
+      //  }
+       //
+      //  if($(this).val()== "Music Venue"){
+      //    $("#MusicButton").show();
+      //  }else{
+      //    $("#MusicButton").hide();
+      //  }
+    //  });
+
+
+
+
+function initialize3() {
+
+
+
+  console.log(MuseumName);
+  console.log(MusLoc);
+  console.log(Musphone);
+  console.log(Musmarker);
+}
+
+ </script>
