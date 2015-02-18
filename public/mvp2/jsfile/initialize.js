@@ -63,6 +63,25 @@
         AEmarker = [];
         AERating = [];
 
+        EventsName = [];
+        EventsLoc =[];
+        Eventsphone = [ ];
+        Eventsaddress = [ ];
+        Eventsjson = [ ];
+        Eventslinks = [ ];
+        Eventsmarker = [];
+        EventsRating = [];
+
+
+        ShopName = [];
+        ShopLoc =[];
+        Shopphone = [ ];
+        Shopaddress = [ ];
+        Shopjson = [ ];
+        Shoplinks = [ ];
+        Shopmarker = [];
+        ShopRating = [];
+
       // ---------------------------------------------------------------------//
 
 
@@ -95,8 +114,19 @@
           foursquare(querynear,categories,AEName,AELoc,AEjson,AElinks,AEphone,AEaddress,AERating);
         }
 
+        if(document.getElementById("option4").selected){
 
+          categories = '5267e4d9e4b0ec79466e48c9';//Convention
 
+          foursquare(querynear,categories,EventsName,EventsLoc,Eventsjson,Eventslinks,Eventsphone,Eventsaddress,EventsRating);
+        }
+
+        if(document.getElementById("option5").selected){
+
+          categories = '4bf58dd8d48988d1fd941735';//Mall
+
+          foursquare(querynear,categories,ShopName,ShopLoc,Shopjson,Shoplinks,Shopphone,Shopaddress,ShopRating);
+        }
 
 
 //------------Include Foursquare API----------------------------//
@@ -108,6 +138,8 @@
           // tmpfaddress = [ ];
           // PhotoJson = [];
           // PhotoURL = [];
+
+
 
           var getplaceName = document.getElementById('Near').value;
 
@@ -125,9 +157,7 @@
               var lat = $(xml).find("geometry").find("location").find("lat").text();
               var lng = $(xml).find("geometry").find("location").find("lng").text();
 
-              var foursq ='https://api.foursquare.com/v2/venues/explore?ll='+ lat+','+lng +' &client_id='+clientid+'&client_secret='+clientsecret +' &v='+vdate+'&categoryId='+categories + '&radius= 1000';v
-
-
+              var foursq ='https://api.foursquare.com/v2/venues/explore?ll='+ lat+','+lng +' &client_id='+clientid+'&client_secret='+clientsecret +' &v='+vdate+'&categoryId='+categories + '&radius= 12000';
 
               localStorage.setItem("Getlat", lat);
               localStorage.setItem("Getlng", lng);
@@ -163,26 +193,58 @@
                   tmpLoc.push(tmpmarker);
                   tmpfPhone.push(resultformattedphone);
                   tmpfaddress.push(resultformattedaddress);
+                  tmprating.push(resultrating);
 
                   // markercollector.push(tmpmarker);
-                  console.log(ratingcolor);
+                  //console.log(ratingcolor);
                   var placeinfo = resultname +"</br>" + resultformattedphone + "</br>" + "<div id='ratingdiv' style='height:30px; width:30px; background-color:" + "#" + ratingcolor + "'"  + ">"+  resultrating + "</div>";
 
 
+                  if(tmpName == MuseumName){ 
 
-                  if(tmpName == MuseumName){
+                      if (tmprating.length == 5){
+                        var MuseCatRating = tmprating.average();
+                      }
+                    
                     $("#m"+i).html(placeinfo);
                   }
 
                   if(tmpName == foodName){
+
+                     if (tmprating.length == 5){
+                        var FoodCatRating = tmprating.average();
+                      }
+                      
                     $("#f"+i).html(placeinfo);
                   }
 
                   if(tmpName == AEName){
+
+                      if (tmprating.length == 5){
+                        var AECatRating = tmprating.average();
+                    
+                      }
+
                     $("#mu"+i).html(placeinfo);
                   }
 
+                  if(tmpName == EventsName){
 
+                      if (tmprating.length == 5){
+                        var EventsCatRating = tmprating.average();
+                      }
+
+                    $("#ev"+i).html(placeinfo);
+                  }
+
+                  if(tmpName == ShopName){
+
+                      if (tmprating.length == 5){
+                        var ShopCatRating = tmprating.average();
+                      }
+
+                    $("#sp"+i).html(placeinfo);
+                  }
 
 
                   var resultid = json['response']['groups'][0]['items'][i]['venue'].id;
@@ -272,6 +334,19 @@
                 };
               }
 
+              if(printName == EventsName){
+                  image = {
+                  url : 'marker/gray.png',
+                  size: new google.maps.Size(25, 40),
+                };
+              }
+
+              if(printName == ShopName){
+                  image = {
+                  url : 'marker/yellow.png',
+                  size: new google.maps.Size(25, 40),
+                };
+              }
               var infowindow = new google.maps.InfoWindow({
                   maxWidth: 300
               });
@@ -361,6 +436,35 @@
                          }
                       }
 
+                      if(printName == EventsName){
+
+                          trigger4(marker);
+                          function trigger4(Eventsmarker){
+                            // console.log(themarker);
+                           $("#ev"+i).hover(
+                             function() {
+                               google.maps.event.trigger(Eventsmarker, 'mouseover');
+                             }, function() {
+                               google.maps.event.trigger(Eventsmarker, 'mouseout');
+                             }
+                           );
+                         }
+                      }
+
+                      if(printName == ShopName){
+
+                          trigger5(marker);
+                          function trigger5(Shopmarker){
+                            // console.log(themarker);
+                           $("#sp"+i).hover(
+                             function() {
+                               google.maps.event.trigger(Shopmarker, 'mouseover');
+                             }, function() {
+                               google.maps.event.trigger(Shopmarker, 'mouseout');
+                             }
+                           );
+                         }
+                      }
 
              }
 

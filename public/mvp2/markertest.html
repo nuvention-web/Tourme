@@ -25,6 +25,7 @@
     <script  type="text/javascript" src="jsfile/windowsonload.js"></script>
     <script  type="text/javascript" src="jsfile/infopanel.js"></script>
     <script  type="text/javascript" src="jsfile/initialize.js"></script>
+    <script  type="text/javascript" src="jsfile/math.js"></script>
     <script  type="text/javascript" src="jsfile/placesButtonwithCheck.js"></script>
     <!-- dropdown -->
     <link type="text/css" rel="stylesheet" href="dropdown/jquery.dropdown.css" />
@@ -60,8 +61,15 @@
                   <option id="option1" value = "Museum" >Museum</option>
                   <option id="option2" value= "Food" >Food</option>
                   <option id="option3" value="MusicVenue">Music Venue</option>
-                  <option id="option4">Shopping</option>
-                  <option id="option5">Architecture</option>
+                  <option id="option4" value="Events">Event</option>
+                  <option id="option5" value="Shopping">Shopping</option>
+
+                  <option id="option6" value="Shopping">Gas Stations</option>
+                  <option id="option7" value="Events">Dessert</option>
+                  <option id="option8" value="Shopping">Nightlife</option>
+                  <option id="option9" value="Events">Outdoors</option>
+                  <option id="option10" value="Events">Events</option>
+              
               </select>
             </div>
 
@@ -128,9 +136,40 @@
                  </label></li>
              </ul>
           </div>
+
+          <div id="dropdown-4" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "ev0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "ev1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "ev2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "ev3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "ev4"></div>
+                 </label></li>
+             </ul>
+          </div>
+          <div id="dropdown-5" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "sp0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "sp1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "sp2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "sp3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "sp4"></div>
+                 </label></li>
+             </ul>
+          </div>
           <button id="MuseumButton" href="#" data-dropdown="#dropdown-1">Museum</button>
           <button id="FoodButton" href="#" data-dropdown="#dropdown-2">Food</button>
           <button id="MusicButton" href="#" data-dropdown="#dropdown-3">Music Venue</button>
+          <button id="EventsButton" href="#" data-dropdown="#dropdown-4">Events</button>
+          <button id="ShopButton" href="#" data-dropdown="#dropdown-5">Shopping</button>
     </div>
 
      <div id="control_panel" style="float:left;width:40%;text-align:left;padding-top:10px">
@@ -144,8 +183,6 @@
      var photoprefix ;
      var photopresuffix ;
      var photourl;
-
-
 
      var usercollect=[ ];
      var collectname=[ ];
@@ -187,6 +224,23 @@
      var AEmarker= [ ];
      var AERating = [];
 
+     var EventsName = [];
+     var EventsLoc =[];
+     var Eventsphone = [ ];
+     var Eventsaddress = [ ];
+     var Eventsjson = [ ];
+     var Eventslinks = [ ];
+     var Eventsmarker = [];
+     var EventsRating = [];
+
+     var ShopName = [];
+     var ShopLoc =[];
+     var Shopphone = [ ];
+     var Shopaddress = [ ];
+     var Shopjson = [ ];
+     var Shoplinks = [ ];
+     var Shopmarker = [];
+     var ShopRating = [];
 
      var PhotoJson=[];
      var PhotoURL=[];
@@ -203,16 +257,7 @@
 
 
 
-
-
-
-
-
-
-
 function initialize3() {
-
-
 
   console.log(MuseumName);
   console.log(MusLoc);
