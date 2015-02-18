@@ -590,9 +590,82 @@
                          }
                       }
 
+                      if(printName == GasName){
+
+                          trigger6(marker);
+                          function trigger6(Gasmarker){
+                            // console.log(themarker);
+                           $("#ga"+i).hover(
+                             function() {
+                               google.maps.event.trigger(Gasmarker, 'mouseover');
+                             }, function() {
+                               google.maps.event.trigger(Gasmarker, 'mouseout');
+                             }
+                           );
+                         }
+                      }
+                      
+                      if(printName == DessertName){
+
+                          trigger7(marker);
+                          function trigger7(Dessertmarker){
+                            // console.log(themarker);
+                           $("#de"+i).hover(
+                             function() {
+                               google.maps.event.trigger(Dessertmarker, 'mouseover');
+                             }, function() {
+                               google.maps.event.trigger(Dessertmarker, 'mouseout');
+                             }
+                           );
+                         }
+                      }
+
+                      if(printName == NightlifeName){
+
+                          trigger8(marker);
+                          function trigger8(Nightlifemarker){
+                            // console.log(themarker);
+                           $("#nl"+i).hover(
+                             function() {
+                               google.maps.event.trigger(Nightlifemarker, 'mouseover');
+                             }, function() {
+                               google.maps.event.trigger(Nightlifemarker, 'mouseout');
+                             }
+                           );
+                         }
+                      }
+
+                      if(printName == OutdoorsName){
+
+                          trigger9(marker);
+                          function trigger9(Outdoorsmarker){
+                            // console.log(themarker);
+                           $("#od"+i).hover(
+                             function() {
+                               google.maps.event.trigger(Outdoorsmarker, 'mouseover');
+                             }, function() {
+                               google.maps.event.trigger(Outdoorsmarker, 'mouseout');
+                             }
+                           );
+                         }
+                      }
+
+                      if(printName == HotelName){
+
+                          trigger10(marker);
+                          function trigger10(Hotelmarker){
+                            // console.log(themarker);
+                           $("#ht"+i).hover(
+                             function() {
+                               google.maps.event.trigger(Hotelmarker, 'mouseover');
+                             }, function() {
+                               google.maps.event.trigger(Hotelmarker, 'mouseout');
+                             }
+                           );
+                         }
+                      }
+
              }
-
-
 
 
         }
