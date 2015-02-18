@@ -3,7 +3,7 @@ $(window).load(function() {
   $("select").multiselect({
      click: function(event, ui){
         // $callback.text(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
-          
+
         if(ui.value == "Museum"){
         // alert(ui.value);
         // alert(ui.checked);
@@ -43,6 +43,46 @@ $(window).load(function() {
             $("#ShopButton").show();
           }else{
             $("#ShopButton").hide();
+          }
+        }
+
+        if(ui.value == "GasStations"){
+          if(ui.checked == true){
+            $("#GasButton").show();
+          }else{
+            $("#GasButton").hide();
+          }
+        }
+
+        if(ui.value == "Dessert"){
+          if(ui.checked == true){
+            $("#DessertButton").show();
+          }else{
+            $("#DessertButton").hide();
+          }
+        }
+
+        if(ui.value == "NightLife"){
+          if(ui.checked == true){
+            $("#NightlifeButton").show();
+          }else{
+            $("#NightlifeButton").hide();
+          }
+        }
+
+        if(ui.value == "Outdoors"){
+          if(ui.checked == true){
+            $("#OutdoorsButton").show();
+          }else{
+            $("#OutdoorsButton").hide();
+          }
+        }
+
+        if(ui.value == "Hotel"){
+          if(ui.checked == true){
+            $("#HotelButton").show();
+          }else{
+            $("#HotelButton").hide();
           }
         }
 

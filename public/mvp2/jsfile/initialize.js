@@ -72,7 +72,6 @@
         Eventsmarker = [];
         EventsRating = [];
 
-
         ShopName = [];
         ShopLoc =[];
         Shopphone = [ ];
@@ -81,6 +80,51 @@
         Shoplinks = [ ];
         Shopmarker = [];
         ShopRating = [];
+
+        GasName = [];
+        GasLoc =[];
+        Gasphone = [ ];
+        Gasaddress = [ ];
+        Gasjson = [ ];
+        Gaslinks = [ ];
+        Gasmarker = [];
+        GasRating = [];
+
+        DessertName = [];
+        DessertLoc =[];
+        Dessertphone = [ ];
+        Dessertaddress = [ ];
+        Dessertjson = [ ];
+        Dessertlinks = [ ];
+        Dessertmarker = [];
+        DessertRating = [];
+
+        NightlifeName = [];
+        NightlifeLoc =[];
+        Nightlifephone = [ ];
+        Nightlifeaddress = [ ];
+        Nightlifejson = [ ];
+        Nightlifelinks = [ ];
+        Nightlifemarker = [];
+        NightlifeRating = [];
+
+        OutdoorsName = [];
+        OutdoorsLoc =[];
+        Outdoorsphone = [ ];
+        Outdoorsaddress = [ ];
+        Outdoorsjson = [ ];
+        Outdoorslinks = [ ];
+        Outdoorsmarker = [];
+        OutdoorsRating = [];
+
+        HotelName = [];
+        HotelLoc =[];
+        Hotelphone = [ ];
+        Hoteladdress = [ ];
+        Hoteljson = [ ];
+        Hotellinks = [ ];
+        Hotelmarker = [];
+        HotelRating = [];
 
       // ---------------------------------------------------------------------//
 
@@ -109,7 +153,7 @@
 
         if(document.getElementById("option3").selected){
 
-          categories = '4bf58dd8d48988d1e5931735';
+          categories = '4bf58dd8d48988d1e5931735';//
 
           foursquare(querynear,categories,AEName,AELoc,AEjson,AElinks,AEphone,AEaddress,AERating);
         }
@@ -123,9 +167,44 @@
 
         if(document.getElementById("option5").selected){
 
-          categories = '4bf58dd8d48988d1fd941735';//Mall
+          categories = '4bf58dd8d48988d1fa931735';//Mall
 
           foursquare(querynear,categories,ShopName,ShopLoc,Shopjson,Shoplinks,Shopphone,Shopaddress,ShopRating);
+        }
+
+        if(document.getElementById("option6").selected){
+
+          categories = '4bf58dd8d48988d113951735';//gas
+ 
+          foursquare(querynear,categories,GasName,GasLoc,Gasjson,Gaslinks,Gasphone,Gasaddress,GasRating);
+        }
+
+        if(document.getElementById("option7").selected){
+
+          categories = '4bf58dd8d48988d1d0941735';//dessert
+
+          foursquare(querynear,categories,DessertName,DessertLoc,Dessertjson,Dessertlinks,Dessertphone,Dessertaddress,DessertRating);
+        }
+
+        if(document.getElementById("option8").selected){
+
+          categories = '4d4b7105d754a06376d81259';//nightlife
+
+          foursquare(querynear,categories,NightlifeName,NightlifeLoc,Nightlifejson,Nightlifelinks,Nightlifephone,Nightlifeaddress,NightlifeRating);
+        }
+
+        if(document.getElementById("option9").selected){
+
+          categories = '4d4b7105d754a06377d81259';//Outdoors & Recreation
+
+          foursquare(querynear,categories,OutdoorsName,OutdoorsLoc,Outdoorsjson,Outdoorslinks,Outdoorsphone,Outdoorsaddress,OutdoorsRating);
+        }
+
+        if(document.getElementById("option10").selected){
+
+          categories = '4bf58dd8d48988d1fa931735';//Hotel
+
+          foursquare(querynear,categories,HotelName,HotelLoc,Hoteljson,Hotellinks,Hotelphone,Hoteladdress,HotelRating);
         }
 
 
@@ -222,7 +301,7 @@
 
                       if (tmprating.length == 5){
                         var AECatRating = tmprating.average();
-                    
+              
                       }
 
                     $("#mu"+i).html(placeinfo);
@@ -244,6 +323,51 @@
                       }
 
                     $("#sp"+i).html(placeinfo);
+                  }
+
+                  if(tmpName == GasName){
+
+                      if (tmprating.length == 5){
+                        var GasCatRating = tmprating.average();
+                      }
+
+                    $("#ga"+i).html(placeinfo);
+                  }
+
+                  if(tmpName == DessertName){
+
+                      if (tmprating.length == 5){
+                        var DessertCatRating = tmprating.average();
+                      }
+
+                    $("#de"+i).html(placeinfo);
+                  }
+
+                  if(tmpName == NightlifeName){
+
+                      if (tmprating.length == 5){
+                        var NightlifeCatRating = tmprating.average();
+                      }
+
+                    $("#nl"+i).html(placeinfo);
+                  }
+
+                  if(tmpName == OutdoorsName){
+
+                      if (tmprating.length == 5){
+                        var OutdoorsCatRating = tmprating.average();
+                      }
+
+                    $("#od"+i).html(placeinfo);
+                  }
+
+                  if(tmpName == HotelName){
+
+                      if (tmprating.length == 5){
+                        var HotelCatRating = tmprating.average();
+                      }
+
+                    $("#ht"+i).html(placeinfo);
                   }
 
 
