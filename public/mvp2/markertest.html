@@ -19,15 +19,18 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="multiselect/assets/prettify.js"></script>
     <script type="text/javascript" src="multiselect/src/jquery.multiselect.js"></script>
-
+    <!-- self plugin -->
     <link rel="stylesheet" type="text/css" href="style/stylesheet.css"/>
     <script  type="text/javascript" src="jsfile/InMultiselect.js"></script>
     <script  type="text/javascript" src="jsfile/windowsonload.js"></script>
     <script  type="text/javascript" src="jsfile/infopanel.js"></script>
     <script  type="text/javascript" src="jsfile/initialize.js"></script>
+    <script  type="text/javascript" src="jsfile/placesButtonwithCheck.js"></script>
     <!-- dropdown -->
     <link type="text/css" rel="stylesheet" href="dropdown/jquery.dropdown.css" />
     <script type="text/javascript" src="dropdown/jquery.dropdown.js"></script>
+
+
 
   </head>
 
@@ -83,7 +86,6 @@
 
 
      <div id ="places">
-
           <div id="dropdown-1" class="dropdown dropdown-tip">
              <ul class="dropdown-menu">
                <li><label><input type="checkbox" /> <div id = "m0"></div>
@@ -98,14 +100,42 @@
                  </label></li>
              </ul>
           </div>
+          <div id="dropdown-2" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "f0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "f1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "f2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "f3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "f4"></div>
+                 </label></li>
+             </ul>
+          </div>
+          <div id="dropdown-3" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "mu0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "mu1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "mu2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "mu3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "mu4"></div>
+                 </label></li>
+             </ul>
+          </div>
           <button id="MuseumButton" href="#" data-dropdown="#dropdown-1">Museum</button>
-          <button id="FoodButton" href="#" data-dropdown="#dropdown-1">Food</button>
-          <button id="MusicButton" href="#" data-dropdown="#dropdown-1">Music Venue</button>
+          <button id="FoodButton" href="#" data-dropdown="#dropdown-2">Food</button>
+          <button id="MusicButton" href="#" data-dropdown="#dropdown-3">Music Venue</button>
     </div>
 
      <div id="control_panel" style="float:left;width:40%;text-align:left;padding-top:10px">
 
-    <!-- <div id="callback">  </div> -->
+    <div id="callback">  </div>
 
  </body>
 
@@ -135,6 +165,7 @@
      var Musphone = [];
      var Musaddress = [];
      var Musmarker = [ ];
+     var MusRating = [];
 
 
      var foodName = [];
@@ -143,7 +174,8 @@
      var foodphlinks =[];
      var foodphone = [];
      var foodaddress = [];
-
+     var foodmarker = [];
+     var foodRating = [];
 
 
      var AEName = [];
@@ -152,6 +184,8 @@
      var AElinks =[];
      var AEphone = [];
      var AEaddress = [];
+     var AEmarker= [ ];
+     var AERating = [];
 
 
      var PhotoJson=[];
@@ -168,121 +202,10 @@
     //  ----------------------Get input lat lng------------------------------------------------
 
 
-    var $callback = $("#callback");
-
-$("select").multiselect({
-   click: function(event, ui){
-      // $callback.text(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
-      alert("test");
-   }
-});
-
-    // $(".selectfunction").val("Museum").change(function(){
-    //
-    //   alert("mus");
-    // });
-    //
-    // $(".selectfunction").val("Food").change(function(){
-    //
-    //   alert("food");
-    // });
-
-
-    // $('.selectfunction').change(function() {
-    //     if($(this).val() == "Museum"){
-    //           $("#MuseumButton").show();
-    //     }
-    //     if($(this).val() == "Food"){
-    //             alert("food");
-    //           $("#FoodButton").show();
-    //     }
-    //     if($(this).val() == "MusicVenue"){
-    //           $("#MusicButton").show();
-    //     }
-    //
-    //
-    //
-    //
-    //
-    //    if($(this).val() == null){
-    //       alert("test");
-    //       if(document.getElementById("option1").selected ==false){
-    //         $("#MuseumButton").hide();
-    //       }
-    //       if(document.getElementById("option2").selected ==false){
-    //         $("#FoodButton").hide();
-    //       }
-    //       if(document.getElementById("option2").selected ==false){
-    //         $("#MusicButton").hide();
-    //       }
-    //    }
-    //
-    //
-    // });
-
-    // if($(this).val() == "Food"){
-    //   if( $("#FoodButton").css("display") == "none" ){
-    //     $("#FoodButton").show();
-    //   }else{
-    //     $("#FoodButton").hide();
-    //   }
-    // }
-    //
-    // if($(this).val() == "MusicVenue"){
-    //   if( $("#MusicButton").css("display") == "none" ){
-    //     $("#MusicButton").show();
-    //   }else{
-    //     $("#MusicButton").hide();
-    //   }
-    // }
-    // onchange="optionCheck()"
-
-  // function optionCheck(){
-  //   // alert($("#MuseumButton").css("display"));
-  //
-  //   // alert($(this).val()) ;
-  //   if( $("#MuseumButton").css("display") == "none" ){
-  //     $("#MuseumButton").show();
-  //   }else{
-  //     $("#MuseumButton").hide();
-  //   }
-
-
-    // if( $("#FoodButton").css("display") == "none" ){
-    //   $("#FoodButton").show();
-    // }else{
-    //   $("#FoodButton").hide();
-    // }
-    //
-    // if( $("#MusicButton").css("display") == "none" ){
-    //   $("#MusicButton").show();
-    // }else{
-    //   $("#MusicButton").hide();
-    // }
-  // }
 
 
 
-    //  $('.selectfunction').change(function(){
-    //    if($(this).val()== "Museum"){
-    //      $("#FoodButton").show();
-    //       }else{
-    //         $("#FoodButton").hide();
-    //       }
-    //   }
 
-      //  if($(this).val()== "Food"){
-      //    $("#FoodButton").show();
-      //  }else{
-      //    $("#FoodButton").hide();
-      //  }
-       //
-      //  if($(this).val()== "Music Venue"){
-      //    $("#MusicButton").show();
-      //  }else{
-      //    $("#MusicButton").hide();
-      //  }
-    //  });
 
 
 

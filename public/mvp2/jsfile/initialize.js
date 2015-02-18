@@ -43,6 +43,7 @@
         Musjson = [ ];
         Musphlinks = [ ];
         Musmarker = [];
+        MusRating = [];
 
         foodName = [ ];
         foodLoc =[ ];
@@ -50,6 +51,8 @@
         foodaddress = [ ];
         foodjson = [ ];
         foodphlinks = [ ];
+        foodmarker = [];
+        foodRating = [];
 
         AEName = [];
         AELoc =[];
@@ -57,6 +60,8 @@
         AEaddress = [ ];
         AEjson = [ ];
         AElinks = [ ];
+        AEmarker = [];
+        AERating = [];
 
       // ---------------------------------------------------------------------//
 
@@ -73,13 +78,13 @@
           categories = '4bf58dd8d48988d181941735';
 
 
-          foursquare(querynear,categories,MuseumName,MusLoc,Musjson,Musphlinks,Musphone,Musaddress,Musmarker);
+          foursquare(querynear,categories,MuseumName,MusLoc,Musjson,Musphlinks,Musphone,Musaddress,MusRating);
         }
 
         if(document.getElementById("option2").selected){
 
           categories = '4d4b7105d754a06374d81259';
-          foursquare(querynear,categories,foodName,foodLoc,foodjson,foodphlinks,foodphone,foodaddress);
+          foursquare(querynear,categories,foodName,foodLoc,foodjson,foodphlinks,foodphone,foodaddress,foodRating);
 
         }
 
@@ -87,7 +92,7 @@
 
           categories = '4bf58dd8d48988d1e5931735';
 
-          foursquare(querynear,categories,AEName,AELoc,AEjson,AElinks,AEphone,AEaddress);
+          foursquare(querynear,categories,AEName,AELoc,AEjson,AElinks,AEphone,AEaddress,AERating);
         }
 
 
@@ -97,7 +102,7 @@
 //------------Include Foursquare API----------------------------//
 
 
-    function foursquare(querynear,categories,tmpName,tmpLoc,PhotoJson,PhotoURL,tmpfPhone,tmpfaddress,markercollector){
+    function foursquare(querynear,categories,tmpName,tmpLoc,PhotoJson,PhotoURL,tmpfPhone,tmpfaddress,tmprating){
 
           // tmpfPhone = [ ];
           // tmpfaddress = [ ];
@@ -120,7 +125,7 @@
               var lat = $(xml).find("geometry").find("location").find("lat").text();
               var lng = $(xml).find("geometry").find("location").find("lng").text();
 
-              var foursq ='https://api.foursquare.com/v2/venues/explore?ll='+ lat+','+lng +' &client_id='+clientid+'&client_secret='+clientsecret +' &v='+vdate+'&categoryId='+categories;
+              var foursq ='https://api.foursquare.com/v2/venues/explore?ll='+ lat+','+lng +' &client_id='+clientid+'&client_secret='+clientsecret +' &v='+vdate+'&categoryId='+categories + '&radius= 1000';v
 
 
 
@@ -149,16 +154,34 @@
                   var resultformattedphone = resultcontact.formattedPhone;
                   var tmpmarker = new google.maps.LatLng(resultlat,resultlng)
 
+                  var resultrating = json['response']['groups'][0]['items'][i]['venue'].rating;
+                  var ratingcolor = json['response']['groups'][0]['items'][i]['venue'].ratingColor;
+
+                  // tmprating.push(resultrating);
+
                   tmpName.push(resultname);
                   tmpLoc.push(tmpmarker);
                   tmpfPhone.push(resultformattedphone);
                   tmpfaddress.push(resultformattedaddress);
 
                   // markercollector.push(tmpmarker);
+                  console.log(ratingcolor);
+                  var placeinfo = resultname +"</br>" + resultformattedphone + "</br>" + "<div id='ratingdiv' style='height:30px; width:30px; background-color:" + "#" + ratingcolor + "'"  + ">"+  resultrating + "</div>";
 
-                  var placeinfo = resultname +"</br>" + resultformattedphone;
 
-                  $("#m"+i).html(placeinfo);
+
+                  if(tmpName == MuseumName){
+                    $("#m"+i).html(placeinfo);
+                  }
+
+                  if(tmpName == foodName){
+                    $("#f"+i).html(placeinfo);
+                  }
+
+                  if(tmpName == AEName){
+                    $("#mu"+i).html(placeinfo);
+                  }
+
 
 
 
@@ -230,14 +253,14 @@
 
               if(printName == MuseumName){
                  image = {
-                  url : 'marker/gray.png',
+                  url : 'marker/blue.png',
                   size: new google.maps.Size(25, 40),
 
                 };
               }
               if(printName == foodName){
                  image = {
-                  url : 'marker/green.png',
+                  url : 'marker/blue.png',
                   size: new google.maps.Size(25, 40),
 
                 };
@@ -265,41 +288,19 @@
 
                    });
 
-                   Musmarker.push(marker);
-
-
+                  //  if(printName == MuseumName){
+                  //    Musmarker.push(marker);
+                  //  }
+                   //
+                  //  if(printName == foodName){
+                  //    foodmarker.push(marker);
+                  //  }
 
                      google.maps.event.addListener(marker, 'click', function() {
                        //this.setIcon("marker/red.png");
                        infowindow.setContent(this.info);
                        infowindow.open(map, this);
                         var themarker = this;
-
-                        // $("#addbutton").click({ param1: themarker}, function(){
-                        //    themarker.setIcon("marker/red.png");
-                        //    usercollect.push(themarker.position);
-                        //    collectname.push(themarker.info);
-                        //    infowindow.close();
-                        //
-                        // });
-
-
-                        // $("#infobutton").click({ param1: themarker}, function() {
-                        //
-                        //    $("#panelinfo").html(" ");
-                        //    var info = themarker.info;
-                        //
-                        //    var markerinfo = (themarker.info).length;
-                        //    // alert(markerinfo);
-                        //
-                        //     var res = info.substring(0,markerinfo-114);
-                        //
-                        //     var surl = "http://tourme.parseapp.com/index2.html";
-                        //
-                        //   $("#mypanel").toggle( "slide",{direction:'right'}, 1000 );
-                        // });
-
-
 
                      });
 
@@ -308,35 +309,63 @@
                       });
 
                        google.maps.event.addListener(marker, 'mouseout', function() {
-                         this.setIcon("marker/gray.png");
+                         this.setIcon("marker/blue.png");
                        });
 
 
-                      //  console.log(marker);
-                      //
-                      //  $("#m"+i).hover(
-                      //    function() {
-                      //      google.maps.event.trigger(marker, 'mouseover');
-                      //    }, function() {
-                      //      google.maps.event.trigger(marker, 'mouseout');
-                      //    }
-                      //  );
-                      trigger(marker);
-                      function trigger(themarker){
-                        console.log(themarker);
-                       $("#m"+i).hover(
-                         function() {
-                           google.maps.event.trigger(themarker, 'mouseover');
-                         }, function() {
-                           google.maps.event.trigger(themarker, 'mouseout');
+
+
+                      if(printName == MuseumName){
+
+                          trigger(marker);
+                          function trigger(themarker){
+                            // console.log(themarker);
+                           $("#m"+i).hover(
+                             function() {
+
+                               google.maps.event.trigger(themarker, 'mouseover');
+                             }, function() {
+                               google.maps.event.trigger(themarker, 'mouseout');
+                             }
+                           );
                          }
-                       );
-                     }
+                      }
 
+                      if(printName == foodName){
 
+                          trigger2(marker);
+                          function trigger2(fmarker){
+                            // console.log(themarker);
+                           $("#f"+i).hover(
+                             function() {
+                               google.maps.event.trigger(fmarker, 'mouseover');
+                             }, function() {
+                               google.maps.event.trigger(fmarker, 'mouseout');
+                             }
+                           );
+                         }
+                      }
+
+                      if(printName == AEName){
+
+                          trigger3(marker);
+                          function trigger3(aemarker){
+                            // console.log(themarker);
+                           $("#mu"+i).hover(
+                             function() {
+                               google.maps.event.trigger(aemarker, 'mouseover');
+                             }, function() {
+                               google.maps.event.trigger(aemarker, 'mouseout');
+                             }
+                           );
+                         }
+                      }
 
 
              }
+
+
+
 
         }
 
