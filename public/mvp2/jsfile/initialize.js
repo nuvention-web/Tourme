@@ -365,6 +365,7 @@
 
                       if (tmprating.length == 5){
                         var HotelCatRating = tmprating.average();
+                        
                       }
 
                     $("#ht"+i).html(placeinfo);
@@ -414,9 +415,6 @@
          });
        }
   }
-
-
-
 
 
 
