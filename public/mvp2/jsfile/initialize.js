@@ -195,7 +195,7 @@
 
         if(document.getElementById("option9").selected){
 
-          categories = '4d4b7105d754a06377d81259';//Outdoors & Recreation
+          categories = '4bf58dd8d48988d162941735';//Other Great Outdoors
 
           foursquare(querynear,categories,OutdoorsName,OutdoorsLoc,Outdoorsjson,Outdoorslinks,Outdoorsphone,Outdoorsaddress,OutdoorsRating);
         }
