@@ -1,0 +1,153 @@
+/*html, body, */
+body{
+margin:0;
+padding:0;
+}
+
+  #control_panel{
+  margin: 0;
+  padding: 0;
+  float:left;
+  z-index: 1;
+}
+
+#map-canvas{
+  width:450px ;
+  height: 480px;
+  margin: 0;
+  padding: 0;
+  float:left;
+  z-index: 1;
+}
+
+#places{
+  float:left;
+  /*background-color:red;*/
+  border:2px solid black;
+  width:400px ;
+  height: 480px;
+}
+
+#places div{
+  width:400px ;
+  height: 86px;
+}
+
+#places button{
+  font-size:2em;
+  font-weight:bold;
+  width:400px ;
+  height:50px;
+  border:3px outset gray;
+  border-radius:4px;
+  display:none;
+}
+
+#MuseumButton{
+
+}
+
+#FoodButton{
+  margin-top:2px;
+
+}
+
+#MusicButton{
+  margin-top:2px;
+
+}
+
+
+#mypanel {
+  right:0;
+  position:fixed;
+  float:center;
+  width: 400px;
+  height: 400px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid ;
+  display:none;
+  margin:0;
+  padding:0;
+  z-index: 2;
+  font-size: 1.5em;
+  color:white;
+
+}
+
+
+#logo_blue{
+position:relative;
+width:110px;
+height:25px;
+margin-left:30px ;
+/*margin-top:20px;*/
+padding-top:20px;
+margin-bottom:10px;
+/*background-color:rgba(0,255,0,0.5);*/
+}
+
+
+#container{
+background-color: rgba(100,100,0,0.1);
+height:900px;
+width:1250px;
+margin:0;
+margin-left:auto;
+margin-right:auto;
+
+}
+
+
+#topbar{
+margin-top:10px;
+width:100%;
+background-color: rgba(0,0,0,0.3);
+float:left;
+height:70px;
+padding:0;
+}
+
+#topbar div{
+height:15px;
+padding-left:15px;
+margin:0;
+float:left;
+}
+
+#topbar input{
+border-radius:10px;
+height:15px;
+/*padding-left:15px;*/
+margin:0;
+}
+
+
+#topbar p{
+margin-top:13px;
+margin-bottom:0px;
+}
+
+#search{
+margin-top:27px;
+margin-left:15px;
+}
+
+#refresh{
+margin-top:27px;
+margin-left:8px;
+}
+
+#Near{
+width:250px;
+}
+
+
+#ratingdiv{
+  /*width:5px;*/
+  /*height:5px;*/
+  border-radius:25px;
+  /*background-color:red;*/
+  padding-left:12px;
+  padding-top:10px;
+}

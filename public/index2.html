@@ -38,7 +38,7 @@
 
         #map-canvas{
           width:720px ;
-          height: 600px;
+          height: 700px;
           margin: 0;
           padding: 0;
           float:left;
@@ -147,26 +147,9 @@
         <p id = "panelinfo" > </p>
       </div>
 
-      <div 
-      id = "logo_blue"
-      class="fb-like"
-      data-share="true"
-      data-width="250"
-      data-show-faces="true"
-      >
+      <div id = "logo_blue">
         <img src="./images/bluelogo.png" height="27">
-        <br><br>
-        <fb:login-button max_rows="1" size="small" show_faces="true" auto_logout_link="true"></fb:login-button>
-        <br><br>
-        <div id="fb-root"></div>
       </div>
-
-      <!-- facebook log in  -->
-
-
-
-
-      <!-- facebook log in  -->
 
       <div id="topbar">
 
@@ -174,12 +157,12 @@
                 <p>Near</p>
                 <input id="Near" value=""></input>
               </div>
-              <!-- <img src="marker/gray.png" style="width:20px;height:20px"> -->
-              <!-- <img src="marker/gray.png" style="width:20px;height:20px"> -->
+
+
               <div>
                 <p>Find</p>
                 <select title="Basic example" multiple="multiple" name="example-basic" size="5">
-                    <option id="option1">Museum   </option>
+                    <option id="option1">Museum</option>
                     <option id="option2">Food</option>
                     <option id="option3">Music Venue</option>
                     <option id="option4">Shopping</option>
@@ -233,7 +216,7 @@
         <option value="University of Chicago, Chicago, IL">U of Chicago</option>
       <option value="University of Illinois at Chicago">UIC</option>
       <option value="Depaul University, IL">Depaul</option> -->
-
+    
 <!--     </select>
     <br>
     <b>Waypoints:</b> <br>
@@ -249,7 +232,7 @@
       <option value="1019 Dempster Street, Evanston, IL 60201">Dempster</option>
       <option value="University of Illinois at Chicago">UIC</option>
       <option value="Depaul University, IL">Depaul</option> -->
-
+      
 <!--     </select>
     <br>
     <b>End:</b>
@@ -266,7 +249,7 @@
       <option value="University of Chicago, Chicago, IL">U of Chicago</option>
       <option value="University of Illinois at Chicago">UIC</option>
       <option value="Depaul University, IL">Depaul</option> -->
-<!--
+<!--       
     </select> -->
     <br><br>
       <!-- <input type="submit" onclick="calcRoute();"> -->
@@ -274,7 +257,6 @@
      -->
      <br><br>
     <h1><center><b>My Itinerary:</h1></center>
-
     <center><div id="wishlist" class="mousescroll">You don't have anything on your list.</b></div></center><br>
     <div id="directions"></div>
 </div>
@@ -366,9 +348,9 @@
 
         function initialize() {
               // ---------clean all content in array-------------------//
+            
 
-
-
+      
               usercollect = [ ];
               collectname = [ ];
 
@@ -378,27 +360,20 @@
               PhotoURL=[ ];
               tmpfPhone = [ ];
               tmpfaddress = [ ];
-
               MuseumName = [ ];
               MusLoc =[ ];
               Musphone = [ ];
               Musaddress = [];
-              Musjson = [ ];
-              Musphlinks = [ ];
 
               foodName = [ ];
               foodLoc =[ ];
               foodphone = [ ];
               foodaddress = [ ];
-              foodjson = [ ];
-              foodphlinks = [ ];
 
               AEName = [];
               AELoc =[];
               AEphone = [ ];
               AEaddress = [ ];
-              AEjson = [ ];
-              AElinks = [ ];
 
             // ---------------------------------------------------------------------//
 
@@ -492,7 +467,7 @@
                         var resultcontact = json['response']['groups'][0]['items'][i]['venue'].contact;
                         var resultformattedphone = resultcontact.formattedPhone;
                         // var resultstats = json['response']['groups'][0]['items'][i]['stats'];
-                        // var resultcheckincount = resultstats.checkinsCount;
+                        // var resultcheckincount = resultstats.checkinsCount; 
                         // console.log(resultstats);
                         // console.log(resultcheckincount);
                         var tmpmarker = new google.maps.LatLng(resultlat,resultlng)
@@ -675,7 +650,7 @@
                            //console.log(collectname);
 
                            $(document).ready(function() {
-                                   var countary = 0
+                                   var countary = 0 
                                    var mywishlist = collectname;
                                    var vPool="";
                                       jQuery.each(mywishlist, function(i, val) {
@@ -690,23 +665,23 @@
                                          //console.log(res);
 
                                        //console.log(val);
-
+                                      
                                        //////////Trim the string to exact address////////
                                         var getaddressindex1 = val.indexOf("getprintfaddress");
                                         var getaddressindex2 = getaddressindex1+18;
                                         var printfaddress_result = val.substr(getaddressindex2, n);
                                         var finaladdresslength = printfaddress_result.length;
                                         var finalfaddress = printfaddress_result.substr(0,finaladdresslength-124);// 124 characters from address to add Info button div
-
+        
 
                                         WishListAddress.push(finalfaddress);
-
+                                 
 
                                        ///////// Trim the string to exact Name//////////////
                                         var getNameindextail =  val.indexOf("</div><p></p><br>");
                                         var getNameindexhead1 = val.indexOf("getPrintName");
                                         var getNameindexhead2 = getNameindexhead1+14;
-
+                                  
                                         var printname_result = val.substr(getNameindexhead2,getNameindextail-getNameindexhead2);
 
                                         WishListName.push(printname_result);
@@ -733,13 +708,13 @@
                                                 return newArr;
                                             }
 
-
+    
                                             var UniqueWishListName = unique(WishListName);
                                             var UniqueWishListAddress = unique(WishListAddress);
 
                                             // console.log(UniqueWishListName);
                                             // console.log(UniqueWishListAddress);
-
+                                  
                                         ///////////////End of Filtering duplicated array///////
                                           var countme = 0;
                                           var option = '';
@@ -750,7 +725,7 @@
                                           }
                                           countme++
                                           // console.log(countme);
-
+                     
                                           OptionsArray.push(option);
                                           // console.log(i);
                                           var uniqueOptionArray = unique(OptionsArray);
@@ -759,15 +734,15 @@
                                           $('#start').append(uniqueOptionArray);
                                           $('#waypoints').append(uniqueOptionArray);
                                           $('#end').append(uniqueOptionArray);
-
-
+                                        
+                                      
                                       });
-
+                                  
                                      //We add vPool HTML content to #myDIV
                                      $('#wishlist').html(vPool);
                                      localStorage.setItem("vPoolLocalStorage", vPool);
 
-
+                                     
                               });
 
                           // alert(themarker.info);
@@ -778,7 +753,7 @@
 
                            $("#panelinfo").html(" ");
                            var info = themarker.info;
-
+                           
                            var markerinfo = (themarker.info).length;
                            // alert(markerinfo);
 
@@ -832,9 +807,9 @@
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
         directionsDisplay.setMap(map);
 
-
+  
         var infowindow = new google.maps.InfoWindow();
-
+ 
         for(i=0 ; i<usercollect.length ; i++)   {
              var marker = new google.maps.Marker({
                  position: usercollect[i],
@@ -851,7 +826,7 @@
                 infowindow.close();
             });
        }
-    // google.maps.event.addDomListener(window, 'load', initialize2);
+    google.maps.event.addDomListener(window, 'load', initialize2);
 
     }
 
@@ -884,7 +859,7 @@
       //   directionsService.route(request, function(response, status) {
       //     if (status == google.maps.DirectionsStatus.OK) {
       //       directionsDisplay.setDirections(response);
-
+            
       //       var route = response.routes[0];
 
       //       directionsDisplay.setPanel(document.getElementById("directions"));
@@ -931,14 +906,14 @@ document.getElementById('wishlist').innerHTML = "You don't have anything on your
     var lat = $(xml).find("geometry").find("location").find("lat").text();
     var lng = $(xml).find("geometry").find("location").find("lng").text();
     // alert(lat);
-    // alert(lng);
-
+    // alert(lng);    
+    
     localStorage.setItem("Getlat", lat);
     localStorage.setItem("Getlng", lng);
-    initialize();
+
       }
 
-    //  initialize();
+     initialize();
  }
 
 function onload(){
@@ -954,75 +929,13 @@ function onload(){
 
 var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-
-
-
+  
   // alert(alertlat);
   // alert(alertlng);
 }
 
-function fbonload()
-{
-// Facebook Login function //
 
-
-(function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
-          js = d.createElement(s); js.id = id;
-          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1530838587170307&version=v2.0";
-          fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-
-
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId      : '1530838587170307',
-        xfbml      : true,
-        version    : 'v2.2'
-      });
-
-    };
-
-        FB.api(
-    "/me/picture",
-    {
-      "redirect": false,
-      "height": "100",
-      "type": "normal",
-      "width": "100"
-    },
-
-
-    function (response) {
-      if (response && !response.error) {
-      }
-    }
-    );
-    /* make the API call */
-    FB.api(
-    "/me",
-    function (response) {
-      if (response && !response.error) {
-        /* handle the result */
-      }
-    }
-    );
-// FB login Function//
-
-}
-fbonload()
-
-(function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
 </script>
-
-
 
 
 

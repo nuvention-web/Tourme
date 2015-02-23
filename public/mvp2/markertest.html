@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TourMee</title>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&key=AIzaSyDBlU3aP3_tALovlxvjetUCran3lsGrVv4"></script>
+
+    <link rel="stylesheet" type="text/css" href="multiselect/jquery.multiselect.css" />
+    <link rel="stylesheet" type="text/css" href="multiselect/assets/style.css" />
+    <link rel="stylesheet" type="text/css" href="multiselect/assets/scrollbar.js" />
+    <link rel="stylesheet" type="text/css" href="multiselect/assets/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="multiselect/assets/prettify.js"></script>
+    <script type="text/javascript" src="multiselect/src/jquery.multiselect.js"></script>
+    <!-- self plugin -->
+    <link rel="stylesheet" type="text/css" href="style/stylesheet.css"/>
+    <script  type="text/javascript" src="jsfile/InMultiselect.js"></script>
+    <script  type="text/javascript" src="jsfile/windowsonload.js"></script>
+    <script  type="text/javascript" src="jsfile/infopanel.js"></script>
+    <script  type="text/javascript" src="jsfile/initialize.js"></script>
+    <script  type="text/javascript" src="jsfile/math.js"></script>
+    <script  type="text/javascript" src="jsfile/placesButtonwithCheck.js"></script>
+    <!-- dropdown -->
+    <link type="text/css" rel="stylesheet" href="dropdown/jquery.dropdown.css" />
+    <script type="text/javascript" src="dropdown/jquery.dropdown.js"></script>
+
+  </head>
+
+  <body>
+
+  <div id="container">
+    <div id="mypanel" align="left" >
+      <button id="closepanel" type="button" align="left" style="vertical-align: top;" ></button>
+      <p id = "panelinfo" > </p>
+    </div>
+
+    <div id = "logo_blue">
+      <img src="./images/bluelogo.png" height="27">
+    </div>
+
+    <div id="topbar">
+
+            <div id="NearDiv">
+              <p>Near</p>
+              <input id="Near" value=""></input>
+            </div>
+
+            <div>
+              <p>Find</p>
+              <select id="selectfunction" title="Basic example" multiple="multiple" name="example-basic" size="5" >
+                  <option id="option1" value = "Museum" >Museum</option>
+                  <option id="option2" value= "Food" >Food</option>
+                  <option id="option3" value="MusicVenue">Music Venue</option>
+                  <option id="option4" value="Events">Event</option>
+                  <option id="option5" value="Shopping">Shopping</option>
+
+                  <option id="option6" value="GasStations">Gas Stations</option>
+                  <option id="option7" value="Dessert">Dessert</option>
+                  <option id="option8" value="NightLife">Nightlife</option>
+                  <option id="option9" value="Outdoors">Outdoors</option>
+                  <option id="option10" value="Hotel">Hotel</option>
+              
+              </select>
+            </div>
+
+            <div>
+              <p>Near from</p>
+              <input id="Leave" value=""></input>
+            </div>
+
+            <div>
+              <p>End to</p>
+              <input id="End" value=""></input>
+            </div>
+
+            <button id="search" type="button" onclick="initialize()">Search</button>
+            <button id="refresh" type="button" onclick="initialize3()">Get directions!</button>
+            <button id="clear" type="button" onclick="clearlocalstorage()">Clear your Itineary</button>
+
+     </div>
+
+     <div id="map-canvas"></div>
+
+
+
+     <div id ="places">
+          <div id="dropdown-1" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "m0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "m1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "m2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "m3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "m4"></div>
+                 </label></li>
+             </ul>
+          </div>
+          <div id="dropdown-2" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "f0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "f1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "f2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "f3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "f4"></div>
+                 </label></li>
+             </ul>
+          </div>
+          <div id="dropdown-3" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "mu0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "mu1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "mu2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "mu3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "mu4"></div>
+                 </label></li>
+             </ul>
+          </div>
+
+          <div id="dropdown-4" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "ev0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "ev1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "ev2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "ev3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "ev4"></div>
+                 </label></li>
+             </ul>
+          </div>
+          <div id="dropdown-5" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "sp0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "sp1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "sp2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "sp3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "sp4"></div>
+                 </label></li>
+             </ul>
+          </div>
+
+          <div id="dropdown-6" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "ga0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "ga1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "ga2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "ga3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "ga4"></div>
+                 </label></li>
+             </ul>
+          </div>
+
+            <div id="dropdown-7" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "de0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "de1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "de2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "de3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "de4"></div>
+                 </label></li>
+             </ul>
+          </div>
+
+          <div id="dropdown-8" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "nl0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "nl1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "nl2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "nl3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "nl4"></div>
+                 </label></li>
+             </ul>
+          </div>
+
+          <div id="dropdown-9" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "od0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "od1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "od2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "od3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "od4"></div>
+                 </label></li>
+             </ul>
+          </div>
+
+          <div id="dropdown-10" class="dropdown dropdown-tip">
+             <ul class="dropdown-menu">
+               <li><label><input type="checkbox" /> <div id = "ht0"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "ht1"></div>
+                 <li class="dropdown-divider"></li></label></li>
+               <li><label><input type="checkbox" />  <div id = "ht2"></div>
+                 <li class="dropdown-divider"></label></li>
+                <li><label><input type="checkbox" />   <div id = "ht3"></div>
+                  <li class="dropdown-divider"></label></li>
+                 <li><label><input type="checkbox" />  <div id = "ht4"></div>
+                 </label></li>
+             </ul>
+          </div> 
+<!-- press option + command +  ] to expand-->
+      <button id="MuseumButton" href="#" data-dropdown="#dropdown-1">Museum</button>
+      <button id="FoodButton" href="#" data-dropdown="#dropdown-2">Food</button>
+      <button id="MusicButton" href="#" data-dropdown="#dropdown-3">Music Venue</button>
+      <button id="EventsButton" href="#" data-dropdown="#dropdown-4">Events</button>
+      <button id="ShopButton" href="#" data-dropdown="#dropdown-5">Shopping</button>
+      <button id="GasButton" href="#" data-dropdown="#dropdown-6">Gas Stations</button>
+      <button id="DessertButton" href="#" data-dropdown="#dropdown-7">Dessert</button> 
+      <button id="NightlifeButton" href="#" data-dropdown="#dropdown-8">NightLife</button>
+      <button id="OutdoorsButton" href="#" data-dropdown="#dropdown-9">Outdoors</button>
+      <button id="HotelButton" href="#" data-dropdown="#dropdown-10">Hotel</button>
+          
+    </div>
+
+     <div id="control_panel" style="float:left;width:40%;text-align:left;padding-top:10px">
+
+    <div id="callback">  </div>
+
+ </body>
+
+ <script>
+     var resultphoto ;
+     var photoprefix ;
+     var photopresuffix ;
+     var photourl;
+
+     var usercollect=[ ];
+     var collectname=[ ];
+
+     var clientid = 'FEXOI5LO4ESOMFNPU10M53BC40HKPYBBWHZ0T0ED15PUH5ZU'
+     var clientsecret = 'NOHDSSWTRZ4LVE4MQHUDI2E20JXR5MF0ZHPA42KMNFYE3CG1'
+     var vdate = '20150124'
+
+
+     // var tmpName=[];
+     // var tmpLoc=[];
+
+     var MuseumName = [];
+     var MusLoc =[];
+     var Musjson = [];
+     var Musphlinks =[];
+     var Musphone = [];
+     var Musaddress = [];
+     var Musmarker = [ ];
+     var MusRating = [];
+
+
+     var foodName = [];
+     var foodLoc =[];
+     var foodjson = [];
+     var foodphlinks =[];
+     var foodphone = [];
+     var foodaddress = [];
+     var foodmarker = [];
+     var foodRating = [];
+
+
+     var AEName = [];
+     var AELoc =[];
+     var AEjson = [];
+     var AElinks =[];
+     var AEphone = [];
+     var AEaddress = [];
+     var AEmarker= [ ];
+     var AERating = [];
+
+     var EventsName = [];
+     var EventsLoc =[];
+     var Eventsphone = [ ];
+     var Eventsaddress = [ ];
+     var Eventsjson = [ ];
+     var Eventslinks = [ ];
+     var Eventsmarker = [];
+     var EventsRating = [];
+
+     var ShopName = [];
+     var ShopLoc =[];
+     var Shopphone = [ ];
+     var Shopaddress = [ ];
+     var Shopjson = [ ];
+     var Shoplinks = [ ];
+     var Shopmarker = [];
+     var ShopRating = [];
+
+     var GasName = [];
+     var GasLoc =[];
+     var Gasphone = [ ];
+     var Gasaddress = [ ];
+     var Gasjson = [ ];
+     var Gaslinks = [ ];
+     var Gasmarker = [];
+     var GasRating = [];
+
+     var DessertName = [];
+     var DessertLoc =[];
+     var Dessertphone = [ ];
+     var Dessertaddress = [ ];
+     var Dessertjson = [ ];
+     var Dessertlinks = [ ];
+     var Dessertmarker = [];
+     var DessertRating = [];
+
+     var NightLifeName = [];
+     var NightLifeLoc =[];
+     var NightLifephone = [ ];
+     var NightLifeaddress = [ ];
+     var NightLifejson = [ ];
+     var NightLifelinks = [ ];
+     var NightLifemarker = [];
+     var NightLifeRating = [];
+
+     var OutdoorsName = [];
+     var OutdoorsLoc =[];
+     var Outdoorsphone = [ ];
+     var Outdoorsaddress = [ ];
+     var Outdoorsjson = [ ];
+     var Outdoorslinks = [ ];
+     var Outdoorsmarker = [];
+     var OutdoorsRating = [];
+
+     var HotelName = [];
+     var HotelLoc =[];
+     var Hotelphone = [ ];
+     var Hoteladdress = [ ];
+     var Hoteljson = [ ];
+     var Hotellinks = [ ];
+     var Hotelmarker = [];
+     var HotelRating = [];
+
+     var PhotoJson=[];
+     var PhotoURL=[];
+
+     var tmpfPhone = [];
+     var tmpfaddress = [];
+
+     var OptionsArray = [];
+
+     var map;
+
+
+    //  ----------------------Get input lat lng------------------------------------------------
+
+
+
+function initialize3() {
+
+  console.log(MuseumName);
+  console.log(MusLoc);
+  console.log(Musphone);
+  console.log(Musmarker);
+}
+
+ </script>

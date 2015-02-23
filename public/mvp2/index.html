@@ -26,7 +26,7 @@
         /*html, body, */
         body{
         margin:0;
-
+        padding:0;
         }
 
           #control_panel{
@@ -46,6 +46,8 @@
         }
 
         div#wishlist {
+            margin: 0;
+            padding: 0;
               width: 450px;
               height: 650px;
 
@@ -71,6 +73,7 @@
           z-index: 2;
           font-size: 1.5em;
           color:white;
+
       }
 
 
@@ -79,7 +82,8 @@
         width:110px;
         height:25px;
         margin-left:30px ;
-        margin-top:20px;
+        /*margin-top:20px;*/
+        padding-top:20px;
         margin-bottom:10px;
         /*background-color:rgba(0,255,0,0.5);*/
       }
@@ -89,6 +93,7 @@
         background-color: rgba(100,100,0,0.1);
         height:900px;
         width:1250px;
+        margin:0;
         margin-left:auto;
         margin-right:auto;
 
@@ -96,6 +101,7 @@
 
 
       #topbar{
+        margin-top:10px;
         width:100%;
         background-color: rgba(0,0,0,0.3);
         float:left;
@@ -137,6 +143,16 @@
         width:250px;
       }
 
+      .fb-like{
+
+        margin:0;
+        padding:0;
+        position: absolute;
+   left: 82%;
+   top: 0px;
+   z-index: 2;
+      }
+
     </style>
 
     <body>
@@ -147,22 +163,19 @@
         <p id = "panelinfo" > </p>
       </div>
 
-      <div 
-      id = "logo_blue"
-      class="fb-like"
-      data-share="true"
-      data-width="250"
-      data-show-faces="true"
-      >
+      <div id = "logo_blue">
         <img src="./images/bluelogo.png" height="27">
-        <br><br>
-        <fb:login-button max_rows="1" size="small" show_faces="true" auto_logout_link="true"></fb:login-button>
-        <br><br>
-        <div id="fb-root"></div>
       </div>
 
       <!-- facebook log in  -->
+    <div  class="fb-like"
+      data-share="true"
+      data-width="250"
+      data-show-faces="true">
 
+      <fb:login-button max_rows="1" size="small" show_faces="true" auto_logout_link="true"></fb:login-button>
+      <div id="fb-root"></div>
+    </div>
 
 
 
@@ -278,7 +291,7 @@
     <center><div id="wishlist" class="mousescroll">You don't have anything on your list.</b></div></center><br>
     <div id="directions"></div>
 </div>
-
+</div>
     </body>
 
 
@@ -607,7 +620,7 @@
 
               if(printName == MuseumName){
                  image = {
-                  url : 'marker/gray.png',
+                  url : 'marker/yellow.png',
                   size: new google.maps.Size(25, 40),
 
                 };
