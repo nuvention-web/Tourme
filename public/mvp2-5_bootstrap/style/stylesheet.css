@@ -1,0 +1,176 @@
+/*html, body, */
+body{
+margin:0;
+padding:0;
+}
+
+
+  #control_panel{
+  margin: 0;
+  padding: 0;
+  float:left;
+  z-index: 1;
+}
+
+
+#map-container{
+  margin-top:70px;
+  position:fixed;
+}
+
+#map-canvas{
+  position:fixed;
+  width:450px ;
+  height: 540px;
+  margin: 0;
+  padding: 0;
+  /*float:left;*/
+  /*z-index: 1;*/
+
+}
+
+
+
+
+#logo_white{
+/*position:relative;*/
+float:left;
+width:110px;
+height:25px;
+margin-top:23px;
+margin-left:15px;
+/*margin-left:15px;*/
+/*margin-left:30px ;*/
+/*margin-top:20px;*/
+/*padding-top:20px;*/
+/*margin-bottom:10px;*/
+/*background-color:rgba(0,255,0,0.5);*/
+}
+
+
+#container{
+/*background-color: rgba(100,100,0,0.1);*/
+height:900px;
+width:1250px;
+margin:0;
+margin-left:auto;
+margin-right:auto;
+
+}
+
+
+#topbar{
+position:fixed;
+/*margin-top:10px;*/
+width:100%;
+background-color: #2F6F9F;
+float:left;
+height:70px;
+padding:0;
+/*position:fixed;*/
+}
+
+/*#topbar div{
+height:15px;
+padding-left:15px;
+margin:0;
+float:left;
+}*/
+
+#topbar input{
+float:left;
+border-radius:10px;
+height:36px;
+width:250px;
+/*padding-left:15px;*/
+margin-top:20px;
+margin-left:15px;
+}
+
+
+#topbar p{
+margin-top:13px;
+margin-bottom:0px;
+}
+
+#search{
+  float:left;
+  width:100px;
+margin-top:27px;
+margin-left:15px;
+background-color:#fff;
+border:1px solid #bbb;
+border-radius:2px;
+/*border-radius:4px;*/
+}
+
+
+
+
+.ratingdiv{
+  margin-top:5px;
+  border-radius:25px;
+  padding-left:12px;
+  padding-top:10px;
+}
+
+
+
+
+
+
+/*#places{
+  float:left;
+  background-color:red;
+  border:2px solid black;
+  width:400px ;
+  height: 480px;
+}
+
+#places div{
+  width:400px ;
+  height: 105px;
+  word-wrap: break-word;
+}
+
+#places button{
+  font-size:2em;
+  font-weight:bold;
+  width:400px ;
+  height:50px;
+  border:3px outset gray;
+  border-radius:4px;
+  display:none;
+}*/
+
+/*#MuseumButton{
+
+}
+
+#FoodButton{
+  margin-top:2px;
+
+}
+
+#MusicButton{
+  margin-top:2px;
+
+}*/
+
+
+#mypanel {
+  right:0;
+  position:fixed;
+  float:center;
+  width: 400px;
+  height: 400px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid ;
+  display:none;
+  margin:0;
+  padding:0;
+  z-index: 2;
+  font-size: 1.5em;
+  color:white;
+
+}
