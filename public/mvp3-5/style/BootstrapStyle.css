@@ -1,0 +1,93 @@
+
+/*---------------accordion---------------*/
+#accordionWrapper{
+  margin-left:463px;
+  margin-top:79px;
+  width:400px;
+  height:533px;
+  float:left;
+  background-color:#F7F9FB;
+  z-index:10;
+}
+
+#accorTitle{
+  color:#005CE6;
+  font-weight:bold;
+  font-size:20px;
+  width:220px;
+  margin-right:auto;
+  margin-left:auto;
+}
+
+#accorSubTitle{
+  color:#005CE6;
+  width:230px;
+  margin-right:auto;
+  margin-left:auto;
+}
+
+.panel-body div{
+  height:100px;
+}
+
+.panel-body input{
+  float:left;
+}
+
+.panel-body img{
+  margin-left:25px;
+  margin-right:20px;
+}
+
+.a{
+  color:white;
+}
+/*#title1-1{
+  position:relative;
+  bottom:25px;
+  left:350px;
+  width:1px;
+  height:1px;
+  font-size:25px;
+  cursor: pointer;
+}*/
+.TitleSymbol{
+  position:relative;
+  bottom:25px;
+  left:350px;
+  width:1px;
+  height:1px;
+  font-size:25px;
+  cursor: pointer;
+}
+
+
+
+
+
+
+/*---------------popup panel---------------*/
+
+.modal-content{
+  margin-top:85px;
+  /*margin-right:600px;*/
+  /*height:250px;*/
+  /*width:800px;*/
+}
+
+.modal-body {
+  margin-top:10px;
+  width:100%;
+  height:330px;
+  padding-top:80px;
+  /*width:800px;*/
+}
+.modal-body button{
+  margin-right:20px;
+  height:130px;
+  width:194px;
+}
+
+.panel-heading{
+  display:none;
+}
